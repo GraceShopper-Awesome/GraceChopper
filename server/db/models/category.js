@@ -7,6 +7,7 @@ const Category = db.define('category', {
     allowNull: false,
     validate : {
       notEmpty : true
+    }
 	}
 })
 
