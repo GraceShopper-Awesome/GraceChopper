@@ -18,8 +18,8 @@ const Review = require('./review')
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
-Product.hasMany(Category)
-Category.hasMany(Product) //Category.hasMany(Category)
+Category.belongsToMany(Product, {through: 'productCategory'}) //Category.hasMany(Category)
+Product.belongsToMany(Category, {through: 'productCategory'})
 
 Product.hasMany(Review)
 Review.belongsTo(Product)
