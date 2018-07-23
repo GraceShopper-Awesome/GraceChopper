@@ -3,11 +3,27 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+
+  userType: {
+    type: Sequelize.ENUM('admin', 'normal', 'guest'),
+    allowNull: false,
+    default: 'guest'
+  },
+
+  address: {
+    type: Sequelize.STRING //might be changed to array for multiple addresses
+  },
+
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+
+    validate: {
+      isEmail: true
+    }
   },
+
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
@@ -28,9 +44,6 @@ const User = db.define('user', {
     type: Sequelize.STRING
   }
 })
-
-module.exports = User
-
 /**
  * instanceMethods
  */
@@ -53,6 +66,8 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
+
+
 /**
  * hooks
  */
@@ -65,3 +80,6 @@ const setSaltAndPassword = user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+
+
+module.exports = User
