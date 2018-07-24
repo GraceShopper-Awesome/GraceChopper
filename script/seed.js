@@ -1,5 +1,13 @@
 'use strict'
 var faker = require('faker')
+const Sequelize = require('sequelize')
+
+const REVIEW_AMT = 1200
+const USER_AMT = 25
+const CATEGORY_AMT = 7
+const PRODUCT_AMT = 150
+const ORDER_AMT = 22
+let ORDERITEM_AMT = PRODUCT_AMT
 
 
 const db = require('../server/db')
@@ -27,17 +35,17 @@ async function seed() {
   //users
   let userArr = []
   let userTypes = ['admin', 'normal', 'guest']
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < USER_AMT; i++) {
     let userT = userTypes[Math.floor(Math.random() * 3)]
     let email = faker.internet.email()
     email = email.replace('_', '')
-    userArr.push({email: email, password: 'b', userType: userT})
+    userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
 
 
   //categories
   let catArr = []
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < CATEGORY_AMT; i++) {
     catArr.push({name: faker.commerce.department()})
   }
 
@@ -45,7 +53,7 @@ async function seed() {
   //products
   let prodArr = []
   //title, price, stock, descriptio, image
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < PRODUCT_AMT; i++) {
     prodArr.push({
       title: faker.commerce.productName(), price: faker.commerce.price(),
       stock: Math.ceil(Math.random() * 20), description: faker.lorem.paragraph()
@@ -57,7 +65,7 @@ async function seed() {
   //order
   let orderArr = []
   let orderStatuses = ['fulfilled', 'pending']
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < ORDER_AMT; i++) {
     orderArr.push({status: orderStatuses[Math.floor(Math.random() * 2)]})
 
   }
@@ -66,7 +74,7 @@ async function seed() {
   //orderItem
   let orderItemArr = []
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < ORDERITEM_AMT; i++) {
     orderItemArr.push({fixed_price: Math.random() * 2000})
 
   }
@@ -75,8 +83,8 @@ async function seed() {
   //review
   let reviewArr = []
 
-  for (let i = 0; i < 24; i++) {
-    orderArr.push({content: faker.lorem.paragraph()})
+  for (let i = 0; i < REVIEW_AMT; i++) {
+    reviewArr.push({content: faker.lorem.paragraph()})
 
   }
 
@@ -84,28 +92,105 @@ async function seed() {
   const orderData = await Order.bulkCreate(orderArr)
   const reviewData = await Review.bulkCreate(reviewArr)
   const orderItemData = await OrderItem.bulkCreate(orderItemArr)
-  const userData = await User.bulkCreate(userArr)
+  // const userData = await User.bulkCreate(userArr)
   // const prodData = await Product.bulkCreate(prodArr)
 
 
-  await Promise.all(prodArr.map(async (prod) => {
-
-    let createdProd = await Product.create(prod)
-
-    let catSet = new Set()
 
 
-    for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
-      let cat = await Category.findById(Math.ceil(Math.random() * 7))
-      catSet.add(cat)
+
+
+  //User assocs
+  await Promise.all(userArr.map(async (user) => {
+
+      let createdUser = await User.create(user)
+      let orderArr = []
+      let indArr = []
+
+      for (let i = 0; i < Math.ceil(Math.random() * 5); i++) {
+        let rand = Math.ceil(Math.random() * ORDER_AMT)
+
+        if (!indArr.includes(rand)) {
+          let order = await Order.findById(rand)
+          orderArr.push(order)
+        }
+
+        indArr.push(rand)
+
+      }
+
+
+      createdUser.setOrders(orderArr).then((res) => {
+      })
+
+
+      let reviewArr = []
+      indArr = []
+
+      for (let i = 0; i < Math.ceil(Math.random() * 800); i++) {
+        let rand = Math.ceil(Math.random() * REVIEW_AMT)
+
+        if (!indArr.includes(rand)) {
+          let review = await Review.findById(rand)
+          reviewArr.push(review)
+        }
+      }
+
+      createdUser.setReviews(reviewArr).then(() => {
+      })
+
+      return createdUser
 
 
     }
+  ))
 
-    let catAssoc = [...catSet]
 
 
-    return createdProd.setCategories(catAssoc)
+
+  //create product assoc
+  await Promise.all(prodArr.map(async (prod) => {
+
+    //many to many category
+    let createdProd = await Product.create(prod)
+    let catArr = []
+    let indArr = []
+
+    for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
+      let rand = Math.ceil(Math.random() * 7)
+
+      if (!indArr.includes(rand)) {
+        let cat = await Category.findById(rand)
+        catArr.push(cat)
+      }
+
+      indArr.push(rand)
+
+    }
+
+    createdProd.setCategories(catArr).then((res) => {
+    })
+
+
+    indArr = []
+    let revArr = []
+
+    for (let i = 0; i < Math.ceil(Math.random() * 10000); i++) {
+      let rand = Math.ceil(Math.random() * REVIEW_AMT)
+
+      if (!indArr.includes(rand)) {
+        let rev = await Review.findById(rand)
+        revArr.push(rev)
+      }
+
+      indArr.push(rand)
+
+    }
+
+    return createdProd.setReviews(revArr).then((res) => {
+      Review.destroy({where: {userId: null}})
+      Review.destroy({where: {productId: null}})
+    })
 
 
   }))
