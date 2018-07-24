@@ -17,9 +17,18 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-      const {title} = this.props.product
+      const {title, description, imageUrl, price, stock} = this.props.product
       console.log(title)
-    return <h1>This is our product {title}</h1>
+    return (
+        <div>
+        <h1>Product Name: {title}</h1>
+        <p>Description: {description}</p>
+        <h2>Price: {price}</h2>
+        <h3>Stock: {stock}</h3>
+        <img src={imageUrl}/>
+
+        </div>
+    )
   }
 }
 
