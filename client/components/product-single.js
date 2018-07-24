@@ -1,20 +1,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {singleProduct} from '../store'
 
 class ProductSingle extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: 1
+        product: {}
     }
   }
 
   componentDidMount() {
-
+      console.log("this runs")
+    const {id} = this.props.match.params;
+    this.props.getProduct(id)
   }
 
   render() {
-    return <h1>Hello</h1>
+      const {title} = this.props.product
+      console.log(title)
+    return <h1>This is our product {title}</h1>
   }
 }
 
@@ -23,14 +28,14 @@ class ProductSingle extends React.Component {
  */
 const mapState = state => {
   return {
-    product: state.product
+    product: state.products
   }
 }
 
-const mapDispatch = (state, id) => {
+const mapDispatch = dispatch => {
     return {
-      getProduct: state.
+      getProduct: id => dispatch(singleProduct(id))
     }
   }
 
-export default connect(mapState)(ProductSingle)
+export default connect(mapState, mapDispatch)(ProductSingle)
