@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { products } from '../store/products'
+import Sidebar from './sidebar'
 
 
 class ProductAll extends React.Component{
@@ -21,8 +22,9 @@ class ProductAll extends React.Component{
             console.log("this.props", this.props)
     return(
             <div>
+                <Sidebar />
                 {this.props.products.map((elements) => (
-                    <div id='mainInfo'>
+                    <div key={elements.id} id='mainInfo'>
                         <h1>{elements.title}</h1>
                         <h3>${elements.price}</h3>
                         <h3>{elements.stock} in stock</h3>
@@ -34,7 +36,7 @@ class ProductAll extends React.Component{
         )}}
     }
 
-    
+
 
 const mapStateToProps = state => {
     return{
