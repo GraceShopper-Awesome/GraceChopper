@@ -1,7 +1,9 @@
 'use strict'
+var faker = require('faker')
+
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -20,27 +22,24 @@ async function seed() {
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', userType: 'normal'}),
-    User.create({email: 'murphy@email.com', password: '123', userType: 'normal'}),
-    User.create({email: 'brad@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'bradley@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'zohaib@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'kevin@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'caitlin@email.com', userType: 'guest'}),
-  ])
+
+  let arr = []
+  let userTypes = ['admin', 'normal', 'guest']
+
+  for (let i = 0; i < 25; i++) {
+    let userT = userTypes[Math.floor(Math.random() * 3)]
+    let email = faker.internet.email()
+    email = email.replace('_', '')
+
+    let user = {email: email, password: 'b', userType: userT}
+
+    await User.create(user)
+  }
+
+
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
-
-  const products = await Promise.all([
-    Product.create({title: 'nice helicopter', price: 1, stock: 22, description: 'a nice helicopter', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR265PzaKrETWVuu-RUS5K7Xb-xyYLcn2YWIHTUne8_sEjZd63x'}),
-    Product.create({title: 'Smoke Chopper', price: 3000, stock: 5, description: 'barely street legal', imageUrl: 'https://cdn.shopify.com/s/files/1/2596/9148/products/BK7_1024x1024__21791.1503864601.1280.1280_2048x2048.jpg?v=1514845229'}),
-    Product.create({title: 'The Americano', price: 89000.99, stock: 12, description: 'This cup of sweet American chopper is designed to get your from point a to point b in record time. If you wake up to a sweet cup of joe in the morning, kick your day up a notch with The Americano Chopper, designed to perk you up and get you out there.', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRgqxG7OrycnsLzC7z-7teE44UgAUop96T69UwYWgx1DwAWl__0g'}),
-  ])
-  console.log(`seeded ${products.length} products`)
-
-
+  console.log(`seeded  users`)
   console.log(`seeded successfully`)
 }
 
