@@ -22,7 +22,7 @@ const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
  */
 export const products = () => async dispatch => {
   try {
-    const res = await axios.get('/api/products')
+    const res = await axios.get('/api/products/allproducts')
     dispatch(getProducts(res.data))
   } catch (err) {
     console.error(err)

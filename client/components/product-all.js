@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 class ProductAll extends React.Component{
     constructor(){
         super()
-
+        
     }
 
     componentDidMount(){
@@ -23,7 +23,7 @@ class ProductAll extends React.Component{
     return(
             <div>
                 {this.props.products.map((elements) => (
-                    <div id='mainInfo'>
+                    <div id='mainInfo' key={elements.id}>
                         <Link to={`/products/${elements.id}`}><h1>{elements.title}</h1></Link>
                         <h3>${elements.price}</h3>
                         <h3>{elements.stock} in stock</h3>
