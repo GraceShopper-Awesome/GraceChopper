@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux';
-import { fetchAllCategories } from '../store';
+import { fetchAllCategories, toggleCategory } from '../store';
 
 class Sidebar extends Component {
 	componentDidMount() {
@@ -11,13 +11,20 @@ class Sidebar extends Component {
 		return (
 			<div>
 				<h1>SIDEBAR</h1>
+				<form>
 				{
 					this.props.allCategories.map((category) => (
 					<div key={category.id}>
-						<p>{category.name}</p>
+						<input
+							type="checkbox"
+							value={category.id}
+							onChange={() => this.props.selectCategory(category)}
+						/>
+						{category.name}
 					</div>
 					))
 				}
+				</form>
 			</div>
 		)
 	}
@@ -25,7 +32,7 @@ class Sidebar extends Component {
 
 const mapState = state => {
 	return {
-		allCategories: state.categories
+		allCategories: state.categories.all
 	}
 }
 
@@ -33,6 +40,9 @@ const mapDispatch = dispatch => {
 	return {
 		fetchAllCategories: () => {
 			dispatch(fetchAllCategories())
+		},
+		selectCategory: category => {
+			dispatch(toggleCategory(category))
 		}
 	}
 }
