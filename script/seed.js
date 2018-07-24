@@ -3,7 +3,7 @@ var faker = require('faker')
 
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Category, Product, Order, OrderItem, Review} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -23,18 +23,73 @@ async function seed() {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
 
-  let arr = []
-  let userTypes = ['admin', 'normal', 'guest']
 
+  //users
+  let userArr = []
+  let userTypes = ['admin', 'normal', 'guest']
   for (let i = 0; i < 25; i++) {
     let userT = userTypes[Math.floor(Math.random() * 3)]
     let email = faker.internet.email()
     email = email.replace('_', '')
-
-    let user = {email: email, password: 'b', userType: userT}
-
-    await User.create(user)
+    userArr.push({email: email, password: 'b', userType: userT})
   }
+
+
+  //categories
+  let catArr = []
+  for (let i = 0; i < 7; i++) {
+    catArr.push({name: faker.commerce.department()})
+  }
+
+
+  //products
+  let prodArr = []
+  //title, price, stock, descriptio, image
+  for (let i = 0; i < 200; i++) {
+    prodArr.push({
+      title: faker.commerce.productName(), price: faker.commerce.price(),
+      stock: Math.ceil(Math.random() * 20), description: faker.lorem.paragraph()
+    })
+
+  }
+
+
+
+  //order
+  let orderArr = []
+  let orderStatuses = ['fulfilled', 'pending']
+  for (let i = 0; i < 12; i++) {
+    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 2)]})
+
+  }
+
+
+  //orderItem
+  let orderItemArr = []
+
+  for (let i = 0; i < 12; i++) {
+    orderItemArr.push({fixed_price: Math.random() * 2000})
+
+  }
+
+
+  //review
+  let reviewArr = []
+
+  for (let i = 0; i < 24; i++) {
+    orderArr.push({content: faker.lorem.paragraph()})
+
+  }
+
+  const catData = Category.bulkCreate(catArr)
+  const orderData = Order.bulkCreate(orderArr)
+  const reviewData = Order.bulkCreate(reviewArr)
+  const orderItemData = OrderItem.bulkCreate(orderItemArr)
+  const userData = User.bulkCreate(userArr)
+  const prodData = Product.bulkCreate(prodArr)
+
+  //add all to db
+  await Promise.all([userData, catData, prodData, orderData, orderItemData, reviewData])
 
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
