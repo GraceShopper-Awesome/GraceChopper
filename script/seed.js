@@ -54,7 +54,6 @@ async function seed() {
   }
 
 
-
   //order
   let orderArr = []
   let orderStatuses = ['fulfilled', 'pending']
@@ -81,15 +80,39 @@ async function seed() {
 
   }
 
-  const catData = Category.bulkCreate(catArr)
-  const orderData = Order.bulkCreate(orderArr)
-  const reviewData = Order.bulkCreate(reviewArr)
-  const orderItemData = OrderItem.bulkCreate(orderItemArr)
-  const userData = User.bulkCreate(userArr)
-  const prodData = Product.bulkCreate(prodArr)
+  const catData = await Category.bulkCreate(catArr)
+  const orderData = await Order.bulkCreate(orderArr)
+  const reviewData = await Review.bulkCreate(reviewArr)
+  const orderItemData = await OrderItem.bulkCreate(orderItemArr)
+  const userData = await User.bulkCreate(userArr)
+  // const prodData = await Product.bulkCreate(prodArr)
 
-  //add all to db
-  await Promise.all([userData, catData, prodData, orderData, orderItemData, reviewData])
+
+  await Promise.all(prodArr.map(async (prod) => {
+
+    let createdProd = await Product.create(prod)
+
+    let catSet = new Set()
+
+
+    for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
+      let cat = await Category.findById(Math.ceil(Math.random() * 7))
+      catSet.add(cat)
+
+
+    }
+
+    let catAssoc = [...catSet]
+
+
+    return createdProd.setCategories(catAssoc)
+
+
+  }))
+
+
+//association random creation
+//
 
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
