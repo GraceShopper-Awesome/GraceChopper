@@ -1,7 +1,17 @@
 'use strict'
+var faker = require('faker')
+const Sequelize = require('sequelize')
+
+const REVIEW_AMT = 1200
+const USER_AMT = 25
+const CATEGORY_AMT = 7
+const PRODUCT_AMT = 150
+const ORDER_AMT = 22
+let ORDERITEM_AMT = PRODUCT_AMT
+
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Category, Product, Order, OrderItem, Review} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -20,27 +30,179 @@ async function seed() {
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', userType: 'normal'}),
-    User.create({email: 'murphy@email.com', password: '123', userType: 'normal'}),
-    User.create({email: 'brad@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'bradley@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'zohaib@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'kevin@email.com', password: '123', userType: 'admin'}),
-    User.create({email: 'caitlin@email.com', userType: 'guest'}),
-  ])
+
+
+  //users
+  let userArr = []
+  let userTypes = ['admin', 'normal', 'guest']
+  for (let i = 0; i < USER_AMT; i++) {
+    let userT = userTypes[Math.floor(Math.random() * 3)]
+    let email = faker.internet.email()
+    email = email.replace('_', '')
+    userArr.push({email: email, password: faker.internet.password(), userType: userT})
+  }
+
+
+  //categories
+  let catArr = []
+  for (let i = 0; i < CATEGORY_AMT; i++) {
+    catArr.push({name: faker.commerce.department()})
+  }
+
+
+  //products
+  let prodArr = []
+  //title, price, stock, descriptio, image
+  for (let i = 0; i < PRODUCT_AMT; i++) {
+    prodArr.push({
+      title: faker.commerce.productName(), price: faker.commerce.price(),
+      stock: Math.ceil(Math.random() * 20), description: faker.lorem.paragraph()
+    })
+
+  }
+
+
+  //order
+  let orderArr = []
+  let orderStatuses = ['fulfilled', 'pending']
+  for (let i = 0; i < ORDER_AMT; i++) {
+    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 2)]})
+
+  }
+
+
+  //orderItem
+  let orderItemArr = []
+
+  for (let i = 0; i < ORDERITEM_AMT; i++) {
+    orderItemArr.push({fixed_price: Math.random() * 2000})
+
+  }
+
+
+  //review
+  let reviewArr = []
+
+  for (let i = 0; i < REVIEW_AMT; i++) {
+    reviewArr.push({content: faker.lorem.paragraph()})
+
+  }
+
+  const catData = await Category.bulkCreate(catArr)
+  const orderData = await Order.bulkCreate(orderArr)
+  const reviewData = await Review.bulkCreate(reviewArr)
+  const orderItemData = await OrderItem.bulkCreate(orderItemArr)
+  // const userData = await User.bulkCreate(userArr)
+  // const prodData = await Product.bulkCreate(prodArr)
+
+
+
+
+
+
+  //User assocs
+  await Promise.all(userArr.map(async (user) => {
+
+      let createdUser = await User.create(user)
+      let orderArr = []
+      let indArr = []
+
+      for (let i = 0; i < Math.ceil(Math.random() * 5); i++) {
+        let rand = Math.ceil(Math.random() * ORDER_AMT)
+
+        if (!indArr.includes(rand)) {
+          let order = await Order.findById(rand)
+          orderArr.push(order)
+        }
+
+        indArr.push(rand)
+
+      }
+
+
+      createdUser.setOrders(orderArr).then((res) => {
+      })
+
+
+      let reviewArr = []
+      indArr = []
+
+      for (let i = 0; i < Math.ceil(Math.random() * 800); i++) {
+        let rand = Math.ceil(Math.random() * REVIEW_AMT)
+
+        if (!indArr.includes(rand)) {
+          let review = await Review.findById(rand)
+          reviewArr.push(review)
+        }
+      }
+
+      createdUser.setReviews(reviewArr).then(() => {
+      })
+
+      return createdUser
+
+
+    }
+  ))
+
+
+
+
+  //create product assoc
+  await Promise.all(prodArr.map(async (prod) => {
+
+    //many to many category
+    let createdProd = await Product.create(prod)
+    let catArr = []
+    let indArr = []
+
+    for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
+      let rand = Math.ceil(Math.random() * 7)
+
+      if (!indArr.includes(rand)) {
+        let cat = await Category.findById(rand)
+        catArr.push(cat)
+      }
+
+      indArr.push(rand)
+
+    }
+
+    createdProd.setCategories(catArr).then((res) => {
+    })
+
+
+    indArr = []
+    let revArr = []
+
+    for (let i = 0; i < Math.ceil(Math.random() * 10000); i++) {
+      let rand = Math.ceil(Math.random() * REVIEW_AMT)
+
+      if (!indArr.includes(rand)) {
+        let rev = await Review.findById(rand)
+        revArr.push(rev)
+      }
+
+      indArr.push(rand)
+
+    }
+
+    return createdProd.setReviews(revArr).then((res) => {
+      Review.destroy({where: {userId: null}})
+      Review.destroy({where: {productId: null}})
+    })
+
+
+  }))
+
+
+//association random creation
+//
+
+
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
-
-  const products = await Promise.all([
-    Product.create({title: 'nice helicopter', price: 1, stock: 22, description: 'a nice helicopter', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR265PzaKrETWVuu-RUS5K7Xb-xyYLcn2YWIHTUne8_sEjZd63x'}),
-    Product.create({title: 'Smoke Chopper', price: 3000, stock: 5, description: 'barely street legal', imageUrl: 'https://cdn.shopify.com/s/files/1/2596/9148/products/BK7_1024x1024__21791.1503864601.1280.1280_2048x2048.jpg?v=1514845229'}),
-    Product.create({title: 'The Americano', price: 89000.99, stock: 12, description: 'This cup of sweet American chopper is designed to get your from point a to point b in record time. If you wake up to a sweet cup of joe in the morning, kick your day up a notch with The Americano Chopper, designed to perk you up and get you out there.', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRgqxG7OrycnsLzC7z-7teE44UgAUop96T69UwYWgx1DwAWl__0g'}),
-  ])
-  console.log(`seeded ${products.length} products`)
-
-
+  console.log(`seeded  users`)
   console.log(`seeded successfully`)
 }
 
