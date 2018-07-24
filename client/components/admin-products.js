@@ -15,7 +15,9 @@ class AdminProducts extends React.Component {
     // this.setState({})
   }
 
-  handleNewProduct() {}
+  handleNewProduct() {
+    this.props.history.push('/admin/products/add')
+  }
 
   handleNewCategory() {}
 

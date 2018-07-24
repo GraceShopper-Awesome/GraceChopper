@@ -9,6 +9,7 @@ import {
   ProductAll,
   ProductSingle,
   AdminHome,
+  AdminAddProduct,
   AdminProducts,
   AdminOrders,
   AdminUsers
@@ -34,7 +35,8 @@ class Routes extends Component {
         <Route path="/allproducts" component={ProductAll} />
         <Route path="/products/:id" component={ProductSingle} />
         <Route exact path="/admin" component={AdminHome} />
-        <Route path="/admin/products" component={AdminProducts} />
+        <Route exact path="/admin/products" component={AdminProducts} />
+        <Route path="/admin/products/add" component={AdminAddProduct} />
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
         {isLoggedIn && (
