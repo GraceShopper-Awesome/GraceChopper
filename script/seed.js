@@ -34,7 +34,7 @@ async function seed() {
   console.log(`seeded ${users.length} users`)
 
   const products = await Promise.all([
-    Product.create({title: 'nice helicopter', price: 1, stock: 22, description: 'a nice helicopter', imageUrl: ''}),
+    Product.create({title: 'nice helicopter', price: 1, stock: 22, description: 'a nice helicopter', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR265PzaKrETWVuu-RUS5K7Xb-xyYLcn2YWIHTUne8_sEjZd63x'}),
     Product.create({title: 'Smoke Chopper', price: 3000, stock: 5, description: 'barely street legal', imageUrl: 'https://cdn.shopify.com/s/files/1/2596/9148/products/BK7_1024x1024__21791.1503864601.1280.1280_2048x2048.jpg?v=1514845229'}),
     Product.create({title: 'The Americano', price: 89000.99, stock: 12, description: 'This cup of sweet American chopper is designed to get your from point a to point b in record time. If you wake up to a sweet cup of joe in the morning, kick your day up a notch with The Americano Chopper, designed to perk you up and get you out there.', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRgqxG7OrycnsLzC7z-7teE44UgAUop96T69UwYWgx1DwAWl__0g'}),
   ])
