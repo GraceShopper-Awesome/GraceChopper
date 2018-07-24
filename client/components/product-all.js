@@ -2,20 +2,41 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { products } from '../store/products'
 
-const ProductAll = () => (
-            <div>
-                <div id='mainInfo'>
-                    <h1>The Americano</h1>
-                    <h3>$89,000.99</h3>
-                    <h3>12 in stock</h3>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRgqxG7OrycnsLzC7z-7teE44UgAUop96T69UwYWgx1DwAWl__0g"/>
-                </div>
-            </div>
 
-        )
+class ProductAll extends React.Component{
+    constructor(){
+        super()
+
+    }
+
+    componentDidMount(){
+        this.props.fetchProducts();
+        this.setState({});
+    }
+
+    render(){
+        if(!this.props.products.length){
+            return(<h1>Loading</h1>)
+        } else{
+            console.log("this.props", this.props)
+    return(
+            <div>
+                {this.props.products.map((elements) => (
+                    <div id='mainInfo'>
+                        <h1>{elements.title}</h1>
+                        <h3>${elements.price}</h3>
+                        <h3>{elements.stock} in stock</h3>
+                        <img src={elements.imageUrl}/>
+                    </div>
+                    ))
+                }
+            </div>
+        )}}
+    }
+
     
 
-const mapStatetoProps = state => {
+const mapStateToProps = state => {
     return{
         products: state.products
     }
@@ -27,4 +48,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStatetoProps, mapDispatchToProps)(ProductAll)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductAll)
