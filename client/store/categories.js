@@ -48,12 +48,9 @@ export default function(state = defaultCategories, action) {
 			}
 		case TOGGLE_CATEGORY: {
 			const {id} = action.categoryToToggle
-			console.log("id", id)
 			const newActive = state.active.includes(id) ?
 				state.active.filter(tagId => tagId !== id) :
 				(state.active.push(id), state.active)
-			// const newActive = [];
-			console.log("newActive", newActive)
 			return {
 				...state,
 				active: newActive
