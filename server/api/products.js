@@ -13,15 +13,17 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/search', async (req, res, next) => {
-//search in the bar as /search?term='searchKey'
+//search in the bar as /search?searchTerm='searchKey'
   //separate spaces using '%'
   try {
-    const products = await Product.findAll({where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}})
+    const products = await Product.findAll({where: {title: {[Sequelize.Op.iLike]: '%' + req.query.searchTerm + '%'}}})
     res.json(products)
   }
   catch (err) {
     next(err)
   }
+
+
 
 
   router.get('/:productId', async (req, res, next) => {

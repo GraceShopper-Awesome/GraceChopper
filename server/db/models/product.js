@@ -31,9 +31,9 @@ const Product = db.define('product', {
     }
   },
   imageUrl: {
-    type: Sequelize.STRING,
-    defaultValue: 'http://www.konvertra.com/sites/default/files/default_images/default_product.jpg',
-    allowNull : false, 
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: ['http://www.konvertra.com/sites/default/files/default_images/default_product.jpg'],
+    allowNull : false,
     validate : {
   notEmpty : true
   }
