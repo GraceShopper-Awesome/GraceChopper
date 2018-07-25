@@ -7,11 +7,10 @@ const USER_AMT = 25
 const CATEGORY_AMT = 7
 const PRODUCT_AMT = 150
 const ORDER_AMT = 22
-let ORDERITEM_AMT = PRODUCT_AMT
 
 
 const db = require('../server/db')
-const {User, Category, Product, Order, OrderItem, Review} = require('../server/db/models')
+const {User, Category, Product, Order,  Review} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -41,8 +40,7 @@ async function seed() {
     email = email.replace('_', '')
     userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
-  userArr.push({email: "admin@user.com" , password: 'password', userType: 'admin'})
-  userArr.push({email: "normalUser@user.com" , password: 'password', userType: 'normal'})
+
 
 
   //categories
@@ -73,13 +71,6 @@ async function seed() {
   }
 
 
-  //orderItem
-  let orderItemArr = []
-
-  for (let i = 0; i < ORDERITEM_AMT; i++) {
-    orderItemArr.push({fixed_price: Math.random() * 2000})
-
-  }
 
 
   //review
@@ -93,7 +84,6 @@ async function seed() {
   const catData = await Category.bulkCreate(catArr)
   const orderData = await Order.bulkCreate(orderArr)
   const reviewData = await Review.bulkCreate(reviewArr)
-  const orderItemData = await OrderItem.bulkCreate(orderItemArr)
   // const userData = await User.bulkCreate(userArr)
   // const prodData = await Product.bulkCreate(prodArr)
 
