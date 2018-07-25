@@ -10,7 +10,10 @@ const ADD_PRODUCT = 'ADD_PRODUCT'
 /**
  * INITIAL STATE
  */
-const defaultProducts = {}
+const defaultProducts = {
+  products: [],
+  product: {}
+}
 
 /**
  * ACTION CREATORS
@@ -56,11 +59,20 @@ export const addNewProduct = (product, history) => async dispatch => {
 export default function(state = defaultProducts, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
-      return action.products
+      return {
+        ...state,
+        products: action.products
+      }
     case GET_SINGLE_PRODUCT:
-      return action.product
+      return {
+        ...state,
+        product: action.product
+      }
     case ADD_PRODUCT:
-      return action.product
+      return {
+        ...state,
+        products: [...state.products, action.product]
+      }
     default:
       return state
   }

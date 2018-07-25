@@ -43,7 +43,8 @@ class AdminProducts extends React.Component {
                 </Link>
                 <h3>${elements.price}</h3>
                 <h3>{elements.stock} in stock</h3>
-                <img src={elements.imageUrl} />
+                {elements.imageUrl &&
+                  elements.imageUrl && <img src={elements.imageUrl[0]} />}
               </div>
             ))}
           </div>
@@ -55,7 +56,7 @@ class AdminProducts extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products.products
   }
 }
 

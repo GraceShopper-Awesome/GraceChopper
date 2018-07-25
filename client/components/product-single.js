@@ -12,7 +12,6 @@ class ProductSingle extends React.Component {
   }
 
   componentDidMount() {
-
     const {id} = this.props.match.params;
     this.props.getProduct(id)
   }
@@ -23,14 +22,16 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-      const {title, description, imageUrl, price, stock} = this.props.product
+    const {title, description, price, imageUrl, stock} = this.props.product
     return (
+      <div>
         <div id="productSingle"> 
         <h1>Product Name: {title}</h1>
         <p>Description: {description}</p>
         <h2>Price: {price}</h2>
         <h3>Stock: {stock}</h3>
-        <img src={imageUrl}/>
+        {imageUrl && imageUrl.length && imageUrl.map(el => <img src={el} />)}
+      </div>
         <button onClick={(evt) => this.handleClick(evt)}>ADD TO CART!</button>
         </div>
     )
@@ -42,7 +43,7 @@ class ProductSingle extends React.Component {
  */
 const mapState = state => {
   return {
-    product: state.products
+    product: state.products.product
   }
 }
 
@@ -52,5 +53,6 @@ const mapDispatch = dispatch => {
       addAProduct: product => dispatch(addToCart(product))
     }
   }
+}
 
 export default connect(mapState, mapDispatch)(ProductSingle)
