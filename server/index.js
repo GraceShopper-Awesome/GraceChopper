@@ -65,7 +65,7 @@ const createApp = () => {
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
-  
+
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
@@ -95,8 +95,12 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`)
+  const server = app.listen(PORT, () => {
+      console.log(`Mixing it up on port ${PORT}`)
+      console.log('\nknown users : \n admin@user.com, password')
+      console.log('normalUser@user.com, password \n\n')
+
+    }
   )
 
   // set up our socket control center
@@ -112,6 +116,7 @@ async function bootApp() {
   await createApp()
   await startListening()
 }
+
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
 // It will evaluate false when this module is required by another module - for example,
