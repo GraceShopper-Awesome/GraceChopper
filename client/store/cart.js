@@ -51,7 +51,7 @@ export default function(state = defaultCart, action) {
     case GET_ALL_CART_PRODUCTS:
       return action.products
     case ADD_TO_CART:
-      return [...state, action.product]
+      return [...state, {id: action.product.id, }]
     default:
       return state
   }
