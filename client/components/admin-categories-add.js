@@ -25,6 +25,11 @@ class AdminAddCategory extends Component {
 		this.setState({value: event.target.value})
 	}
 
+	removeCategoryOnClick = (event, id) => {
+		event.preventDefault()
+		this.props.removeCategory(id)
+	}
+
 	render() {
 		return (
 			<div>
@@ -34,7 +39,12 @@ class AdminAddCategory extends Component {
 				<ul>
 				{
 					this.props.allCategories.map(category => {
-						return <li key={category.id}>{category.name}</li>
+						return (
+							<div key={category.id}>
+								<li>{category.name}</li>
+								<button type="button" onClick={event => this.removeCategoryOnClick(event, category.id)}>X</button>
+							</div>
+						)
 					})
 				}
 				</ul>

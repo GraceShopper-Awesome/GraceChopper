@@ -28,9 +28,9 @@ const addCategory = category => ({
 	type: ADD_CATEGORY,
 	categoryToAdd: category
 })
-const removeCategory = category => ({
+const removeCategory = id => ({
 	type: REMOVE_CATEGORY,
-	categoryToRemove: category
+	categoryIdToRemove: id
 })
 
 
@@ -56,7 +56,7 @@ export const addCategoryToDatabase = name => async dispatch => {
 export const removeCategoryFromDatabase = id => async dispatch => {
 	try {
 		const res = await axios.delete(`/api/categories/${id}`)
-		dispatch(removeCategory(res.data))
+		dispatch(removeCategory(id)) //is this the best way to do this?
 	} catch (err) {
 		console.error(err)
 	}
@@ -90,7 +90,7 @@ export default function(state = defaultCategories, action) {
 		case REMOVE_CATEGORY:
 			return {
 				...state,
-				all: [state.all.map(cat => cat.id).filter(tagId => tagId !== action.categoryToRemove.id)]
+				all: state.all.filter(category => category.id !== action.categoryIdToRemove)
 			}
 		default:
 			return state
