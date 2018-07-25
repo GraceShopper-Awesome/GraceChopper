@@ -11,12 +11,12 @@ const EDIT_CART = "EDIT_CART"
 /**
  * INITIAL STATE
  */
-const defaultCart = {}
+const defaultCart = []
 
 /**
  * ACTION CREATORS
  */
-const addToCart = product => ({type: ADD_TO_CART, product})
+export const addToCart = product => ({type: ADD_TO_CART, product})
 const removeFromCart = product => ({type: REMOVE_FROM_CART, product})
 const editCart = product => ({type: EDIT_CART, product})
 const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
@@ -46,14 +46,14 @@ const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products})
 /**
  * REDUCER
  */
-// export default function(state = defaultProducts, action) {
-//   switch (action.type) {
-//     case GET_ALL_PRODUCTS:
-//       return action.products
-//     case GET_SINGLE_PRODUCT:
-//       return action.product
-//     default:
-//       return state
-//   }
+export default function(state = defaultCart, action) {
+  switch (action.type) {
+    case GET_ALL_CART_PRODUCTS:
+      return action.products
+    case ADD_TO_CART:
+      return [...state, action.product]
+    default:
+      return state
+  }
 
-// }
+}
