@@ -168,8 +168,7 @@ async function seed() {
 
     }
 
-    createdProd.setCategories(catArr).then((res) => {
-    })
+
 
 
     indArr = []
@@ -186,6 +185,10 @@ async function seed() {
       indArr.push(rand)
 
     }
+
+
+    createdProd.setCategories(catArr).then((res) => {
+    })
 
     return createdProd.setReviews(revArr).then((res) => {
       Review.destroy({where: {userId: null}})
