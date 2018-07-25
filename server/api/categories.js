@@ -1,5 +1,5 @@
+
 const router = require('express').Router()
-<<<<<<< HEAD
 const {Product, ProductCategory, Category} = require('../db/models')
 module.exports = router
 const Sequelize = require('sequelize')
@@ -26,8 +26,11 @@ router.get('/:category', async (req, res, next) => {
 
 })
 
+const {Category} = require('../db/models')
 
-=======
+module.exports = router
+
+
 const {Category} = require('../db/models')
 
 module.exports = router
@@ -39,5 +42,5 @@ router.get('/', async (req, res, next) => {
 	} catch(err) {
 		next(err)
 	}
+
 })
->>>>>>> f74fe2203721072ef582bc511fad05e5c24396bf
