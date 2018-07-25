@@ -7,7 +7,6 @@ class Sidebar extends Component {
 		this.props.fetchAllCategories();
 	}
 	render() {
-		console.log(this.props)
 		return (
 			<div>
 				<h1>SIDEBAR</h1>

@@ -4,7 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
-const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY'
+export const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY'
 
 /**
  * INITIAL STATE
@@ -50,7 +50,7 @@ export default function(state = defaultCategories, action) {
 			const {id} = action.categoryToToggle
 			const newActive = state.active.includes(id) ?
 				state.active.filter(tagId => tagId !== id) :
-				(state.active.push(id), state.active)
+				([...state.active, id])
 			return {
 				...state,
 				active: newActive
