@@ -25,35 +25,35 @@ const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products})
 /**
  * THUNK CREATORS
  */
-// export const products = () => async dispatch => {
-//   try {
-//     const res = await axios.get('/api/products/allproducts')
-//     dispatch(getProducts(res.data))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+export const products = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/cart/allproducts')
+    dispatch(getAllFromCart(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-// export const singleProduct = (id) => async dispatch => {
-//   try {
-//     const res = await axios.get(`/api/products/${id}`)
-//     dispatch(getSingleProduct(res.data))
-//   } catch(err) {
-//     console.error(err)
-//   }
-// }
+export const addproduct = () => async dispatch => {
+  try {
+    const res = await axios.post(`/api/cart/`)
+    dispatch(addToCart(res.data))
+  } catch(err) {
+    console.error(err)
+  }
+}
 
 /**
  * REDUCER
  */
-// export default function(state = defaultProducts, action) {
-//   switch (action.type) {
-//     case GET_ALL_PRODUCTS:
-//       return action.products
-//     case GET_SINGLE_PRODUCT:
-//       return action.product
-//     default:
-//       return state
-//   }
+export default function(state = defaultCart, action) {
+  switch (action.type) {
+    case GET_ALL_CART_PRODUCTS:
+      return action.products
+    case ADD_TO_CART:
+      return action.product
+    default:
+      return state
+  }
 
-// }
+}
