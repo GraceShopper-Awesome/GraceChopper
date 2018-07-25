@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {products} from '../store/products'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Sidebar from './sidebar'
 
 class ProductAll extends React.Component {
@@ -34,11 +34,16 @@ class ProductAll extends React.Component {
           {visibleProducts.map(elements => (
             <div key={elements.id} id="singleProd">
               <div id="maininfo">
-              <Link to={`/products/${elements.id}`}><h1>{elements.title}</h1></Link>
-              <h3>${elements.price}</h3>
-              <h3>{elements.stock} in stock</h3>
-              {elements.imageUrl &&
-                elements.imageUrl.length && <img src={elements.imageUrl[0]} />}
+                <Link to={`/products/${elements.id}`}>
+                  <h1>{elements.title}</h1>
+                </Link>
+                <h3>${elements.price}</h3>
+                <h3>{elements.stock} in stock</h3>
+                {elements.imageUrl &&
+                  elements.imageUrl.length && (
+                    <img src={elements.imageUrl[0]} />
+                  )}
+              </div>
             </div>
           ))}
         </div>
