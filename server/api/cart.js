@@ -12,32 +12,8 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
-router.get('/:productId', async (req, res, next) => {
-  try {
-    const product = await Product.findById(req.params.productId)
-    res.json(product)
-  } catch (err) {
-    next(err)
-  }
-})
 
-
-router.get('/search', async (req, res, next) => {
-  //search in the bar as /search?term='searchKey'
-  //separate spaces using '%'
-  try {
-    const products = await Product.findAll({where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}})
-    res.json(products)
-  }
-  catch (err) {
-    next(err)
-  }
-  
-
-
-})
-
-router.post('/', async (req, res, next) => {  // ADMIN ACCOUNT ONLY
+router.post('/', async (req, res, next) => {  // BULK POST
   try {
     const newProduct = await Product.create(req.body)
     res.json(newProduct)

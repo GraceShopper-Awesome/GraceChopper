@@ -7,7 +7,7 @@ export default class AdminOrders extends React.Component {
   }
   render() {
     return (
-      <h1>Order Management</h1>
+      <h1>User Management</h1>
     )
   }
 }
