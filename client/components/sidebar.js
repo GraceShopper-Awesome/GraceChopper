@@ -8,13 +8,13 @@ class Sidebar extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<div id="sidebar">
 				<h1>SIDEBAR</h1>
 				<form>
 				{
 					this.props.allCategories.map((category) => (
 					<div key={category.id}>
-						<input
+						<input id="categories"
 							type="checkbox"
 							value={category.id}
 							onChange={() => this.props.selectCategory(category)}
