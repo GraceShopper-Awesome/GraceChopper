@@ -8,7 +8,7 @@ router.get('/allproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
       include: [Category]
-    });
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -25,7 +25,6 @@ router.get('/:productId', async (req, res, next) => {
 })
 
 router.get('/search', async (req, res, next) => {
-
   //search in the bar as /search?term='searchKey'
   //separate spaces using '%'
   try {
@@ -38,9 +37,6 @@ router.get('/search', async (req, res, next) => {
     next(err)
   }
 
-
-
-
   router.get('/:productId', async (req, res, next) => {
     try {
       const product = await Product.findById(req.params.productId)
@@ -49,12 +45,12 @@ router.get('/search', async (req, res, next) => {
       next(err)
     }
   })
-
 })
 
-router.post('/', async (req, res, next) => {
-  // ADMIN ACCOUNT ONLY
+// ADMIN ACCOUNT ONLY
+router.post('/admin/add', async (req, res, next) => {
   try {
+    console.log('req.body.imageUrl', req.body.imageUrl)
     const newProduct = await Product.create(req.body)
     res.json(newProduct)
   } catch (err) {

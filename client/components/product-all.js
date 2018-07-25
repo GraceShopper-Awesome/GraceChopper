@@ -18,11 +18,13 @@ class ProductAll extends React.Component {
       let visibleProducts = this.props.products
       if (activeCategories.length !== 0) {
         visibleProducts = this.props.products.filter(product => {
-            return activeCategories.every(tag => {
-                return product.categories.map(cat => {
-                    return cat.id
-                }).includes(tag)
-            })
+          return activeCategories.every(tag => {
+            return product.categories
+              .map(cat => {
+                return cat.id
+              })
+              .includes(tag)
+          })
         })
       }
 
@@ -35,8 +37,8 @@ class ProductAll extends React.Component {
               <Link to={`/products/${elements.id}`}><h1>{elements.title}</h1></Link>
               <h3>${elements.price}</h3>
               <h3>{elements.stock} in stock</h3>
-              </div>
-              <img src={elements.imageUrl[0]} />
+              {elements.imageUrl &&
+                elements.imageUrl.length && <img src={elements.imageUrl[0]} />}
             </div>
           ))}
         </div>
@@ -47,7 +49,7 @@ class ProductAll extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products,
+    products: state.products.products,
     activeCategories: state.categories.active
   }
 }
