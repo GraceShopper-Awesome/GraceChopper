@@ -11,23 +11,24 @@ class ProductSingle extends React.Component {
   }
 
   componentDidMount() {
-      console.log("this runs")
-    const {id} = this.props.match.params;
+    console.log('this runs')
+    const {id} = this.props.match.params
     this.props.getProduct(id)
   }
 
   render() {
-      const {title, description, imageUrl, price, stock} = this.props.product
-      console.log(title)
+    console.log('this.props.product', this.props.product)
+    const {title, description, price, imageUrl, stock} = this.props.product
+    // console.log('imageUrl', this.props.product.imageUrl[0])
     return (
-        <div>
+      <div>
         <h1>Product Name: {title}</h1>
         <p>Description: {description}</p>
         <h2>Price: {price}</h2>
         <h3>Stock: {stock}</h3>
-        <img src={imageUrl}/>
-
-        </div>
+        {/* <image src={imageUrl[0]} /> */}
+        {imageUrl && imageUrl.length && imageUrl.map(el => <img src={el} />)}
+      </div>
     )
   }
 }
@@ -37,14 +38,14 @@ class ProductSingle extends React.Component {
  */
 const mapState = state => {
   return {
-    product: state.products
+    product: state.products.product
   }
 }
 
 const mapDispatch = dispatch => {
-    return {
-      getProduct: id => dispatch(singleProduct(id))
-    }
+  return {
+    getProduct: id => dispatch(singleProduct(id))
   }
+}
 
 export default connect(mapState, mapDispatch)(ProductSingle)

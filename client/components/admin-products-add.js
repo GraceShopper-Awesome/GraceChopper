@@ -19,8 +19,14 @@ class AdminAddProduct extends React.Component {
             <input type="number" id="price" name="price" min="0" step="0.01" />
             <label htmlFor="stock">Stock</label>
             <input type="number" id="stock" name="stock" min="0" />
-            <label htmlFor="imageUrl">Image URL</label>
-            <input type="text" id="imageUrl" name="imageUrl" />
+            <label htmlFor="imageUrl">Image URLs</label>
+            <input
+              type="textarea"
+              rows="100"
+              cols="400"
+              id="imageUrl"
+              name="imageUrl"
+            />
             <button type="submit">Add New Product</button>
           </form>
         </div>
@@ -38,7 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         description: event.target.description.value,
         price: event.target.price.value,
         stock: event.target.stock.value,
-        imageUrl: event.target.imageUrl.value
+        imageUrl: event.target.imageUrl.value.split(' ')
       }
       dispatch(addNewProduct(newProductData, ownProps.history))
     }
