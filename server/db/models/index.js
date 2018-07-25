@@ -19,8 +19,8 @@ const ProductCategory = require('./productCategory')
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
-Category.belongsToMany(Product, {through: 'productCategory'}) //Category.hasMany(Category)
-Product.belongsToMany(Category, {through: 'productCategory'})
+Category.belongsToMany(Product, {through: 'productCategories'}) //Category.hasMany(Category)
+Product.belongsToMany(Category, {through: 'productCategories'})
 
 Product.hasMany(Review)
 Review.belongsTo(Product)

@@ -25,6 +25,7 @@ const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products})
 /**
  * THUNK CREATORS
  */
+<<<<<<< HEAD
 export const products = () => async dispatch => {
   try {
     const res = await axios.get('/api/cart/allproducts')
@@ -42,10 +43,30 @@ export const addproduct = () => async dispatch => {
     console.error(err)
   }
 }
+=======
+// export const products = () => async dispatch => {
+//   try {
+//     const res = await axios.get('/api/products/allproducts')
+//     dispatch(getProducts(res.data))
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
+
+// export const singleProduct = (id) => async dispatch => {
+//   try {
+//     const res = await axios.get(`/api/products/${id}`)
+//     dispatch(getSingleProduct(res.data))
+//   } catch(err) {
+//     console.error(err)
+//   }
+// }
+>>>>>>> 63379834ab1adf7f2ac700e5cad14253e295990a
 
 /**
  * REDUCER
  */
+<<<<<<< HEAD
 export default function(state = defaultCart, action) {
   switch (action.type) {
     case GET_ALL_CART_PRODUCTS:
@@ -57,3 +78,16 @@ export default function(state = defaultCart, action) {
   }
 
 }
+=======
+// export default function(state = defaultProducts, action) {
+//   switch (action.type) {
+//     case GET_ALL_PRODUCTS:
+//       return action.products
+//     case GET_SINGLE_PRODUCT:
+//       return action.product
+//     default:
+//       return state
+//   }
+
+// }
+>>>>>>> 63379834ab1adf7f2ac700e5cad14253e295990a
