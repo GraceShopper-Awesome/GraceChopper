@@ -40,7 +40,6 @@ export const fetchAllCategories = () => async dispatch => {
  * REDUCER
  */
 export default function(state = defaultCategories, action) {
-	console.log("state", state)
 	switch (action.type) {
 		case GET_ALL_CATEGORIES:
 			return {
@@ -48,11 +47,13 @@ export default function(state = defaultCategories, action) {
 				all: action.categories
 			}
 		case TOGGLE_CATEGORY: {
-			const selected = action.category
-			// const newActive = state.active.includes(selected) ?
-			// 	state.active.filter(tag => tag !== selected) :
-			// 	state.active.push(selected)
-			const newActive = [];
+			const {id} = action.categoryToToggle
+			console.log("id", id)
+			const newActive = state.active.includes(id) ?
+				state.active.filter(tagId => tagId !== id) :
+				(state.active.push(id), state.active)
+			// const newActive = [];
+			console.log("newActive", newActive)
 			return {
 				...state,
 				active: newActive
