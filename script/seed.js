@@ -64,9 +64,9 @@ async function seed() {
 
   //order
   let orderArr = []
-  let orderStatuses = ['fulfilled', 'pending']
+  let orderStatuses = ['completed', 'cancelled' , 'created' ,'processing']
   for (let i = 0; i < ORDER_AMT; i++) {
-    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 2)]})
+    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 4)]})
 
   }
 
