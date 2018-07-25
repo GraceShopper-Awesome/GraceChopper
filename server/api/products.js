@@ -8,7 +8,7 @@ router.get('/allproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
       include: [Category]
-    });
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -52,8 +52,8 @@ router.get('/search', async (req, res, next) => {
 
 })
 
-router.post('/', async (req, res, next) => {
-  // ADMIN ACCOUNT ONLY
+// ADMIN ACCOUNT ONLY
+router.post('/admin/add', async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
     res.json(newProduct)

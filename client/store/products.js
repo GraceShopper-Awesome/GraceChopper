@@ -5,6 +5,7 @@ import axios from 'axios'
  */
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 
 /**
  * INITIAL STATE
@@ -16,6 +17,7 @@ const defaultProducts = {}
  */
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
+const addProduct = product => ({type: ADD_PRODUCT, product})
 
 /**
  * THUNK CREATORS
@@ -29,11 +31,21 @@ export const products = () => async dispatch => {
   }
 }
 
-export const singleProduct = (id) => async dispatch => {
+export const singleProduct = id => async dispatch => {
   try {
     const res = await axios.get(`/api/products/${id}`)
     dispatch(getSingleProduct(res.data))
-  } catch(err) {
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const addNewProduct = (product, history) => async dispatch => {
+  try {
+    const res = await axios.post('/api/products/admin/add', product)
+    dispatch(addProduct(res.data))
+    history.push(`/products/${res.data.id}`)
+  } catch (err) {
     console.error(err)
   }
 }
@@ -47,8 +59,9 @@ export default function(state = defaultProducts, action) {
       return action.products
     case GET_SINGLE_PRODUCT:
       return action.product
+    case ADD_PRODUCT:
+      return action.product
     default:
       return state
   }
-
 }
