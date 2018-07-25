@@ -11,3 +11,25 @@ router.get('/', async (req, res, next) => {
 		next(err)
 	}
 })
+
+router.post('/', async (req, res, next) => {
+	try {
+		const newCategory = await Category.create(req.body);
+		res.json(newCategory)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+		const deletedCategory = await Category.destroy({
+			where: {
+				id: req.params.id
+			}
+		})
+		res.json(deletedCategory)
+	} catch(err) {
+		next(err)
+	}
+})

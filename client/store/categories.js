@@ -5,6 +5,8 @@ import axios from 'axios'
  */
 const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 export const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY'
+const ADD_CATEGORY = 'ADD_CATEGORY'
+const REMOVE_CATEGORY = 'REMOVE_CATEGORY'
 
 /**
  * INITIAL STATE
@@ -22,6 +24,14 @@ export const toggleCategory = category => ({
 	type: TOGGLE_CATEGORY,
 	categoryToToggle: category
 })
+const addCategory = category => ({
+	type: ADD_CATEGORY,
+	categoryToAdd: category
+})
+const removeCategory = category => ({
+	type: REMOVE_CATEGORY,
+	categoryToRemove: category
+})
 
 
 /**
@@ -34,6 +44,22 @@ export const fetchAllCategories = () => async dispatch => {
   } catch (err) {
     console.error(err)
   }
+}
+export const addCategoryToDatabase = name => async dispatch => {
+	try {
+		const res = await axios.post('/api/categories', {name: name})
+		dispatch(addCategory(res.data))
+	} catch (err) {
+		console.error(err)
+	}
+}
+export const removeCategoryFromDatabase = id => async dispatch => {
+	try {
+		const res = await axios.delete(`/api/categories/${id}`)
+		dispatch(removeCategory(res.data))
+	} catch (err) {
+		console.error(err)
+	}
 }
 
 /**
@@ -56,6 +82,16 @@ export default function(state = defaultCategories, action) {
 				active: newActive
 			}
 		}
+		case ADD_CATEGORY:
+			return {
+				...state,
+				all: [...state.all, action.categoryToAdd]
+			}
+		case REMOVE_CATEGORY:
+			return {
+				...state,
+				all: [state.all.map(cat => cat.id).filter(tagId => tagId !== action.categoryToRemove.id)]
+			}
 		default:
 			return state
 	}
