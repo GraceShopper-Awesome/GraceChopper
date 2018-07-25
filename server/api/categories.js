@@ -25,7 +25,6 @@ router.get('/:category', async (req, res, next) => {
 
 })
 
-const {Category} = require('../db/models')
 
 module.exports = router
 
