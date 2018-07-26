@@ -7,11 +7,10 @@ const USER_AMT = 25
 const CATEGORY_AMT = 7
 const PRODUCT_AMT = 150
 const ORDER_AMT = 22
-let ORDERITEM_AMT = PRODUCT_AMT
 
 
 const db = require('../server/db')
-const {User, Category, Product, Order, OrderItem, Review} = require('../server/db/models')
+const {User, Category, Product, Order, Review, OrderItem} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -26,7 +25,7 @@ const {User, Category, Product, Order, OrderItem, Review} = require('../server/d
  */
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({force:true})
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
@@ -41,8 +40,6 @@ async function seed() {
     email = email.replace('_', '')
     userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
-  userArr.push({email: "admin@user.com" , password: 'password', userType: 'admin'})
-  userArr.push({email: "normalUser@user.com" , password: 'password', userType: 'normal'})
 
 
   //categories
@@ -66,18 +63,9 @@ async function seed() {
 
   //order
   let orderArr = []
-  let orderStatuses = ['completed', 'cancelled' , 'created' ,'processing']
+  let orderStatuses = ['completed', 'cancelled', 'created', 'processing', 'cart']
   for (let i = 0; i < ORDER_AMT; i++) {
-    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 4)]})
-
-  }
-
-
-  //orderItem
-  let orderItemArr = []
-
-  for (let i = 0; i < ORDERITEM_AMT; i++) {
-    orderItemArr.push({fixed_price: Math.random() * 2000})
+    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 5)]})
 
   }
 
@@ -93,13 +81,8 @@ async function seed() {
   const catData = await Category.bulkCreate(catArr)
   const orderData = await Order.bulkCreate(orderArr)
   const reviewData = await Review.bulkCreate(reviewArr)
-  const orderItemData = await OrderItem.bulkCreate(orderItemArr)
   // const userData = await User.bulkCreate(userArr)
   // const prodData = await Product.bulkCreate(prodArr)
-
-
-
-
 
 
   //User assocs
@@ -148,6 +131,29 @@ async function seed() {
   ))
 
 
+  //Create fully linked cart/ orders with User, product and orderItem associations for testing
+  const cartUser= await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
+  const cart= await Order.create({status: 'cart'})
+
+  cartUser.setOrders(cart).then(()=>{})
+
+  let product = await Product.create({
+    title: 'product1', price: 69,
+    stock:12, description: faker.lorem.paragraph()
+  })
+
+await cart.customAddProduct(product , 1).then(()=>{})
+
+
+
+
+
+
+
+
+
+
+
 
 
   //create product assoc
@@ -169,8 +175,6 @@ async function seed() {
       indArr.push(rand)
 
     }
-
-
 
 
     indArr = []
@@ -223,10 +227,21 @@ async function runSeed() {
     process.exitCode = 1
   } finally {
     console.log('closing db connection')
+
+    // await postSeed()
     await db.close()
+
     console.log('db connection closed')
+
+
   }
 }
+
+// async function postSeed() {
+//
+//   let deletions = await Order.destroy({where: {userId: null}})
+//   console.log('deleted stranded orders: ', deletions)
+// }
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
