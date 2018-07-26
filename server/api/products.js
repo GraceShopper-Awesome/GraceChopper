@@ -46,8 +46,18 @@ router.get('/search', async (req, res, next) => {
 // ADMIN ACCOUNT ONLY
 router.post('/admin/add', async (req, res, next) => {
   try {
-    console.log('req.body.imageUrl', req.body.imageUrl)
-    const newProduct = await Product.create(req.body)
+    // console.log('req.body.imageUrl', req.body.imageUrl)
+    console.log(req.body)
+    const {title, description, price, stock, imageUrl, categories} = req.body
+    const newProduct = await Product.create({ title, description, price, stock, imageUrl})
+
+    let categoriesArr = []
+    for(let i = 0; i < categories.length; i++) {
+      const resCat = await Category.findById(categories[i])
+      categoriesArr.push(resCat)
+    }
+
+    const newProductCategories = await newProduct.addCategories(categoriesArr)
     res.json(newProduct)
   } catch (err) {
     next(err)

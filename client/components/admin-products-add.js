@@ -8,18 +8,12 @@ class AdminAddProduct extends React.Component {
   constructor() {
     super()
     this.state = {
-      categoryValue: '',
       checked: []
     }
   }
 
   componentDidMount() {
     this.props.fetchAllCategories()
-    let categoryArr = this.props.allCategories
-    this.setState({
-      categoryValue: this.props.allCategories[0],
-      checked: categoryArr
-    })
   }
 
   handleSubmitCategory = event => {
@@ -27,7 +21,18 @@ class AdminAddProduct extends React.Component {
   }
 
   handleChangeCategory = event => {
-    this.setState({categoryValue: event.target.value})
+    const {target} = event
+    if (target.checked === true) {
+      this.setState({checked: [...this.state.checked, target.value]})
+    } else {
+      const arr = this.state.checked
+      const newArr = arr.filter(id => {
+        return id !== target.value
+      })
+      this.setState({
+        checked: newArr
+      })
+    }
   }
 
   render() {
@@ -37,16 +42,15 @@ class AdminAddProduct extends React.Component {
         category.checked = false
       })
     }
-    console.log('checked', categoryArr)
     const {handleSubmit} = this.props
-    if(!categoryArr.length > 0) {
+    if (!categoryArr.length > 0) {
       return <h1>Loading</h1>
     }
     return (
       <div>
         <h1>Add New Product</h1>
         <div>
-          <form onSubmit={event => handleSubmit(event)}>
+          <form onSubmit={event => handleSubmit(event, this.state.checked)}>
             <label htmlFor="title">Product Title</label>
             <input type="text" id="title" name="title" />
             <label htmlFor="description">Product Description</label>
@@ -74,6 +78,7 @@ class AdminAddProduct extends React.Component {
                       value={category.id}
                       name={category.id}
                       defaultChecked={false}
+                      onChange={event => this.handleChangeCategory(event)}
                     />
                     {category.name}
                   </div>
@@ -90,14 +95,15 @@ class AdminAddProduct extends React.Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleSubmit(event) {
+    handleSubmit(event, checkedArr) {
       event.preventDefault()
       const newProductData = {
         title: event.target.title.value,
         description: event.target.description.value,
         price: event.target.price.value,
         stock: event.target.stock.value,
-        imageUrl: event.target.imageUrl.value.split(' ')
+        imageUrl: event.target.imageUrl.value.split(' '),
+        categories: checkedArr
       }
       dispatch(addNewProduct(newProductData, ownProps.history))
     },
