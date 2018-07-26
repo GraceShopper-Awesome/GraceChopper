@@ -20,12 +20,20 @@ class Cart extends React.Component {
     }
 
     render(){
-        console.log("This.props.cart", this.props.cart)
+        console.log("This.props", this.props)
+        const {user} = this.props
+        const {email} = user
+        let username;
+        if(email){
+            username = email.slice(0,email.indexOf("@"))
+        } else username = "guest"
+        if(username){
         return(
         <div>
             {/* {this.props.cart.map(element => (
                 <h1 key={element.id}>{element.id}</h1>
             ))} */}
+            <h1>{username}'s Cart</h1>
             <div id="itemList">
             <div id="singleItem">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/LAPD_Bell_206_Jetranger.jpg"/>
@@ -39,23 +47,20 @@ class Cart extends React.Component {
                     <input type="number" name="quantity" min="1"  onChange={(evt) => handleChange(evt)}/>
                 </form>
             </div>
-            <p>Lorem Ipsum suck a dick.</p>
+            <p>Lorem Ipsum dirty language.</p>
         </div>
-            <button id="checkoutButton">Proceed to Checkout</button>
+            <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
         </div>
-        )
+        )}
+        else return <h1>Loading</h1>
     }
 }
-
-{/* <label htmlFor='campusId'><h4>Campus</h4></label>
-<select name='campusId' onChange={this.handleChange}>
-    {this.props.campuses.map((campus) => (<option name='campusId' value = {campus.id} key = {campus.id}>{campus.name}</option>))}
-</select> */}
 
 const mapStateToProps = state => {
     return {
       cart: state.cart,
-      product: state.products.products
+      product: state.products.products,
+      user: state.user
     }
   }
 
