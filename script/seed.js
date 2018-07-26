@@ -10,7 +10,7 @@ const ORDER_AMT = 22
 
 
 const db = require('../server/db')
-const {User, Category, Product, Order,  Review} = require('../server/db/models')
+const {User, Category, Product, Order, Review} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -42,7 +42,6 @@ async function seed() {
   }
 
 
-
   //categories
   let catArr = []
   for (let i = 0; i < CATEGORY_AMT; i++) {
@@ -64,13 +63,11 @@ async function seed() {
 
   //order
   let orderArr = []
-  let orderStatuses = ['completed', 'cancelled' , 'created' ,'processing']
+  let orderStatuses = ['completed', 'cancelled', 'created', 'processing', 'cart']
   for (let i = 0; i < ORDER_AMT; i++) {
-    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 4)]})
+    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 5)]})
 
   }
-
-
 
 
   //review
@@ -86,7 +83,6 @@ async function seed() {
   const reviewData = await Review.bulkCreate(reviewArr)
   // const userData = await User.bulkCreate(userArr)
   // const prodData = await Product.bulkCreate(prodArr)
-
 
 
 
@@ -138,8 +134,6 @@ async function seed() {
   ))
 
 
-
-
   //create product assoc
   await Promise.all(prodArr.map(async (prod) => {
 
@@ -159,8 +153,6 @@ async function seed() {
       indArr.push(rand)
 
     }
-
-
 
 
     indArr = []
