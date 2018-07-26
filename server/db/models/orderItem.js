@@ -12,8 +12,20 @@ const OrderItem = db.define('orderItem', {
   },
   quantity: {
     type: Sequelize.INTEGER,
+    default: 1
 
   }
 })
+
+OrderItem.prototype.changeQuantity= function(amt) {
+  console.log('change quant ran')
+  this.quantity = amt
+
+}
+
+OrderItem.prototype.changeFixedPrice = function(amt) {
+  this.fixedPrice = amt
+
+}
 
 module.exports = OrderItem

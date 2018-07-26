@@ -10,7 +10,7 @@ const ORDER_AMT = 22
 
 
 const db = require('../server/db')
-const {User, Category, Product, Order, Review} = require('../server/db/models')
+const {User, Category, Product, Order, Review, OrderItem} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -25,7 +25,7 @@ const {User, Category, Product, Order, Review} = require('../server/db/models')
  */
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({force:true})
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
@@ -85,9 +85,6 @@ async function seed() {
   // const prodData = await Product.bulkCreate(prodArr)
 
 
-
-
-
   //User assocs
   await Promise.all(userArr.map(async (user) => {
 
@@ -132,6 +129,31 @@ async function seed() {
 
     }
   ))
+
+
+  //Create fully linked cart/ orders with User, product and orderItem associations for testing
+  const cartUser= await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
+  const cart= await Order.create({status: 'cart'})
+
+  cartUser.setOrders(cart).then(()=>{})
+
+  let product = await Product.create({
+    title: 'product1', price: 69,
+    stock:12, description: faker.lorem.paragraph()
+  })
+
+await cart.customAddProduct(product , 1).then(()=>{})
+
+
+
+
+
+
+
+
+
+
+
 
 
   //create product assoc
@@ -205,10 +227,21 @@ async function runSeed() {
     process.exitCode = 1
   } finally {
     console.log('closing db connection')
+
+    // await postSeed()
     await db.close()
+
     console.log('db connection closed')
+
+
   }
 }
+
+// async function postSeed() {
+//
+//   let deletions = await Order.destroy({where: {userId: null}})
+//   console.log('deleted stranded orders: ', deletions)
+// }
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
