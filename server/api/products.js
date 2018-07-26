@@ -80,6 +80,32 @@ router.put('/admin/:productId', async (req, res, next) => {
         plain: true
       }
     )
+    const productCategories = await Product.findAll({
+      where: {
+        id: req.body.id
+      },
+      include: [Category]
+    })
+
+    const removeCat = productCategories[0].dataValues.categories.map(x => x.dataValues).map(a => a.id)
+
+    let categoriesArrToRemove = []
+    for(let i = 0; i < removeCat.length; i++) {
+      const resCat = await Category.findById(removeCat[i])
+      categoriesArrToRemove.push(resCat)
+    }
+    affectedRows.removeCategories(categoriesArrToRemove);
+
+    const {categories} = req.body;
+    console.log("IDS", categories)
+
+    let categoriesArr = []
+    for(let i = 0; i < categories.length; i++) {
+      const resCat = await Category.findById(categories[i])
+      categoriesArr.push(resCat)
+    }
+    const newProductCategories = await affectedRows.addCategories(categoriesArr)
+
     res.json(affectedRows)
   } catch (err) {
     next(err)
