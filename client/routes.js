@@ -10,11 +10,13 @@ import {
   ProductSingle,
   AdminHome,
   AdminAddProduct,
+  AdminEditProduct,
   AdminProducts,
   AdminOrders,
   AdminUsers,
   AdminAddCategory,
-  Cart
+  Cart,
+  Checkout
 } from './components'
 import {me} from './store'
 
@@ -39,10 +41,12 @@ class Routes extends Component {
         <Route exact path="/admin" component={AdminHome} />
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/products/add" component={AdminAddProduct} />
+        <Route path="/admin/products/:id" component={AdminEditProduct} />
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
         <Route path="/admin/categories" component={AdminAddCategory} />
         <Route path="/cart" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -59,6 +63,7 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
+
 const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
