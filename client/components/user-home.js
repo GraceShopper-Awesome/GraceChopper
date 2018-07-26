@@ -7,10 +7,11 @@ import {connect} from 'react-redux'
  */
 export const UserHome = props => {
   const {email} = props
-
+  console.log('props',props)
+  if(props.isAdmin) props.history.push('/admin')
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>Welcome, {email.slice(0,email.indexOf("@"))}</h3>
     </div>
   )
 }
@@ -19,8 +20,10 @@ export const UserHome = props => {
  * CONTAINER
  */
 const mapState = state => {
+  console.log(state)
   return {
-    email: state.user.email
+    email: state.user.email,
+    isAdmin: state.user.userType === "admin"
   }
 }
 

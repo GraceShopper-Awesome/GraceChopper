@@ -19,7 +19,7 @@ const defaultCart = []
 export const addToCart = product => ({type: ADD_TO_CART, product})
 const removeFromCart = product => ({type: REMOVE_FROM_CART, product})
 const editCart = product => ({type: EDIT_CART, product})
-const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
+export const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
 
 
 /**
@@ -49,9 +49,9 @@ const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products})
 export default function(state = defaultCart, action) {
   switch (action.type) {
     case GET_ALL_CART_PRODUCTS:
-      return action.products
+      return state
     case ADD_TO_CART:
-      return [...state, action.product]
+      return [...state, {id: action.product.id, }]
     default:
       return state
   }

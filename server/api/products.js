@@ -50,9 +50,31 @@ router.get('/search', async (req, res, next) => {
 // ADMIN ACCOUNT ONLY
 router.post('/admin/add', async (req, res, next) => {
   try {
-    console.log('req.body.imageUrl', req.body.imageUrl)
     const newProduct = await Product.create(req.body)
     res.json(newProduct)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/admin/:productId', async (req, res, next) => {
+  console.log('req.body', req.body)
+  try {
+    const [numberOfAffectedRow, affectedRows] = await Product.update(
+      {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        stock: req.body.stock,
+        imageUrl: req.body.imageUrl
+      },
+      {
+        where: {id: req.body.id},
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(affectedRows)
   } catch (err) {
     next(err)
   }
