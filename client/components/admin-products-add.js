@@ -2,10 +2,46 @@ import React from 'react'
 import {products, addNewProduct} from '../store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {fetchAllCategories} from '../store'
 
 class AdminAddProduct extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      categoryValue: '',
+      checked: []
+    }
+  }
+
+  componentDidMount() {
+    this.props.fetchAllCategories()
+    let categoryArr = this.props.allCategories
+    this.setState({
+      categoryValue: this.props.allCategories[0],
+      checked: categoryArr
+    })
+  }
+
+  handleSubmitCategory = event => {
+    event.preventDefault()
+  }
+
+  handleChangeCategory = event => {
+    this.setState({categoryValue: event.target.value})
+  }
+
   render() {
+    const categoryArr = this.props.allCategories
+    if (categoryArr.length > 0) {
+      categoryArr.forEach(function(category) {
+        category.checked = false
+      })
+    }
+    console.log('checked', categoryArr)
     const {handleSubmit} = this.props
+    if(!categoryArr.length > 0) {
+      return <h1>Loading</h1>
+    }
     return (
       <div>
         <h1>Add New Product</h1>
@@ -27,6 +63,23 @@ class AdminAddProduct extends React.Component {
               id="imageUrl"
               name="imageUrl"
             />
+            <br />
+            <label>Categories</label>
+            <div>
+              {categoryArr.map(category => {
+                return (
+                  <div key={category.id}>
+                    <input
+                      type="checkbox"
+                      value={category.id}
+                      name={category.id}
+                      defaultChecked={false}
+                    />
+                    {category.name}
+                  </div>
+                )
+              })}
+            </div>
             <button type="submit">Add New Product</button>
           </form>
         </div>
@@ -47,8 +100,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         imageUrl: event.target.imageUrl.value.split(' ')
       }
       dispatch(addNewProduct(newProductData, ownProps.history))
+    },
+    fetchAllCategories: () => {
+      dispatch(fetchAllCategories())
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(AdminAddProduct)
+const mapStateToProps = state => {
+  return {
+    allCategories: state.categories.all
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminAddProduct)
