@@ -41,7 +41,9 @@ async function seed() {
     userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
 
-
+    userArr.push({email: "admin@user.com" , password: 'password', userType: 'admin'})
+    userArr.push({email: "normalUser@user.com" , password: 'password', userType: 'normal'})
+  
   //categories
   let catArr = []
   for (let i = 0; i < CATEGORY_AMT; i++) {
