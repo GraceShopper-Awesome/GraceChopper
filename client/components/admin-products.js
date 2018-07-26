@@ -12,17 +12,17 @@ class AdminProducts extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts()
-    // this.setState({})
   }
 
   handleNewProduct() {
     this.props.history.push('/admin/products/add')
   }
 
-  handleNewCategory() {}
+  handleNewCategory() {
+    this.props.history.push('/admin/categories')
+  }
 
   render() {
-    console.log('this.props', this.props)
     if (!this.props.products.length) {
       return <h1>Loading</h1>
     } else {

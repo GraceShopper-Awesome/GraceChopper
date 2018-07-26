@@ -20,7 +20,7 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-    const {title, description, price, imageUrl, stock} = this.props.product
+    const {title, description, price, imageUrl, stock, id} = this.props.product
     return (
       <div>
         <div id="productSingle">
@@ -28,9 +28,15 @@ class ProductSingle extends React.Component {
           <p>Description: {description}</p>
           <h2>Price: {price}</h2>
           <h3>Stock: {stock}</h3>
+<<<<<<< HEAD
           {imageUrl && imageUrl.length && imageUrl.map(el => <img src={el} />)}
         </div>
         <button onClick={evt => this.handleClick(evt)}>ADD TO CART!</button>
+=======
+          {imageUrl && imageUrl.length && imageUrl.map(el => <img key={id} src={el} />)}
+        </div>
+        <button type="button" onClick={evt => this.handleClick(evt)}>ADD TO CART!</button>
+>>>>>>> 691c2324a47e21ff035074594ab3538589d728a9
       </div>
     )
   }
