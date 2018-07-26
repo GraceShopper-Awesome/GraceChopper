@@ -38,7 +38,7 @@ class AdminProducts extends React.Component {
           <div>
             {this.props.products.map(elements => (
               <div id="mainInfo" key={elements.id}>
-                <Link to={`/products/${elements.id}`}>
+                <Link to={`/admin/products/${elements.id}`}>
                   <h1>{elements.title}</h1>
                 </Link>
                 <h3>${elements.price}</h3>

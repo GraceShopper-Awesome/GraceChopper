@@ -10,6 +10,7 @@ import {
   ProductSingle,
   AdminHome,
   AdminAddProduct,
+  AdminEditProduct,
   AdminProducts,
   AdminOrders,
   AdminUsers,
@@ -40,6 +41,7 @@ class Routes extends Component {
         <Route exact path="/admin" component={AdminHome} />
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/products/add" component={AdminAddProduct} />
+        <Route path="/admin/products/:id" component={AdminEditProduct} />
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
         <Route path="/admin/categories" component={AdminAddCategory} />
