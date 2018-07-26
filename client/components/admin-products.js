@@ -12,7 +12,6 @@ class AdminProducts extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts()
-    // this.setState({})
   }
 
   handleNewProduct() {
@@ -22,7 +21,6 @@ class AdminProducts extends React.Component {
   handleNewCategory() {}
 
   render() {
-    console.log('this.props', this.props)
     if (!this.props.products.length) {
       return <h1>Loading</h1>
     } else {
@@ -38,7 +36,7 @@ class AdminProducts extends React.Component {
           <div>
             {this.props.products.map(elements => (
               <div id="mainInfo" key={elements.id}>
-                <Link to={`/products/${elements.id}`}>
+                <Link to={`/admin/products/${elements.id}`}>
                   <h1>{elements.title}</h1>
                 </Link>
                 <h3>${elements.price}</h3>
