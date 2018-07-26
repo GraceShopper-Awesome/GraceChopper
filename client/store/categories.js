@@ -65,6 +65,7 @@ export const removeCategoryFromDatabase = id => async dispatch => {
  * REDUCER
  */
 export default function(state = defaultCategories, action) {
+  console.log(action.type)
   switch (action.type) {
     case GET_ALL_CATEGORIES:
       return {
