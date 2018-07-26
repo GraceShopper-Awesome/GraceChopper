@@ -41,6 +41,8 @@ async function seed() {
     email = email.replace('_', '')
     userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
+  userArr.push({email: "admin@user.com" , password: 'password', userType: 'admin'})
+  userArr.push({email: "normalUser@user.com" , password: 'password', userType: 'normal'})
 
 
   //categories
