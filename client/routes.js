@@ -13,6 +13,7 @@ import {
   AdminProducts,
   AdminOrders,
   AdminUsers,
+  AdminAddCategory,
   Cart
 } from './components'
 import {me} from './store'
@@ -40,6 +41,7 @@ class Routes extends Component {
         <Route path="/admin/products/add" component={AdminAddProduct} />
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
+        <Route path="/admin/categories" component={AdminAddCategory} />
         <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
