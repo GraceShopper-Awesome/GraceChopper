@@ -5,9 +5,7 @@ const Sequelize = require('sequelize')
 
 router.get('/:orderId', async (req, res, next) => {
   try {
-    let products = []
-    let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include : [{model : Product}] })
-
+    let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
 
 
     res.json(orderItems)
@@ -16,3 +14,32 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
+router.delete('/:orderId', async (req, res, next) => {
+
+  try {
+    let orderItem = await OrderItem.findOne({
+      where: {orderId: req.params.orderId, productId: req.body.productId},
+      include: [Order, Product]
+    })
+    orderItem.order.customAddProduct(orderItem.product, 0)
+
+    res.send(200)
+  } catch (err) {
+    next(err)
+  }
+
+})
+
+router.put('/:orderId', async (req, res, next) => {
+
+  try {
+    let orderItem = await OrderItem.findOne({where: {orderId: req.params.orderId, productId: req.body.productId}})
+    orderItem.update({quantity: req.body.quantity})
+
+
+    res.send(200)
+  } catch (err) {
+    next(err)
+  }
+
+})
