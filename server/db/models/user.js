@@ -3,11 +3,9 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
-
   userType: {
     type: Sequelize.ENUM('admin', 'normal', 'guest'),
-    allowNull: false,
-    default: 'guest'
+    defaultValue: 'normal'
   },
 
   address: {
@@ -66,8 +64,6 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
-
-
 /**
  * hooks
  */
@@ -80,6 +76,5 @@ const setSaltAndPassword = user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
-
 
 module.exports = User

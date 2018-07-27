@@ -45,9 +45,9 @@ export const singleProduct = id => async dispatch => {
   }
 }
 
-export const addNewProduct = (product, history) => async dispatch => {
+export const addNewProduct = (productAndCategories, history) => async dispatch => {
   try {
-    const res = await axios.post('/api/products/admin/add', product)
+    const res = await axios.post('/api/products/admin/add', productAndCategories)
     dispatch(addProduct(res.data))
     history.push(`/products/${res.data.id}`)
   } catch (err) {
@@ -55,9 +55,10 @@ export const addNewProduct = (product, history) => async dispatch => {
   }
 }
 
-export const editProduct = (product, history) => async dispatch => {
+export const editProduct = (productAndCategories, history) => async dispatch => {
   try {
-    const res = await axios.put(`/api/products/admin/${product.id}`, product)
+
+    const res = await axios.put(`/api/products/admin/${productAndCategories.id}`, productAndCategories)
     dispatch(getEditedProduct(res.data))
     history.push(`/admin/products`)
   } catch (err) {

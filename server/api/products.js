@@ -17,7 +17,12 @@ router.get('/allproducts', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.productId)
+    const product = await Product.findAll({
+      where: {
+        id: req.params.productId
+      },
+      include: [Category]
+    })
     res.json(product)
   } catch (err) {
     next(err)
@@ -36,21 +41,22 @@ router.get('/search', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
-  router.get('/:productId', async (req, res, next) => {
-    try {
-      const product = await Product.findById(req.params.productId)
-      res.json(product)
-    } catch (err) {
-      next(err)
-    }
-  })
 })
 
 // ADMIN ACCOUNT ONLY
 router.post('/admin/add', async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body)
+    // console.log('req.body.imageUrl', req.body.imageUrl)
+    console.log(req.body)
+    const {title, description, price, stock, imageUrl, categories} = req.body
+    const newProduct = await Product.create({ title, description, price, stock, imageUrl})
+
+    let categoriesArr = []
+    for(let i = 0; i < categories.length; i++) {
+      const resCat = await Category.findById(categories[i])
+      categoriesArr.push(resCat)
+    }
+    const newProductCategories = await newProduct.addCategories(categoriesArr)
     res.json(newProduct)
   } catch (err) {
     next(err)
@@ -74,6 +80,32 @@ router.put('/admin/:productId', async (req, res, next) => {
         plain: true
       }
     )
+    const productCategories = await Product.findAll({
+      where: {
+        id: req.body.id
+      },
+      include: [Category]
+    })
+
+    const removeCat = productCategories[0].dataValues.categories.map(x => x.dataValues).map(a => a.id)
+
+    let categoriesArrToRemove = []
+    for(let i = 0; i < removeCat.length; i++) {
+      const resCat = await Category.findById(removeCat[i])
+      categoriesArrToRemove.push(resCat)
+    }
+    affectedRows.removeCategories(categoriesArrToRemove);
+
+    const {categories} = req.body;
+    console.log("IDS", categories)
+
+    let categoriesArr = []
+    for(let i = 0; i < categories.length; i++) {
+      const resCat = await Category.findById(categories[i])
+      categoriesArr.push(resCat)
+    }
+    const newProductCategories = await affectedRows.addCategories(categoriesArr)
+
     res.json(affectedRows)
   } catch (err) {
     next(err)
