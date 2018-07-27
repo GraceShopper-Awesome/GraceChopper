@@ -15,6 +15,20 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
+router.get('/availableproducts', async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        available: true
+      },
+      include: [Category]
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:productId', async (req, res, next) => {
   try {
     const product = await Product.findAll({

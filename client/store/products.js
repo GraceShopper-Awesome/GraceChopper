@@ -4,6 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
+const GET_AVAILABLE_PRODUCTS = 'GET_AVAILABLE_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
@@ -13,13 +14,15 @@ const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
  */
 const defaultProducts = {
   products: [],
-  product: {}
+  product: {},
+  availableProducts: []
 }
 
 /**
  * ACTION CREATORS
  */
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
+const getAvailableProducts = products => ({type: GET_AVAILABLE_PRODUCTS, products})
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
@@ -66,6 +69,17 @@ export const editProduct = (productAndCategories, history) => async dispatch => 
   }
 }
 
+export const fetchAvailableProducts = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/products/availableproducts')
+    dispatch(getAvailableProducts(res.data))
+  } catch(err) {
+    console.error(err)
+  }
+}
+
+
+
 /**
  * REDUCER
  */
@@ -75,6 +89,11 @@ export default function(state = defaultProducts, action) {
       return {
         ...state,
         products: action.products
+      }
+    case GET_AVAILABLE_PRODUCTS:
+      return {
+        ...state,
+        availableProducts: action.products
       }
     case GET_SINGLE_PRODUCT:
       return {
@@ -86,9 +105,9 @@ export default function(state = defaultProducts, action) {
         ...state,
         products: [...state.products, action.product]
       }
-    case GET_EDITED_PRODUCT:
+    case GET_EDITED_PRODUCT: {
       const updatedProducts = state.products.map(function(elem) {
-        if (elem.id == action.product.id) {
+        if (elem.id === action.product.id) {
           elem = action.product
         }
         return elem
@@ -97,6 +116,7 @@ export default function(state = defaultProducts, action) {
         ...state,
         products: updatedProducts
       }
+    }
     default:
       return state
   }
