@@ -3,13 +3,15 @@ const {User, Order, Product, OrderItem} = require('../db/models')
 module.exports = router
 const Sequelize = require('sequelize')
 
+const Op = Sequelize.Op
 
 //send all products in a given order to client
-router.get('/:orderId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
-    let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
-
-
+    // let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
+    let order = await Order.findOne({where: {userId: req.params.userId, status: "cart"}})
+    let orderItems = await OrderItem.findAll({where: {orderId : order.id}, include: [Product]})
+    console.log(orderItems)
     res.json(orderItems)
   } catch (err) {
     next(err)
