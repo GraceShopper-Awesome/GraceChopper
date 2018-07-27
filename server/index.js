@@ -99,6 +99,8 @@ const startListening = () => {
       console.log(`Mixing it up on port ${PORT}`)
       console.log('\nknown users : \n admin@user.com, password')
       console.log('normalUser@user.com, password \n\n')
+    console.log('cartUser@user.com, pass \n\n')
+    console.log('CompOrderUser@user.com, pass \n\n')
 
     }
   )
