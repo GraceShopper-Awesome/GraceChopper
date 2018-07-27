@@ -23,11 +23,18 @@ const defaultProducts = {
  * ACTION CREATORS
  */
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
-const getAvailableProducts = products => ({type: GET_AVAILABLE_PRODUCTS, products})
+const getAvailableProducts = products => ({
+  type: GET_AVAILABLE_PRODUCTS,
+  products
+})
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
-const setProductAvailability = id => ({type: SET_PRODUCT_AVAILABILITY, id})
+const setProductAvailability = (id, avail) => ({
+  type: SET_PRODUCT_AVAILABILITY,
+  id,
+  avail
+})
 /**
  * THUNK CREATORS
  */
@@ -49,9 +56,15 @@ export const singleProduct = id => async dispatch => {
   }
 }
 
-export const addNewProduct = (productAndCategories, history) => async dispatch => {
+export const addNewProduct = (
+  productAndCategories,
+  history
+) => async dispatch => {
   try {
-    const res = await axios.post('/api/products/admin/add', productAndCategories)
+    const res = await axios.post(
+      '/api/products/admin/add',
+      productAndCategories
+    )
     dispatch(addProduct(res.data))
     history.push(`/products/${res.data.id}`)
   } catch (err) {
@@ -59,10 +72,15 @@ export const addNewProduct = (productAndCategories, history) => async dispatch =
   }
 }
 
-export const editProduct = (productAndCategories, history) => async dispatch => {
+export const editProduct = (
+  productAndCategories,
+  history
+) => async dispatch => {
   try {
-
-    const res = await axios.put(`/api/products/admin/${productAndCategories.id}`, productAndCategories)
+    const res = await axios.put(
+      `/api/products/admin/${productAndCategories.id}`,
+      productAndCategories
+    )
     dispatch(getEditedProduct(res.data))
     history.push(`/admin/products`)
   } catch (err) {
@@ -74,13 +92,24 @@ export const fetchAvailableProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/availableproducts')
     dispatch(getAvailableProducts(res.data))
-  } catch(err) {
+  } catch (err) {
     console.error(err)
   }
 }
 
-
-
+export const setProductAvailabilityOnServer = (
+  productId,
+  productAvailability
+) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/products/admin/available/${productId}`, {
+      available: productAvailability
+    })
+    dispatch(setProductAvailability(res.data.id, res.data.available))
+  } catch (err) {
+    console.error(err)
+  }
+}
 /**
  * REDUCER
  */
@@ -121,7 +150,12 @@ export default function(state = defaultProducts, action) {
     case SET_PRODUCT_AVAILABILITY:
       return {
         ...state,
-        availableProducts: []
+        availableProducts: state.products.map(function(prod) {
+          if (prod.id === action.id) {
+            prod.available = action.avail
+          }
+          return prod
+        })
       }
     default:
       return state

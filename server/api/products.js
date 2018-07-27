@@ -77,6 +77,22 @@ router.post('/admin/add', async (req, res, next) => {
   }
 })
 
+router.put('/admin/available/:productId', async (req, res, next) => {
+  try{
+    const [numberOfAffectedRow, affectedRows] = await Product.update({
+      available: req.body.available
+    },
+    {
+      where: {id: req.params.productId},
+      returning: true,
+      plain: true
+    })
+    res.json(affectedRows)
+  } catch(err) {
+    next(err)
+  }
+})
+
 router.put('/admin/:productId', async (req, res, next) => {
   console.log('req.body', req.body)
   try {
@@ -122,22 +138,6 @@ router.put('/admin/:productId', async (req, res, next) => {
 
     res.json(affectedRows)
   } catch (err) {
-    next(err)
-  }
-})
-
-router.put('/admin/available/:productId', async (req, res, next) => {
-  try{
-    const [numberOfAffectedRow, affectedRows] = await Product.update({
-      available: req.body.available
-    },
-    {
-      where: {id: req.params.productId},
-      returning: true,
-      plain: true
-    })
-    res.json(affectedRows)
-  } catch(err) {
     next(err)
   }
 })
