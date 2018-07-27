@@ -25,7 +25,7 @@ const {User, Category, Product, Order, Review, OrderItem} = require('../server/d
  */
 
 async function seed() {
-  await db.sync({force:true})
+  await db.sync({force: true})
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
@@ -41,9 +41,9 @@ async function seed() {
     userArr.push({email: email, password: faker.internet.password(), userType: userT})
   }
 
-    userArr.push({email: "admin@user.com" , password: 'password', userType: 'admin'})
-    userArr.push({email: "normalUser@user.com" , password: 'password', userType: 'normal'})
-  
+  userArr.push({email: 'admin@user.com', password: 'password', userType: 'admin'})
+  userArr.push({email: 'normalUser@user.com', password: 'password', userType: 'normal'})
+
   //categories
   let catArr = []
   for (let i = 0; i < CATEGORY_AMT; i++) {
@@ -134,24 +134,27 @@ async function seed() {
 
 
   //Create fully linked cart/ orders with User, product and orderItem associations for testing
-  const cartUser= await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
-  const cart= await Order.create({status: 'cart'})
+  const cartUser = await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
+  const cart = await Order.create({status: 'cart'})
 
-  cartUser.setOrders(cart).then(()=>{})
+  cartUser.setOrders(cart).then(() => {
+  })
 
   let product = await Product.create({
     title: 'product1', price: 69,
-    stock:12, description: faker.lorem.paragraph()
+    stock: 12, description: faker.lorem.paragraph()
   })
 
-await cart.customAddProduct(product , 1).then(()=>{})
+  const completedOrderUser = await User.create({email: 'CompOrderUser@gmail.com', password: 'pass', userType: 'normal'})
+  const order1 = await Order.create({status: 'created'})
+  const order2 = await Order.create({status: 'completed'})
 
 
+  completedOrderUser.setOrders([order1, order2]).then(() => {
+  })
 
-
-
-
-
+  await createdOrderSeeder(order1)
+ await  createdOrderSeeder(order2)
 
 
 
@@ -230,7 +233,7 @@ async function runSeed() {
   } finally {
     console.log('closing db connection')
 
-    // await postSeed()
+
     await db.close()
 
     console.log('db connection closed')
@@ -238,6 +241,20 @@ async function runSeed() {
 
   }
 }
+
+async function createdOrderSeeder(order) {
+  for (let i = 0; i < 20; i++) {
+    let product = await Product.create({
+      title: faker.commerce.productName(), price: faker.commerce.price(),
+      stock: 20, description: faker.lorem.paragraph()
+    })
+
+    order.customAddProduct(product, Math.ceil(Math.random() *7))
+
+
+  }
+}
+
 
 // async function postSeed() {
 //
