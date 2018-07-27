@@ -19,20 +19,21 @@ const defaultCart = []
 export const addToCart = product => ({type: ADD_TO_CART, product})
 const removeFromCart = product => ({type: REMOVE_FROM_CART, product})
 const editCart = product => ({type: EDIT_CART, product})
-export const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
+const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
 
 
 /**
  * THUNK CREATORS
  */
-// export const products = () => async dispatch => {
-//   try {
-//     const res = await axios.get('/api/products/allproducts')
-//     dispatch(getProducts(res.data))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+
+export const getCart = (id) => async dispatch => {
+  try {
+    const res = await axios.get(`/api/cart/${id}`)
+    dispatch(getAllFromCart(res.data))
+  } catch(error){
+    console.log(error)
+  }
+}
 
 // export const singleProduct = (id) => async dispatch => {
 //   try {
@@ -49,7 +50,8 @@ export const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, product
 export default function(state = defaultCart, action) {
   switch (action.type) {
     case GET_ALL_CART_PRODUCTS:
-      return state
+      console.log(action)
+      return action.products
     case ADD_TO_CART:
       return [...state, {id: action.product.id, }]
     default:
