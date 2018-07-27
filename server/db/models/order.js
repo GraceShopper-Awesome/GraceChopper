@@ -21,8 +21,15 @@ const Order = db.define('order', {
 //
 // }
 
-//this method is invoked when a cart is purchased and turned into an order
-//it updates the carts status to
+
+/*
+this method is invoked when a cart is purchased and turned into an order
+it updates the carts status to created, meaning it is now a past order
+it maps thru orderItems and sets the fixedPrice field on each orderItem to the current price of the product
+it updates the product's stock to decrease by the quantity purchased
+it creates a new cart instance for the user and associates it
+ */
+
 Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
   //sanity check that this method only runs on carts
   if (cartWithOrderItems.status === 'cart') {

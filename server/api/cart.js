@@ -51,7 +51,8 @@ router.put('/:orderId', async (req, res, next) => {
 })
 
 
-//checkout a cart which sets fixed price on its OrderItems, changes its status to an order and creates a new db cart instance for the given user
+//purchase a cart and runs db changes associated
+//see changeCartToOrder for documentation
 router.post('/:orderId', async (req, res, next) => {
 
   try {
