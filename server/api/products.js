@@ -125,3 +125,19 @@ router.put('/admin/:productId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/admin/available/:productId', async (req, res, next) => {
+  try{
+    const [numberOfAffectedRow, affectedRows] = await Product.update({
+      available: req.body.available
+    },
+    {
+      where: {id: req.params.productId},
+      returning: true,
+      plain: true
+    })
+    res.json(affectedRows)
+  } catch(err) {
+    next(err)
+  }
+})

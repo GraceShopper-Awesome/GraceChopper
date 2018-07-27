@@ -8,6 +8,7 @@ const GET_AVAILABLE_PRODUCTS = 'GET_AVAILABLE_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
+const SET_PRODUCT_AVAILABILITY = 'TOGGLE_PRODUCT_AVAILABILITY'
 
 /**
  * INITIAL STATE
@@ -26,7 +27,7 @@ const getAvailableProducts = products => ({type: GET_AVAILABLE_PRODUCTS, product
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
-
+const setProductAvailability = id => ({type: SET_PRODUCT_AVAILABILITY, id})
 /**
  * THUNK CREATORS
  */
@@ -117,6 +118,11 @@ export default function(state = defaultProducts, action) {
         products: updatedProducts
       }
     }
+    case SET_PRODUCT_AVAILABILITY:
+      return {
+        ...state,
+        availableProducts: []
+      }
     default:
       return state
   }
