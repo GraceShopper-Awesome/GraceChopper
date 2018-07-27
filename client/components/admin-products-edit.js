@@ -19,20 +19,6 @@ class AdminEditProduct extends React.Component {
     await this.props.fetchAllCategories()
     this.setState({checked: this.props.product[0].categories.map(cat => cat.id)})
   }
-
-  // handleSubmit(event) {
-  //   event.preventDefault()
-  //   const updatedObj = {
-  //     id: Number(this.props.match.params.id),
-  //     title: event.target.title.value,
-  //     description: event.target.description.value,
-  //     price: event.target.price.value,
-  //     stock: event.target.stock.value,
-  //     imageUrl: event.target.imageUrl.value.split(' ')
-  //   }
-  //   this.props.edit(updatedObj)
-  //   this.props.history.push('/admin/products')
-  // }
   handleChangeCategory = event => {
     const {target} = event
     if (target.checked === true) {
