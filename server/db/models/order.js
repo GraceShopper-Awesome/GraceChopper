@@ -2,6 +2,8 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const OrderItem = require('./orderItem')
 const Product = require('./product')
+const User = require('./user')
+
 
 const Order = db.define('order', {
   status: {
@@ -23,29 +25,29 @@ const Order = db.define('order', {
 //it updates the carts status to
 Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
   //sanity check that this method only runs on carts
-
-  // if (cartWithOrderItems.status ==='cart'){
-
-
-  cartWithOrderItems.update({status: 'created'})
-  const user = await User.findOne({where: {id: cartWithOrderItems.userId}})
-  console.log('orderId', cartWithOrderItems.dataValues.id)
-
-  cartWithOrderItems.orderItems.map(async (orderItem) => {
-    console.log('orderItemId', orderItem.dataValues.id)
-    console.log('productId', orderItem.dataValues.productId)
-
-    const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
-    await curProduct.update({stock: curProduct.stock - orderItem.quantity})
-    await orderItem.update({fixedPrice: curProduct.price})
+  if (cartWithOrderItems.status === 'cart') {
 
 
-  })
+    cartWithOrderItems.update({status: 'created'})
+    const user = await User.findOne({where: {id: cartWithOrderItems.userId}})
+    console.log('orderId', cartWithOrderItems.dataValues.id)
+
+    cartWithOrderItems.orderItems.map(async (orderItem) => {
+      console.log('orderItemId', orderItem.dataValues.id)
+      console.log('productId', orderItem.dataValues.productId)
+
+      const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
+      await curProduct.update({stock: curProduct.stock - orderItem.quantity})
+      await orderItem.update({fixedPrice: curProduct.price})
 
 
+    })
+
+    const newCart = await Order.create({status: 'cart'})
+    user.addOrder(newCart)
 
 
-  // }
+  }
 
 }
 
