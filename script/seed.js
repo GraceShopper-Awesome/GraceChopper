@@ -136,14 +136,12 @@ async function seed() {
   //Create fully linked cart/ orders with User, product and orderItem associations for testing
   const cartUser = await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
   const cart = await Order.create({status: 'cart'})
+  await orderSeeder(cart)
 
   cartUser.setOrders(cart).then(() => {
   })
 
-  let product = await Product.create({
-    title: 'product1', price: 69,
-    stock: 12, description: faker.lorem.paragraph()
-  })
+
 
   const completedOrderUser = await User.create({email: 'CompOrderUser@gmail.com', password: 'pass', userType: 'normal'})
   const order1 = await Order.create({status: 'created'})
@@ -153,8 +151,8 @@ async function seed() {
   completedOrderUser.setOrders([order1, order2]).then(() => {
   })
 
-  await createdOrderSeeder(order1)
- await  createdOrderSeeder(order2)
+  await orderSeeder(order1)
+ await  orderSeeder(order2)
 
 
 
@@ -242,7 +240,7 @@ async function runSeed() {
   }
 }
 
-async function createdOrderSeeder(order) {
+async function orderSeeder(order) {
   for (let i = 0; i < 20; i++) {
     let product = await Product.create({
       title: faker.commerce.productName(), price: faker.commerce.price(),
