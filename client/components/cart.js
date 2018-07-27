@@ -1,12 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
-import { products } from '../store'
+import { Link, withRouter } from 'react-router-dom'
+import { products, getCart } from '../store'
 
 
 class Cart extends React.Component {
-    componentDidMount() {
-        this.props.getProduct()
+    async componentDidMount() {
+        await this.props.getProduct()
+        await this.props.getFromCart(this.props.match.params.id)
         this.handleChange= this.handleChange.bind(this)
         this.handleRemove= this.handleRemove.bind(this)
     }
@@ -20,9 +21,10 @@ class Cart extends React.Component {
     }
 
     render(){
-        console.log("This.props", this.props)
-        const {user} = this.props
+
+        const {user, cart} = this.props
         const {email} = user
+        console.log(cart)
         let username;
         if(email){
             username = email.slice(0,email.indexOf("@"))
@@ -56,7 +58,8 @@ class Cart extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+    console.log("ownProps", ownProps)
     return {
       cart: state.cart,
       product: state.products.products,
@@ -65,7 +68,10 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => {
-    return  {getProduct : () => dispatch(products())}
+    return  {
+        getProduct : () => dispatch(products()),
+        getFromCart : (id) => dispatch(getCart(id))
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart))
