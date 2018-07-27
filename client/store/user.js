@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+// const GET_ALL_USERS_FROM_SERVER = 'GET_ALL_USERS_FROM_SERVER'
 
 /**
  * INITIAL STATE
@@ -17,6 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+// const getAllUsersFromServer = () => ({type: GET_ALL_USERS_FROM_SERVER})
 
 /**
  * THUNK CREATORS
