@@ -11,6 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+
 router.post('/', async (req, res, next) => {
   try {
     const newCategory = await Category.create(req.body)
@@ -19,6 +20,7 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
 
 router.delete('/:id', async (req, res, next) => {
   try {
