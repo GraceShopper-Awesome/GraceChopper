@@ -45,7 +45,7 @@ class Routes extends Component {
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
         <Route path="/admin/categories" component={AdminAddCategory} />
-        <Route path="/cart" component={Cart} />
+        <Route path="/cart/:id" component={Cart} />
         <Route path="/checkout" component={Checkout} />
         {isLoggedIn && (
           <Switch>
