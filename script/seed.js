@@ -134,7 +134,7 @@ async function seed() {
 
 
   //Create fully linked cart/ orders with User, product and orderItem associations for testing
-  const cartUser = await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
+  const cartUser = await User.create({email: 'cartUser@user.com', password: 'pass', userType: 'normal'})
   const cart = await Order.create({status: 'cart'})
   await orderSeeder(cart)
 
@@ -143,7 +143,7 @@ async function seed() {
 
 
 
-  const completedOrderUser = await User.create({email: 'CompOrderUser@gmail.com', password: 'pass', userType: 'normal'})
+  const completedOrderUser = await User.create({email: 'CompOrderUser@user.com', password: 'pass', userType: 'normal'})
   const order1 = await Order.create({status: 'created'})
   const order2 = await Order.create({status: 'completed'})
 
