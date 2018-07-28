@@ -15,6 +15,20 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
+router.get('/availableproducts', async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        available: true
+      },
+      include: [Category]
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:productId', async (req, res, next) => {
   try {
     const product = await Product.findAll({
@@ -59,6 +73,22 @@ router.post('/admin/add', async (req, res, next) => {
     const newProductCategories = await newProduct.addCategories(categoriesArr)
     res.json(newProduct)
   } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/admin/available/:productId', async (req, res, next) => {
+  try{
+    const [numberOfAffectedRow, affectedRows] = await Product.update({
+      available: req.body.available
+    },
+    {
+      where: {id: req.params.productId},
+      returning: true,
+      plain: true
+    })
+    res.json(affectedRows)
+  } catch(err) {
     next(err)
   }
 })
