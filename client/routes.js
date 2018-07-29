@@ -8,6 +8,7 @@ import {
   UserHome,
   ProductAll,
   ProductSingle,
+  ProductSearchResults,
   AdminHome,
   AdminAddProduct,
   AdminEditProduct,
@@ -38,6 +39,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/allproducts" component={ProductAll} />
         <Route path="/products/:id" component={ProductSingle} />
+        <Route path="/products/results" component={ProductSearchResults} />
         <Route exact path="/admin" component={AdminHome} />
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/products/add" component={AdminAddProduct} />
@@ -69,7 +71,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
-    isAdmin: state.user.userType === "admin" ? true : false
+    isAdmin: state.user.userType === 'admin' ? true : false
   }
 }
 

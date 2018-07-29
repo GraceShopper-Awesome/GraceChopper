@@ -7,6 +7,7 @@ const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
+const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
 
 /**
  * INITIAL STATE
@@ -23,6 +24,7 @@ const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
+const getSearchResults = products => ({type: GET_SEARCH_RESULTS, products})
 
 /**
  * THUNK CREATORS
@@ -45,9 +47,15 @@ export const singleProduct = id => async dispatch => {
   }
 }
 
-export const addNewProduct = (productAndCategories, history) => async dispatch => {
+export const addNewProduct = (
+  productAndCategories,
+  history
+) => async dispatch => {
   try {
-    const res = await axios.post('/api/products/admin/add', productAndCategories)
+    const res = await axios.post(
+      '/api/products/admin/add',
+      productAndCategories
+    )
     dispatch(addProduct(res.data))
     history.push(`/products/${res.data.id}`)
   } catch (err) {
@@ -55,12 +63,28 @@ export const addNewProduct = (productAndCategories, history) => async dispatch =
   }
 }
 
-export const editProduct = (productAndCategories, history) => async dispatch => {
+export const editProduct = (
+  productAndCategories,
+  history
+) => async dispatch => {
   try {
-
-    const res = await axios.put(`/api/products/admin/${productAndCategories.id}`, productAndCategories)
+    const res = await axios.put(
+      `/api/products/admin/${productAndCategories.id}`,
+      productAndCategories
+    )
     dispatch(getEditedProduct(res.data))
     history.push(`/admin/products`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const searchProducts = (text, history) => async dispatch => {
+  try {
+    console.log('text', text)
+    const res = await axios.get(`/api/products/search?term=${text}`)
+    dispatch(getSearchResults(res.data))
+    history.push('/products/results')
   } catch (err) {
     console.error(err)
   }
@@ -96,6 +120,11 @@ export default function(state = defaultProducts, action) {
       return {
         ...state,
         products: updatedProducts
+      }
+    case GET_SEARCH_RESULTS:
+      return {
+        ...state,
+        products: action.products
       }
     default:
       return state

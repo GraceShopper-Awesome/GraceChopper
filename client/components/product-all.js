@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {products} from '../store/products'
+import {products, searchProducts} from '../store/products'
 import {Link} from 'react-router-dom'
 import Sidebar from './sidebar'
 
@@ -9,7 +9,13 @@ class ProductAll extends React.Component {
     this.props.fetchProducts()
   }
 
+  // handleSearch = event => {
+  //   event.preventDefault()
+  //   this.props.search(event.target.search.value)
+  // }
+
   render() {
+    const {handleSubmit} = this.props
     if (!this.props.products.length) {
       console.log(this.props)
       return <h1>Loading</h1>
@@ -31,6 +37,17 @@ class ProductAll extends React.Component {
       return (
         <div id="container">
           <Sidebar />
+          <form className="searchBar" onSubmit={event => handleSubmit(event)}>
+            <input
+              type="text"
+              id="search"
+              name="search"
+              placeholder="Search for product"
+            />
+            <button type="submit" id="searchButton">
+              Search
+            </button>
+          </form>
           {visibleProducts.map(elements => (
             <div key={elements.id} id="singleProd">
               <div id="maininfo">
@@ -59,10 +76,17 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchProducts: () => {
-    dispatch(products())
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    handleSearch(event) {
+      event.preventDefault()
+      dispatch(searchProducts(event.target.search.value, ownProps.history))
+    },
+    fetchProducts: () => {
+      dispatch(products())
+    }
+    // search: text => dispatch(searchProducts(text))
   }
-})
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductAll)
