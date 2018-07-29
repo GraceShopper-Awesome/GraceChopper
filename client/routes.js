@@ -13,6 +13,7 @@ import {
   AdminEditProduct,
   AdminProducts,
   AdminOrders,
+  AdminEditOrder,
   AdminUsers,
   AdminAddCategory,
   Cart,
@@ -43,6 +44,7 @@ class Routes extends Component {
         <Route path="/admin/products/add" component={AdminAddProduct} />
         <Route path="/admin/products/:id" component={AdminEditProduct} />
         <Route path="/admin/orders" component={AdminOrders} />
+        <Route path="/admin/orders/:id" component={AdminEditOrder} />
         <Route path="/admin/users" component={AdminUsers} />
         <Route path="/admin/categories" component={AdminAddCategory} />
         <Route path="/cart/:id" component={Cart} />
