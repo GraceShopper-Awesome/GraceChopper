@@ -2,8 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const OrderItem = require('./orderItem')
 const Product = require('./product')
-const User = require('./user')
-
 
 const Order = db.define('order', {
   status: {
@@ -21,40 +19,31 @@ const Order = db.define('order', {
 //
 // }
 
-
-/*
-this method is invoked when a cart is purchased and turned into an order
-it updates the carts status to created, meaning it is now a past order
-it maps thru orderItems and sets the fixedPrice field on each orderItem to the current price of the product
-it updates the product's stock to decrease by the quantity purchased
-it creates a new cart instance for the user and associates it
- */
-
+//this method is invoked when a cart is purchased and turned into an order
+//it updates the carts status to
 Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
   //sanity check that this method only runs on carts
-  if (cartWithOrderItems.status === 'cart') {
+
+  // if (cartWithOrderItems.status ==='cart'){
 
 
-    cartWithOrderItems.update({status: 'created'})
-    const user = await User.findOne({where: {id: cartWithOrderItems.userId}})
-    console.log('orderId', cartWithOrderItems.dataValues.id)
+  cartWithOrderItems.update({status: 'created'})
+  const user = await User.findOne({where: {id: cartWithOrderItems.userId}})
+  console.log('orderId', cartWithOrderItems.dataValues.id)
 
-    cartWithOrderItems.orderItems.map(async (orderItem) => {
-      console.log('orderItemId', orderItem.dataValues.id)
-      console.log('productId', orderItem.dataValues.productId)
+  cartWithOrderItems.orderItems.map(async (orderItem) => {
+    console.log('orderItemId', orderItem.dataValues.id)
+    console.log('productId', orderItem.dataValues.productId)
 
-      const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
-      await curProduct.update({stock: curProduct.stock - orderItem.quantity})
-      await orderItem.update({fixedPrice: curProduct.price})
-
-
-    })
-
-    const newCart = await Order.create({status: 'cart'})
-    user.addOrder(newCart)
+    const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
+    await curProduct.update({stock: curProduct.stock - orderItem.quantity})
+    await orderItem.update({fixedPrice: curProduct.price})
 
 
-  }
+  })
+
+
+  // }
 
 }
 
