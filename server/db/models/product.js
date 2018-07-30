@@ -32,7 +32,7 @@ const Product = db.define('product', {
   },
   available: {
     type: Sequelize.BOOLEAN,
-    default: true
+    defaultValue: true
 
   },
   imageUrl: {

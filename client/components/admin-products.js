@@ -1,5 +1,5 @@
 import React from 'react'
-import {products} from '../store/products'
+import {products, setProductAvailabilityOnServer} from '../store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
@@ -20,6 +20,13 @@ class AdminProducts extends React.Component {
 
   handleNewCategory() {
     this.props.history.push('/admin/categories')
+  }
+
+  handleAvailabilityChange = event => {
+    const {target} = event
+    this.props.availability(+target.value, target.checked)
+    console.log("something changed?", target.value, target.checked)
+    //do i need to update the component to reflect the store?
   }
 
   render() {
@@ -45,6 +52,10 @@ class AdminProducts extends React.Component {
                 <h3>{elements.stock} in stock</h3>
                 {elements.imageUrl &&
                   elements.imageUrl && <img src={elements.imageUrl[0]} />}
+                  <div>
+                    <label>isAvailable?</label>
+                    <input type="checkbox" value={elements.id} defaultChecked={elements.available} onChange={event => this.handleAvailabilityChange(event)}/>
+                  </div>
               </div>
             ))}
           </div>
@@ -63,6 +74,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   fetchProducts: () => {
     dispatch(products())
+  },
+  availability: (id, flag) => {
+    dispatch(setProductAvailabilityOnServer(id, flag))
   }
 })
 

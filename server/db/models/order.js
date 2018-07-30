@@ -43,8 +43,6 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
   })
 
 
-
-
   // }
 
 }
@@ -74,6 +72,17 @@ Order.prototype.customAddProduct = async function(product, amt) {
 
   return orderItem
 
+}
+
+//gets all the order items assoicated with a particular order id
+Order.prototype.getOrderItems = async function() {
+  const res = await OrderItem.findAll({
+    where: {
+      orderId: this.id
+    },
+    include: [Product]
+  })
+  return res.data
 }
 
 

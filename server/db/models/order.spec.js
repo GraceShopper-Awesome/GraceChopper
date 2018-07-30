@@ -6,7 +6,7 @@ const faker = require('faker')
 // const Order = db.model('order')
 
 
-describe.only('Order', function() {
+describe('Order', function() {
 
   // clear the database before all tests
   before(() => {
@@ -46,7 +46,7 @@ describe.only('Order', function() {
   //
   //   });
 
-  describe('Instance methods', function() {
+  xdescribe('Instance methods', function() {
 
 
     describe('customAddProduct', function() {

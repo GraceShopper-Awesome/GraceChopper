@@ -5,12 +5,14 @@ const Sequelize = require('sequelize')
 
 const Op = Sequelize.Op
 
-//send all products in a given order to client
+//send all products in a given user to client
 router.get('/:userId', async (req, res, next) => {
   try {
     // let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
+
     let order = await Order.findOne({where: {userId: req.params.userId, status: "cart"}})
     let orderItems = await OrderItem.findAll({where: {orderId : order.id}, include: [Product]})
+
     res.json(orderItems)
   } catch (err) {
     next(err)
@@ -19,15 +21,15 @@ router.get('/:userId', async (req, res, next) => {
 
 
 //remove a product from an order
-router.delete('/:orderId', async (req, res, next) => {
+router.delete('/:userId', async (req, res, next) => {
 
   try {
-    console.log("req.params.orderId", req.params.orderId)
+
     let orderItem = await OrderItem.findOne({
       where: {id: req.params.orderId}})
-      
-      console.log("HIIIIIIII", orderItem)
+
     orderItem.destroy()
+
 
     res.send(200)
   } catch (err) {
@@ -38,12 +40,12 @@ router.delete('/:orderId', async (req, res, next) => {
 
 
 //changing quantity of a product in a given order or adding a product to an order
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
 
   try {
-    let orderItem = await OrderItem.findOne({where: {orderId: req.params.orderId, productId: req.body.productId}})
-    orderItem.update({quantity: req.body.quantity})
-
+    let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
+    let product = await Product.findOne({where: {id: req.body.productId}})
+    cart.customAddProduct(product, req.body.quantity)
 
     res.send(200)
   } catch (err) {
@@ -53,11 +55,12 @@ router.put('/:orderId', async (req, res, next) => {
 })
 
 
-//checkout a cart which sets fixed price on its OrderItems, changes its status to an order and creates a new db cart instance for the given user
-router.post('/:orderId', async (req, res, next) => {
+//purchase a cart and runs db changes associated
+//see changeCartToOrder for documentation
+router.post('/:userId', async (req, res, next) => {
 
   try {
-    let cart = await Order.findOne({where: {id: req.params.orderId}, include :[OrderItem]})
+    let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
     cart.changeCartToOrder(cart)
 
 
