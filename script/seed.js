@@ -153,7 +153,7 @@ async function seed() {
   const cart = await Order.create({status: 'cart'})
   await orderSeeder(cart)
 
-  cartUser.setOrders(cart).then(() => {})
+  await cartUser.setOrders(cart).then(() => {})
 
   let product = await Product.create({
     title: 'product1',
@@ -171,10 +171,10 @@ async function seed() {
   const order1 = await Order.create({status: 'created'})
   const order2 = await Order.create({status: 'completed'})
 
-  completedOrderUser.setOrders([order1, order2]).then(() => {})
+  await completedOrderUser.setOrders([order1, order2]).then(() => {})
 
-  await createdOrderSeeder(order1)
-  await createdOrderSeeder(order2)
+  await orderSeeder(order1)
+  await orderSeeder(order2)
 
 
   //create product assoc

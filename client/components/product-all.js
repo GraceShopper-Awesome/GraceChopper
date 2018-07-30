@@ -11,7 +11,7 @@ class ProductAll extends React.Component {
 
   render() {
     const {handleSearch} = this.props
-    if (!this.props.products.length) {
+    if (!this.props.products) {
       return <h1>Loading</h1>
     } else {
       const {activeCategories} = this.props
@@ -27,7 +27,6 @@ class ProductAll extends React.Component {
           })
         })
       }
-      console.log('this.props', this.props)
       return (
         <div id="container">
           <Sidebar />

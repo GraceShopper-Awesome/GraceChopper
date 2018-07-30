@@ -23,14 +23,15 @@ class ProductAddReview extends React.Component {
   }
 
   render() {
+    console.log("props", this.props.product.imageUrl)
     if (!this.props.user.id) {
       return <h1>Please sign in or sign up to leave a product review</h1>
     } else {
       console.log('this.props.user.id', this.props.user.id)
       return (
         <div>
-          <h2>Leave a review for: {this.props.product[0].title}</h2>
-          <img src={this.props.product[0].imageUrl[0]} />
+          <h2>Leave a review for: {this.props.product.title}</h2>
+          <img src={this.props.product.imageUrl[0]} />
           <div>
             <form onSubmit={this.handleSubmit}>
               {/* <label htmlFor="title"></label> */}

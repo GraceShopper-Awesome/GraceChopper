@@ -64,6 +64,7 @@ class ProductSingle extends React.Component {
             </button>
             <div className="reviewList">
               <table>
+                <tbody>
                 <tr>
                   <th>Rating</th>
                   <th>Review</th>
@@ -74,6 +75,7 @@ class ProductSingle extends React.Component {
                     <td>{el.content}</td>
                   </tr>
                 ))}
+                </tbody>
               </table>
             </div>
           </div>
