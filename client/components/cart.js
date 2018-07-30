@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { products, getCart, removeCartItem } from '../store'
+import { products, getCart, removeCartItem, addCartItem } from '../store'
 
 
 class Cart extends React.Component {
@@ -17,8 +17,6 @@ class Cart extends React.Component {
         await this.props.getProduct()
         await this.props.getFromCart(this.props.match.params.id)
     }
-
-
 
     handleButton(evt){
         evt.preventDefault()
@@ -58,12 +56,16 @@ class Cart extends React.Component {
                         <div id="itemText">
                             <h2>{element.product.title}</h2>
                             <h2>${element.product.price}</h2>
-                            <form onSubmit={this.handleButton}>
-                            {/* max is quantity, default value is 1 or previous quantity*/}
+                            <div id="quantity">
+                            <h4>Quantity: {element.quantity}</h4>
+                            <button><h3>-</h3></button>
+                            <button><h3>+</h3></button>
+                            </div>
+                            {/* <form onSubmit={this.handleButton}>
                                 <label htmlFor="quantity">Quantity: {element.quantity}</label>
                                 <input type="number" name="quantity"  defaultValue={element.quantity} min="1" max={element.product.stock} onChange={this.handleChange}/>
                                 <button type="submit" >Change</button>
-                            </form>
+                            </form> */}
                         </div>
                             <p>{element.product.description}</p>
                             <button onClick={this.handleRemove} value={element.id}>Remove From Cart</button>
@@ -89,7 +91,9 @@ const mapDispatchToProps = dispatch => {
     return  {
         getProduct : () => dispatch(products()),
         getFromCart : (id) => dispatch(getCart(id)),
-        removeFromCart : (id) => dispatch(removeCartItem(id))
+        removeFromCart : (id) => dispatch(removeCartItem(id)),
+        addAProduct: (userId ,productId, quantity) => dispatch(addCartItem(userId, productId, quantity))
+        
     }
 }
 

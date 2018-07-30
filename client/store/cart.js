@@ -16,7 +16,7 @@ const defaultCart = []
 /**
  * ACTION CREATORS
  */
-export const addToCart = product => ({type: ADD_TO_CART, product})
+const addToCart = product => ({type: ADD_TO_CART, product})
 const removeFromCart = product => ({type: REMOVE_FROM_CART, product})
 const editCart = product => ({type: EDIT_CART, product})
 const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products}) 
@@ -37,9 +37,12 @@ export const getCart = (id) => async dispatch => {
   }
 }
 
-export const addCartItem = (orderId, userId, quantity) => async dispatch => {
+export const addCartItem = (userId, productId, quantity) => async dispatch => {
   try{
-    const res = await axios.put(`/api/cart/${id}`, {})
+     console.log(userId, productId, quantity)
+    const res = await axios.put(`/api/cart/`, {userId, productId, quantity})
+    
+    dispatch(addToCart(res.data[0]))
   } catch(error){
     console.log(error)
   }
@@ -60,10 +63,9 @@ export const removeCartItem = (id) => async dispatch => {
 export default function(state = defaultCart, action) {
   switch (action.type) {
     case GET_ALL_CART_PRODUCTS:
-      console.log(action)
       return action.products
     case ADD_TO_CART:
-      return [...state, {id: action.product.id, }]
+      return [...state, action.product]
     default:
       return state
   }
