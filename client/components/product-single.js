@@ -20,7 +20,18 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-    const {title, description, price, imageUrl, stock, id} = this.props.product
+    if (!this.props.product.length) {
+      return <h1>Loading</h1>
+    }
+    else {
+    const {
+      title,
+      description,
+      price,
+      imageUrl,
+      stock,
+      id
+    } = this.props.product[0]
     return (
       <div>
         <div id="productSingle">
@@ -33,6 +44,7 @@ class ProductSingle extends React.Component {
         <button type="button" onClick={evt => this.handleClick(evt)}>ADD TO CART!</button>
       </div>
     )
+  }
   }
 }
 
