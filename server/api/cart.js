@@ -73,6 +73,16 @@ router.put('/decrement/:userId', async (req, res, next) => {
 
 })
 
+router.put('/', async (req, res, next) => {
+    try {
+    let cart = await Order.findOrCreate({where: {userId: req.body.userId, status:"cart"}})
+    let orderitem  = await OrderItem.findOrCreate({where: {orderId: cart[0].dataValues.id, productId: req.body.productId}, include: [Product]})
+    await orderitem[0].update({quantity: req.body.quantity})
+    res.send(orderitem)
+    } catch(error){
+        console.log(error) 
+    }
+
 
 //checkout a cart which sets fixed price on its OrderItems, changes its status to an order and creates a new db cart instance for the given user
 router.post('/:orderId', async (req, res, next) => {
