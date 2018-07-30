@@ -9,13 +9,8 @@ class ProductAll extends React.Component {
     this.props.fetchProducts()
   }
 
-  // handleSearch = event => {
-  //   event.preventDefault()
-  //   this.props.search(event.target.search.value)
-  // }
-
   render() {
-    const {handleSubmit} = this.props
+    const {handleSearch} = this.props
     if (!this.props.products.length) {
       console.log(this.props)
       return <h1>Loading</h1>
@@ -37,7 +32,7 @@ class ProductAll extends React.Component {
       return (
         <div id="container">
           <Sidebar />
-          <form className="searchBar" onSubmit={event => handleSubmit(event)}>
+          <form className="searchBar" onSubmit={event => handleSearch(event)}>
             <input
               type="text"
               id="search"
@@ -85,7 +80,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchProducts: () => {
       dispatch(products())
     }
-    // search: text => dispatch(searchProducts(text))
   }
 }
 

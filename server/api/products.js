@@ -19,11 +19,11 @@ router.get('/search', async (req, res, next) => {
   //search in the bar as /search?term='searchKey'
   //separate spaces using '%'
   try {
-    console.log('req.query', req.query)
+    console.log('in search')
     const products = await Product.findAll({
       where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
     })
-    console.log('products', products)
+    console.log('search products', products)
     res.json(products)
   } catch (err) {
     next(err)
@@ -47,8 +47,6 @@ router.get('/:productId', async (req, res, next) => {
 // ADMIN ACCOUNT ONLY
 router.post('/admin/add', async (req, res, next) => {
   try {
-    // console.log('req.body.imageUrl', req.body.imageUrl)
-    console.log(req.body)
     const {title, description, price, stock, imageUrl, categories} = req.body
     const newProduct = await Product.create({
       title,
@@ -71,7 +69,6 @@ router.post('/admin/add', async (req, res, next) => {
 })
 
 router.put('/admin/:productId', async (req, res, next) => {
-  console.log('req.body', req.body)
   try {
     const [numberOfAffectedRow, affectedRows] = await Product.update(
       {

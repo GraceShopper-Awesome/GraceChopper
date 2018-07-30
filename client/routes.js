@@ -7,6 +7,7 @@ import {
   Signup,
   UserHome,
   ProductAll,
+  ProductAddReview,
   ProductSingle,
   ProductSearchResults,
   AdminHome,
@@ -37,9 +38,10 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/allproducts" component={ProductAll} />
+        <Route exact path="/allproducts" component={ProductAll} />
+        <Route path="/allproducts/results" component={ProductSearchResults} />
         <Route path="/products/:id" component={ProductSingle} />
-        <Route path="/products/results" component={ProductSearchResults} />
+        <Route path="/products/:id/review" component={ProductAddReview} />
         <Route exact path="/admin" component={AdminHome} />
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/products/add" component={AdminAddProduct} />

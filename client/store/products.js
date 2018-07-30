@@ -14,7 +14,11 @@ const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
  */
 const defaultProducts = {
   products: [],
-  product: {}
+  product: {},
+  searchResults: {
+    searchTerm: '',
+    results: []
+  }
 }
 
 /**
@@ -24,7 +28,10 @@ const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
-const getSearchResults = products => ({type: GET_SEARCH_RESULTS, products})
+const getSearchResults = searchResults => ({
+  type: GET_SEARCH_RESULTS,
+  searchResults
+})
 
 /**
  * THUNK CREATORS
@@ -83,8 +90,12 @@ export const searchProducts = (text, history) => async dispatch => {
   try {
     console.log('text', text)
     const res = await axios.get(`/api/products/search?term=${text}`)
-    dispatch(getSearchResults(res.data))
-    history.push('/products/results')
+    const action = {
+      searchTerm: text,
+      results: res.data
+    }
+    dispatch(getSearchResults(action))
+    history.push('/allproducts/results')
   } catch (err) {
     console.error(err)
   }
@@ -124,7 +135,7 @@ export default function(state = defaultProducts, action) {
     case GET_SEARCH_RESULTS:
       return {
         ...state,
-        products: action.products
+        searchResults: action.searchResults
       }
     default:
       return state
