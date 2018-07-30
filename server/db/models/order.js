@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const OrderItem = require('./orderItem')
 const Product = require('./product')
-const User = require ('./user')
+const User = require('./user')
 
 const Order = db.define('order', {
   status: {
@@ -45,6 +45,18 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
 
 
   // }
+
+}
+
+Order.prototype.incrementQuantity = async function(product) {
+  let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
+  await orderItem.incrementQuantity()
+
+}
+
+Order.prototype.decrementQuantity = async function(product) {
+  let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
+  await orderItem.decrementQuantity()
 
 }
 
