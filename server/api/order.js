@@ -43,6 +43,7 @@ router.put('/:orderId', async (req, res, next) => {
 
   try {
     const order = await Order.findOne({where: {id: req.params.orderId}})
+    console.log("STUFF:", req.body.status)
     await    order.update({status: req.body.status})
 
 

@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const OrderItem = require('./orderItem')
 const Product = require('./product')
+const User = require ('./user')
 
 const Order = db.define('order', {
   status: {

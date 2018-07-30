@@ -5,7 +5,6 @@ import {singleProduct, addCartItem, getCart} from '../store'
 class ProductSingle extends React.Component {
   constructor(props) {
     super(props)
-
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -24,29 +23,29 @@ class ProductSingle extends React.Component {
   render() {
     if (!this.props.product.length) {
       return <h1>Loading</h1>
-    }
-    else {
-    const {
-      title,
-      description,
-      price,
-      imageUrl,
-      stock,
-      id
-    } = this.props.product[0]
-    return (
-      <div>
-        <div id="productSingle">
-          <h1>Product Name: {title}</h1>
-          <p>Description: {description}</p>
-          <h2>Price: {price}</h2>
-          <h3>Stock: {stock}</h3>
-          {imageUrl && imageUrl.length && imageUrl.map(el => <img key={id} src={el} />)}
+    } else {
+      const {
+        title,
+        description,
+        price,
+        imageUrl,
+        stock,
+        id
+      } = this.props.product[0]
+      return (
+        <div>
+          <div id="productSingle">
+            <h1>Product Name: {title}</h1>
+            <p>Description: {description}</p>
+            <h2>Price: {price}</h2>
+            <h3>Stock: {stock}</h3>
+            {imageUrl &&
+              imageUrl.length &&
+              imageUrl.map(el => <img key={id} src={el} />)}
+          </div>
         </div>
-        <button type="button" onClick={evt => this.handleClick(evt)}>ADD TO CART!</button>
-      </div>
-    )
-  }
+      )
+    }
   }
 }
 
