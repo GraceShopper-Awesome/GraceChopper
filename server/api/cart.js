@@ -80,10 +80,10 @@ router.put('/', async (req, res, next) => {
     await orderitem[0].update({quantity: req.body.quantity})
     res.send(orderitem)
     } catch(error){
-        console.log(error) 
+        console.log(error)
     }
 
-
+})
 //checkout a cart which sets fixed price on its OrderItems, changes its status to an order and creates a new db cart instance for the given user
 router.post('/:orderId', async (req, res, next) => {
 
