@@ -30,6 +30,7 @@ router.delete('/:orderId', async (req, res, next) => {
 
     orderItem.destroy()
 
+
     res.send(200)
   } catch (err) {
     next(err)
@@ -49,6 +50,7 @@ router.put('/increment/:userId', async (req, res, next) => {
     await cart.incrementQuantity(product)
 
     res.send(200)
+
   } catch (err) {
     next(err)
   }
@@ -77,6 +79,7 @@ router.post('/:orderId', async (req, res, next) => {
 
   try {
     let cart = await Order.findOne({where: {id: req.params.orderId}, include: [OrderItem]})
+
     cart.changeCartToOrder(cart)
 
 

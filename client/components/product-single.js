@@ -1,13 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {singleProduct, addToCart} from '../store'
+import {singleProduct, addCartItem, getCart} from '../store'
 
 class ProductSingle extends React.Component {
   constructor(props) {
     super(props)
-
     this.handleClick = this.handleClick.bind(this)
-    // this.handleReview = this.handleReview.bind(this)
   }
 
   componentDidMount() {
@@ -15,36 +13,39 @@ class ProductSingle extends React.Component {
     this.props.getProduct(id)
   }
 
-  handleClick(evt) {
+  async handleClick(evt) {
     evt.preventDefault()
-    this.props.addAProduct(this.props.product)
+    await this.props.addAProduct(this.props.user.id, this.props.product[0].id, 1)
+    await this.props.getFromCart(this.props.user.id)
+
   }
 
   render() {
     if (!this.props.product.length) {
       return <h1>Loading</h1>
-    }
-    else {
-    const {
-      title,
-      description,
-      price,
-      imageUrl,
-      stock,
-      id
-    } = this.props.product[0]
-    return (
-      <div>
-        <div id="productSingle">
-          <h1>Product Name: {title}</h1>
-          <p>Description: {description}</p>
-          <h2>Price: {price}</h2>
-          <h3>Stock: {stock}</h3>
-          {imageUrl && imageUrl.length && imageUrl.map(el => <img key={id} src={el} />)}
+    } else {
+      const {
+        title,
+        description,
+        price,
+        imageUrl,
+        stock,
+        id
+      } = this.props.product[0]
+      return (
+        <div>
+          <div id="productSingle">
+            <h1>Product Name: {title}</h1>
+            <p>Description: {description}</p>
+            <h2>Price: {price}</h2>
+            <h3>Stock: {stock}</h3>
+            {imageUrl &&
+              imageUrl.length &&
+              imageUrl.map(el => <img key={id} src={el} />)}
+          </div>
         </div>
       )
     }
-  }
   }
 }
 
@@ -53,6 +54,7 @@ class ProductSingle extends React.Component {
  */
 const mapState = state => {
   return {
+    user: state.user,
     product: state.products.product
   }
 }
@@ -60,7 +62,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getProduct: id => dispatch(singleProduct(id)),
-    addAProduct: product => dispatch(addToCart(product))
+    addAProduct: (userId ,productId, quantity) => dispatch(addCartItem(userId, productId, quantity)),
+    getFromCart: (id) => dispatch(getCart(id))
   }
 }
 

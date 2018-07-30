@@ -4,113 +4,115 @@ import axios from 'axios'
  * Action Types
  */
 
- const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
- const GET_ALL_ORDER_ITEMS = 'GET_ALL_ORDER_ITEMS'
- const GET_SINGLE_ORDER_ITEMS = 'GET_SINGLE_ORDER_ITEMS'
- const EDIT_ORDER_STATUS = 'EDIT_ORDER_STATUS'
+const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
+const GET_ALL_ORDER_ITEMS = 'GET_ALL_ORDER_ITEMS'
+const GET_SINGLE_ORDER_ITEMS = 'GET_SINGLE_ORDER_ITEMS'
+const EDIT_ORDER_STATUS = 'EDIT_ORDER_STATUS'
 
 /**
-* ACTION CREATORS
-*/
+ * ACTION CREATORS
+ */
 const getAllOrders = orders => {
-	return {
-		type: GET_ALL_ORDERS,
-		orders
-	}
+  return {
+    type: GET_ALL_ORDERS,
+    orders
+  }
 }
 const getAllOrderItems = orderItems => {
-	return {
-		type: GET_ALL_ORDER_ITEMS,
-		orderItems
-	}
+  return {
+    type: GET_ALL_ORDER_ITEMS,
+    orderItems
+  }
 }
 const getSingleOrderItems = items => {
-	return {
-		type: GET_SINGLE_ORDER_ITEMS,
-		items
-	}
+  return {
+    type: GET_SINGLE_ORDER_ITEMS,
+    items
+  }
 }
 const editOrderStatus = status => {
-	return {
-		type: EDIT_ORDER_STATUS,
-		status
-	}
+  return {
+    type: EDIT_ORDER_STATUS,
+    status
+  }
 }
 /**
-* THUNK CREATORS
-*/
+ * THUNK CREATORS
+ */
 export const fetchAllOrders = () => async dispatch => {
-	try{
-		const res = await axios.get('/api/orders/')
-		dispatch(getAllOrders(res.data))
-	} catch (err) {
-		console.error(err)
-	}
+  try {
+    const res = await axios.get('/api/orders/')
+    dispatch(getAllOrders(res.data))
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 export const fetchAllOrderItems = () => async dispatch => {
-	try{
-		const res = await axios.get('/api/orders/all')
-		dispatch(getAllOrderItems(res.data))
-	} catch (err) {
-		console.error(err)
-	}
+  try {
+    const res = await axios.get('/api/orders/all')
+    dispatch(getAllOrderItems(res.data))
+  } catch (err) {
+    console.error(err)
+  }
 }
+
 export const fetchSingleOrderItems = id => async dispatch => {
-	try {
-		const res = await axios.get(`/api/orders/${id}`)
-		dispatch(getSingleOrderItems(res.data))
-		dispatch(editOrderStatus(res.data[0].order.status))
-	} catch(err) {
-		console.error(err)
-	}
+  try {
+    const res = await axios.get(`/api/orders/${id}`)
+    dispatch(getSingleOrderItems(res.data))
+    dispatch(editOrderStatus(res.data[0].order.status))
+  } catch (err) {
+    console.error(err)
+  }
 }
+
 export const changeOrderStatus = (status, orderId) => async dispatch => {
-	try {
-		const res = await axios.put(`/api/orders/${orderId}`, {status: status})
-		dispatch(editOrderStatus(status))
-	} catch(err) {
-		console.error(err)
-	}
+  try {
+    const res = await axios.put(`/api/orders/${orderId}`, {status: status})
+    dispatch(editOrderStatus(status))
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 /**
-* INITIAL STATE
-*/
+ * INITIAL STATE
+ */
 
 const defaultOrders = {
-	all: [],
-	allItems: [],
-	singleOrderItems: [],
-	status: 'completed'
+  all: [],
+  allItems: [],
+  singleOrderItems: [],
+  status: 'completed'
 }
 
 /**
  * REDUCER
  */
 export default function(state = defaultOrders, action) {
-	switch(action.type) {
-		case GET_ALL_ORDERS:
-			return {
-				...state,
-				all: action.orders
-			}
-		case GET_ALL_ORDER_ITEMS:
-			return {
-				...state,
-				allItems: action.orderItems,
-			}
-		case GET_SINGLE_ORDER_ITEMS:
-			return {
-				...state,
-				items: action.items
-			}
-		case EDIT_ORDER_STATUS:
-			return {
-				...state,
-				status: action.status
-			}
-		default:
-			return state
-	}
+  switch (action.type) {
+    case GET_ALL_ORDERS:
+      return {
+        ...state,
+        all: action.orders
+      }
+    case GET_ALL_ORDER_ITEMS:
+      return {
+        ...state,
+        allItems: action.orderItems
+      }
+    case GET_SINGLE_ORDER_ITEMS:
+      return {
+        ...state,
+        items: action.items
+      }
+    case EDIT_ORDER_STATUS:
+      return {
+        ...state,
+        status: action.status
+      }
+    default:
+      return state
+  }
 }
