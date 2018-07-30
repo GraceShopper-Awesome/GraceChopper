@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchAllOrders} from '../store'
 import {Link} from 'react-router-dom'
 
-class AdminOrders extends React.Component {
+export class AdminOrders extends React.Component {
   componentDidMount() {
     this.props.fetchOrders();
   }
