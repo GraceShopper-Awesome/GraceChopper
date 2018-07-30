@@ -38,5 +38,6 @@ describe('Product routes', () => {
       expect(res.body[0].title).to.be.equal(deskTitle)
       expect(res.body[0].price).to.be.equal(deskPrice)
     })
+
   }) // end describe('/api/products')
 }) // end describe('Product routes')

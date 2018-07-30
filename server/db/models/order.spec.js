@@ -6,6 +6,7 @@ const faker = require('faker')
 // const Order = db.model('order')
 
 describe('Order', function() {
+
   // clear the database before all tests
   before(() => {
     return db.sync({force: true})
@@ -44,7 +45,9 @@ describe('Order', function() {
   //
   //   });
 
-  describe('Instance methods', function() {
+//   describe('Instance methods', function() {
+  xdescribe('Instance methods', function() {
+
     describe('customAddProduct', function() {
       let orderItem
       let product

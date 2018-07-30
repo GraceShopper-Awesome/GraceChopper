@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {products, searchProducts} from '../store/products'
+import {fetchAvailableProducts} from '../store/products'
 import {Link} from 'react-router-dom'
 import Sidebar from './sidebar'
 
@@ -66,7 +67,7 @@ class ProductAll extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products.products,
+    products: state.products.availableProducts,
     activeCategories: state.categories.active
   }
 }
@@ -78,7 +79,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(searchProducts(event.target.search.value, ownProps.history))
     },
     fetchProducts: () => {
-      dispatch(products())
+      dispatch(fetchAvailableProducts())
     }
   }
 }
