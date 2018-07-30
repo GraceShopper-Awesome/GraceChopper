@@ -27,7 +27,7 @@ class ProductAll extends React.Component {
           })
         })
       }
-
+      console.log('this.props', this.props)
       return (
         <div id="container">
           <Sidebar />

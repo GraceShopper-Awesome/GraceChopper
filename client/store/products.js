@@ -10,6 +10,23 @@ const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
 const SET_PRODUCT_AVAILABILITY = 'TOGGLE_PRODUCT_AVAILABILITY'
+const GET_NEW_REVIEW = 'GET_NEW_REVIEW'
+
+/**
+ * INITIAL STATE
+ */
+const defaultProducts = {
+  products: [],
+  product: {
+    reviews: []
+  },
+  // productReviews: [],
+  searchResults: {
+    searchTerm: '',
+    results: []
+  }
+}
+=======
 
 /**
  * ACTION CREATORS
@@ -26,6 +43,9 @@ const getSearchResults = searchResults => ({
   type: GET_SEARCH_RESULTS,
   searchResults
 })
+const getNewReview = review => ({
+  type: GET_NEW_REVIEW,
+  review
 const setProductAvailability = (id, avail) => ({
   type: SET_PRODUCT_AVAILABILITY,
   id,
@@ -100,6 +120,11 @@ export const searchProducts = (text, history) => async dispatch => {
   }
 }
 
+export const addReview = review => async dispatch => {
+  try {
+    const res = await axios.post(`/api/reviews/add`, review)
+    console.log('res.data', res.data)
+    dispatch(getNewReview(res.data))
 export const fetchAvailableProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/availableproducts')
@@ -121,19 +146,6 @@ export const setProductAvailabilityOnServer = (
   } catch (err) {
     console.error(err)
   }
-}
-
-/**
- * INITIAL STATE
- */
-const defaultProducts = {
-  products: [],
-  product: {},
-  searchResults: {
-    searchTerm: '',
-    results: []
-  },
-  availableProducts: []
 }
 
 /**
@@ -178,6 +190,14 @@ export default function(state = defaultProducts, action) {
         ...state,
         searchResults: action.searchResults
       }
+    case GET_NEW_REVIEW:
+      console.log('state.product', state.product)
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          reviews: [...state.product.reviews, action.review]
+        }
     case SET_PRODUCT_AVAILABILITY:
       return {
         ...state,
