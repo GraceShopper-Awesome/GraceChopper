@@ -19,15 +19,13 @@ export const UserOrders = async (props )=> {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  console.log(state)
+const mapStateToProps = state => {
   return {
-    email: state.user.email,
-    isAdmin: state.user.userType === "admin"
+    user: state.user
   }
 }
 
-export default withRouter(connect(mapState)(UserOrders))
+export default withRouter(connect(mapStateToProps)(UserOrders))
 
 /**
  * PROP TYPES
