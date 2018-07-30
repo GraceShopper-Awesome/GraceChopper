@@ -10,7 +10,6 @@ class Cart extends React.Component {
 
         this.handleRemove= this.handleRemove.bind(this)
         this.handleButton= this.handleButton.bind(this)
-        this.handleChange = this.handleChange.bind(this)
     }
 
     async componentDidMount() {
@@ -22,19 +21,19 @@ class Cart extends React.Component {
 
     handleButton(evt){
         evt.preventDefault()
-        
+
         console.log(this.state.quantity)
     }
-    
+
+
+
     async handleRemove(evt){
         evt.preventDefault()
         await this.props.removeFromCart(evt.target.value)
         await this.props.getFromCart(this.props.match.params.id)
     }
-    
-    handleChange(evt){
-        console.log(evt.target.value)
-    }
+
+
 
     render(){
 
@@ -51,7 +50,7 @@ class Cart extends React.Component {
             <div>
                 <h1>{username}'s Cart</h1>
                 {cart.map(element => (
-                    <div id="itemList">
+                    <div id="itemList" key={element.id}>
                         <div id="singleItem">
                             <img src={element.product.imageUrl}/>
                         </div>
@@ -90,7 +89,7 @@ const mapDispatchToProps = dispatch => {
     return  {
         getProduct : () => dispatch(products()),
         getFromCart : (id) => dispatch(getCart(id)),
-        removeFromCart : (id) => dispatch(removeItem(id))
+        removeFromCart : (id) => dispatch(removeItem(id)),
     }
 }
 
