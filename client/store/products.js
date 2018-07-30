@@ -12,19 +12,6 @@ const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
 const SET_PRODUCT_AVAILABILITY = 'TOGGLE_PRODUCT_AVAILABILITY'
 
 /**
- * INITIAL STATE
- */
-const defaultProducts = {
-  products: [],
-  product: {},
-  searchResults: {
-    searchTerm: '',
-    results: []
-  },
-  availableProducts: []
-}
-
-/**
  * ACTION CREATORS
  */
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
@@ -44,6 +31,7 @@ const setProductAvailability = (id, avail) => ({
   id,
   avail
 })
+
 /**
  * THUNK CREATORS
  */
@@ -107,6 +95,11 @@ export const searchProducts = (text, history) => async dispatch => {
     }
     dispatch(getSearchResults(action))
     history.push('/allproducts/results')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const fetchAvailableProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/availableproducts')
@@ -129,6 +122,20 @@ export const setProductAvailabilityOnServer = (
     console.error(err)
   }
 }
+
+/**
+ * INITIAL STATE
+ */
+const defaultProducts = {
+  products: [],
+  product: {},
+  searchResults: {
+    searchTerm: '',
+    results: []
+  },
+  availableProducts: []
+}
+
 /**
  * REDUCER
  */
@@ -165,11 +172,12 @@ export default function(state = defaultProducts, action) {
         ...state,
         products: updatedProducts
       }
+    }
     case GET_SEARCH_RESULTS:
       return {
         ...state,
         searchResults: action.searchResults
-    }
+      }
     case SET_PRODUCT_AVAILABILITY:
       return {
         ...state,
