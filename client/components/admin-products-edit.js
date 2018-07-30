@@ -17,7 +17,7 @@ class AdminEditProduct extends React.Component {
     const {id} = this.props.match.params
     await this.props.getProduct(id)
     await this.props.fetchAllCategories()
-    this.setState({checked: this.props.product[0].categories.map(cat => cat.id)})
+    this.setState({checked: this.props.product.categories.map(cat => cat.id)})
   }
   handleChangeCategory = event => {
     const {target} = event
@@ -41,15 +41,13 @@ class AdminEditProduct extends React.Component {
   }
 
   render() {
-    // console.log(this.props.product)
     const categoryArr = this.props.allCategories
     if (!categoryArr.length > 0) {
       return <h1>Loading</h1>
     }
 
     if(categoryArr.length > 0 && Object.keys(this.props.product).length > 0) {
-      // console.log(this.props.product[0])
-      const productCategories = this.props.product[0].categories
+      const productCategories = this.props.product.categories
       const productCategoryIds = productCategories.map(cat => cat.id)
       categoryArr.forEach(function(category) {
         for(let i = 0; i < productCategoryIds.length; i++) {
@@ -59,7 +57,7 @@ class AdminEditProduct extends React.Component {
         }
       })
 
-    const {id, title, description, price, imageUrl, stock, available} = this.props.product[0]
+    const {id, title, description, price, imageUrl, stock, available} = this.props.product
     const {handleSubmit} = this.props
     return (
       <div>
