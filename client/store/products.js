@@ -26,7 +26,6 @@ const defaultProducts = {
     results: []
   }
 }
-=======
 
 /**
  * ACTION CREATORS
@@ -46,6 +45,7 @@ const getSearchResults = searchResults => ({
 const getNewReview = review => ({
   type: GET_NEW_REVIEW,
   review
+})
 const setProductAvailability = (id, avail) => ({
   type: SET_PRODUCT_AVAILABILITY,
   id,
@@ -125,6 +125,10 @@ export const addReview = review => async dispatch => {
     const res = await axios.post(`/api/reviews/add`, review)
     console.log('res.data', res.data)
     dispatch(getNewReview(res.data))
+  }catch (err) {
+    console.error(err)
+  }
+}
 export const fetchAvailableProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/availableproducts')
@@ -198,6 +202,7 @@ export default function(state = defaultProducts, action) {
           ...state.product,
           reviews: [...state.product.reviews, action.review]
         }
+      }
     case SET_PRODUCT_AVAILABILITY:
       return {
         ...state,
