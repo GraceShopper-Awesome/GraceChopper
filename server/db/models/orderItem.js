@@ -12,12 +12,26 @@ const OrderItem = db.define('orderItem', {
   },
   quantity: {
     type: Sequelize.INTEGER,
-    default: 1
+    defaultValue: 1
 
   }
 })
 
-OrderItem.prototype.changeQuantity= function(amt) {
+OrderItem.prototype.incrementQuantity = async function() {
+  this.quantity = this.quantity + 1
+
+}
+
+OrderItem.prototype.decrementQuantity = async function() {
+  this.quantity = this.quantity - 1
+  if (!this.quantity) {
+    this.destroy()
+  }
+
+}
+
+
+OrderItem.prototype.changeQuantity = function(amt) {
   console.log('change quant ran')
   this.quantity = amt
 
