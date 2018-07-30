@@ -1,62 +1,66 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
-import { products } from '../store'
+import { Link, withRouter } from 'react-router-dom'
+import { products, getCart, removeCartItem } from '../store'
+import CartSingle from './cart-single'
 
 
 class Cart extends React.Component {
-    componentDidMount() {
-        this.props.getProduct()
-        this.handleChange= this.handleChange.bind(this)
+    constructor(props){
+        super(props)
+
         this.handleRemove= this.handleRemove.bind(this)
+        this.handleButton= this.handleButton.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
-    handleChange(){
-
+    async componentDidMount() {
+        await this.props.getProduct()
+        await this.props.getFromCart(this.props.match.params.id)
     }
 
-    handleRemove(){
 
+
+    handleButton(evt){
+        evt.preventDefault()
+        
+        console.log(this.state.quantity)
     }
-
+    
+    async handleRemove(evt){
+        evt.preventDefault()
+        await this.props.removeFromCart(evt.target.value)
+        await this.props.getFromCart(this.props.match.params.id)
+    }
+    
+    handleChange(evt){
+        console.log(evt.target.value)
+    }
+ 
     render(){
-        console.log("This.props", this.props)
-        const {user} = this.props
+
+        const {user, cart} = this.props
         const {email} = user
         let username;
+        console.log(cart)
         if(email){
             username = email.slice(0,email.indexOf("@"))
         } else username = "guest"
         if(username){
         return(
         <div>
-            {/* {this.props.cart.map(element => (
-                <h1 key={element.id}>{element.id}</h1>
-            ))} */}
-            <h1>{username}'s Cart</h1>
-            <div id="itemList">
-            <div id="singleItem">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/LAPD_Bell_206_Jetranger.jpg"/>
+            <div>
+                <h1>{username}'s Cart</h1>
+                {cart.map(element => <CartSingle props={element}/>)}
             </div>
-            <div id="itemText">
-                <h2>Product Name</h2>
-                <h2>$Price.00</h2>
-                <form>
-                {/* max is quantity, default value is 1 or previous quantity*/}
-                <label htmlFor="quantity">Quantity</label>
-                    <input type="number" name="quantity" min="1"  onChange={(evt) => handleChange(evt)}/>
-                </form>
-            </div>
-            <p>Lorem Ipsum dirty language.</p>
-        </div>
-            <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
+                <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
         </div>
         )}
         else return <h1>Loading</h1>
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
       cart: state.cart,
       product: state.products.products,
@@ -65,7 +69,11 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => {
-    return  {getProduct : () => dispatch(products())}
+    return  {
+        getProduct : () => dispatch(products()),
+        getFromCart : (id) => dispatch(getCart(id)),
+        removeFromCart : (id) => dispatch(removeCartItem(id))
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart))

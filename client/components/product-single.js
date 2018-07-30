@@ -1,11 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {singleProduct, addToCart} from '../store'
+import {singleProduct, addCartItem, getCart} from '../store'
 
 class ProductSingle extends React.Component {
   constructor(props) {
     super(props)
-
     this.handleClick = this.handleClick.bind(this)
     this.handleReview = this.handleReview.bind(this)
   }
@@ -15,9 +14,11 @@ class ProductSingle extends React.Component {
     this.props.getProduct(id)
   }
 
-  handleClick(evt) {
+  async handleClick(evt) {
     evt.preventDefault()
-    this.props.addAProduct(this.props.product)
+    await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
+    await this.props.getFromCart(this.props.user.id)
+
   }
 
   handleReview() {
@@ -26,8 +27,7 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-    console.log('this.props.product', this.props)
-    if (!this.props.product.length) {
+    if (!this.props.product) {
       return <h1>Loading</h1>
     } else {
       const {
@@ -37,26 +37,20 @@ class ProductSingle extends React.Component {
         imageUrl,
         stock,
         id
-      } = this.props.product[0]
+      } = this.props.product
 
-      const reviewsArr = this.props.product[0].reviews
+      const reviewsArr = this.props.product.reviews
       const rating = productRating(reviewsArr)
-
       return (
         <div>
-          <div>
-            <div id="productSingle">
-              <h1>Product Name: {title}</h1>
-              <p>Description: {description}</p>
-              <h2>Price: {price}</h2>
-              <h3>Stock: {stock}</h3>
-              {imageUrl &&
-                imageUrl.length &&
-                imageUrl.map(el => <img key={id} src={el} />)}
-            </div>
-            <button type="button" onClick={evt => this.handleClick(evt)}>
-              ADD TO CART!
-            </button>
+          <div id="productSingle">
+            <h1>Product Name: {title}</h1>
+            <p>Description: {description}</p>
+            <h2>Price: {price}</h2>
+            <h3>Stock: {stock}</h3>
+            {imageUrl &&
+              imageUrl.length &&
+              imageUrl.map(el => <img key={id} src={el} />)}
           </div>
           <div>
             <h1>Customer Reviews</h1>
@@ -108,6 +102,7 @@ function productRating(arr) {
  */
 const mapState = state => {
   return {
+    user: state.user,
     product: state.products.product
   }
 }
@@ -115,7 +110,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getProduct: id => dispatch(singleProduct(id)),
-    addAProduct: product => dispatch(addToCart(product))
+    addAProduct: (userId ,productId, quantity) => dispatch(addCartItem(userId, productId, quantity)),
+    getFromCart: (id) => dispatch(getCart(id))
   }
 }
 

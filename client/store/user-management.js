@@ -35,7 +35,7 @@ const getUpdatedAdminUser = user => ({
  */
 export const getAllUsers = () => async dispatch => {
   try {
-    const res = await axios.get('/api')
+    const res = await axios.get('/api/users')
     console.log('user res.data', res.data)
     dispatch(getAllUsersFromServer(res.data))
   } catch (err) {
@@ -45,7 +45,7 @@ export const getAllUsers = () => async dispatch => {
 
 export const deleteUser = id => async dispatch => {
   try {
-    const qtyOfDeleted = await axios.delete(`/api/${id}`)
+    const qtyOfDeleted = await axios.delete(`/api/users/${id}`)
     const idNumber = Number(id)
     dispatch(getDeletedUser(idNumber))
   } catch (err) {
@@ -55,7 +55,7 @@ export const deleteUser = id => async dispatch => {
 
 export const makeAdmin = id => async dispatch => {
   try {
-    const res = await axios.put(`/api/${id}`, id)
+    const res = await axios.put(`/api/users/${id}`, id)
     dispatch(getUpdatedAdminUser(res.data))
   } catch (err) {
     console.error(err)

@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const {Product, Category, Review} = require('../db/models')
-// const {Category} = require('../db/models')
 module.exports = router
-const Sequelize = require('sequelize')
 
+const Sequelize = require('sequelize')
+module.exports = router
+
+//api/products/
 router.get('/allproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
@@ -15,14 +17,25 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
+router.get('/availableproducts', async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        available: true
+      },
+      include: [Category]
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/search', async (req, res, next) => {
-  //search in the bar as /search?term='searchKey'
-  //separate spaces using '%'
   try {
     const products = await Product.findAll({
       where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
     })
-    console.log('search products', products)
     res.json(products)
   } catch (err) {
     next(err)
@@ -67,6 +80,24 @@ router.post('/admin/add', async (req, res, next) => {
   }
 })
 
+router.put('/admin/available/:productId', async (req, res, next) => {
+  try {
+    const [numberOfAffectedRow, affectedRows] = await Product.update(
+      {
+        available: req.body.available
+      },
+      {
+        where: {id: req.params.productId},
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(affectedRows)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/admin/:productId', async (req, res, next) => {
   try {
     const [numberOfAffectedRow, affectedRows] = await Product.update(
@@ -102,8 +133,6 @@ router.put('/admin/:productId', async (req, res, next) => {
     affectedRows.removeCategories(categoriesArrToRemove)
 
     const {categories} = req.body
-    console.log('IDS', categories)
-
     let categoriesArr = []
     for (let i = 0; i < categories.length; i++) {
       const resCat = await Category.findById(categories[i])

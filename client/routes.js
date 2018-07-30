@@ -15,9 +15,11 @@ import {
   AdminEditProduct,
   AdminProducts,
   AdminOrders,
+  AdminEditOrder,
   AdminUsers,
   AdminAddCategory,
   Cart,
+  UserOrders,
   Checkout
 } from './components'
 import {me} from './store'
@@ -46,11 +48,15 @@ class Routes extends Component {
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/products/add" component={AdminAddProduct} />
         <Route path="/admin/products/:id" component={AdminEditProduct} />
+        <Route path="/admin/orders/:id" component={AdminEditOrder} />
         <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/users" component={AdminUsers} />
         <Route path="/admin/categories" component={AdminAddCategory} />
-        <Route path="/cart" component={Cart} />
+        <Route path="/cart/:id" component={Cart} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/orders" component={UserOrders} />
+
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

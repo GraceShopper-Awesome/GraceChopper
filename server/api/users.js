@@ -3,6 +3,7 @@ const {User} = require('../db/models')
 const Sequelize = require('sequelize')
 module.exports = router
 
+//api/users/
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -48,7 +49,6 @@ router.put('/:userId', async (req, res, next) => {
         plain: true
       }
     )
-    console.log(updatedUser)
     res.json(updatedUser)
   } catch (err) {
     next(err)

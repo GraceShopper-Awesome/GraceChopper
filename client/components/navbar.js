@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn, userType}) => {
+const Navbar = ({handleClick, isLoggedIn, userType, userId}) => {
   switch(userType) {
     case "normal": {return(
       <div id="navbar">
@@ -16,7 +16,9 @@ const Navbar = ({handleClick, isLoggedIn, userType}) => {
               Logout
             </a>
             <Link to="/allproducts">All Products</Link>
-            <Link to="/cart">Shopping Cart</Link>
+            <Link to={`/cart/${userId}`}>Shopping Cart</Link>
+            <Link to="/orders">Order History</Link>
+
           </div>
       </nav>
       <hr />
@@ -49,6 +51,7 @@ const Navbar = ({handleClick, isLoggedIn, userType}) => {
             <Link to="/signup">Sign Up</Link>
             <Link to="/allproducts">All Products</Link>
             <Link to="/cart">Shopping Cart</Link>
+            <Link to="/orders">Order History</Link>
           </div>
       </nav>
       <hr />
@@ -64,6 +67,7 @@ const Navbar = ({handleClick, isLoggedIn, userType}) => {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
+    userId : state.user.id,
     userType: state.user.userType
   }
 }

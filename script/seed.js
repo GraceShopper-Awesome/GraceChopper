@@ -149,7 +149,9 @@ async function seed() {
     password: 'pass',
     userType: 'normal'
   })
+
   const cart = await Order.create({status: 'cart'})
+  await orderSeeder(cart)
 
   cartUser.setOrders(cart).then(() => {})
 
@@ -165,6 +167,7 @@ async function seed() {
     password: 'pass',
     userType: 'normal'
   })
+
   const order1 = await Order.create({status: 'created'})
   const order2 = await Order.create({status: 'completed'})
 
@@ -172,6 +175,7 @@ async function seed() {
 
   await createdOrderSeeder(order1)
   await createdOrderSeeder(order2)
+
 
   //create product assoc
   await Promise.all(
@@ -243,7 +247,7 @@ async function runSeed() {
   }
 }
 
-async function createdOrderSeeder(order) {
+async function orderSeeder(order) {
   for (let i = 0; i < 20; i++) {
     let product = await Product.create({
       title: faker.commerce.productName(),
