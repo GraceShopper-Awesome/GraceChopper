@@ -16,6 +16,7 @@ import {
   AdminUsers,
   AdminAddCategory,
   Cart,
+  UserOrders,
   Checkout
 } from './components'
 import {me} from './store'
@@ -47,6 +48,9 @@ class Routes extends Component {
         <Route path="/admin/categories" component={AdminAddCategory} />
         <Route path="/cart/:id" component={Cart} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/orders" component={UserOrders} />
+
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

@@ -1,21 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import { submitCart , products, me} from '../store'
+import {submitCart, products, me} from '../store'
 
 
 let orderTotal = 0
 
 
 class Checkout extends React.Component {
-  constructor(props){
-    super (props)
+  constructor(props) {
+    super(props)
 
+    this.submitOrder= this.submitOrder.bind(this)
 
   }
 
   componentDidMount() {
-    orderTotal=0
+    orderTotal = 0
     this.props.getUser()
   }
 
@@ -26,6 +27,7 @@ class Checkout extends React.Component {
 
 
   }
+
 
   render() {
     const {user, cart} = this.props
@@ -60,7 +62,10 @@ class Checkout extends React.Component {
           ))}
 
           <p>Order Total: {orderTotal}</p>
-          <button onClick={this.submitOrder}>Submit order</button>
+          <Link onClick={this.submitOrder} to="/orders">
+            <button id="checkoutButton">Proceed to Checkout</button>
+          </Link>
+
 
         </div>
       )

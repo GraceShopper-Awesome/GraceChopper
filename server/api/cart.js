@@ -10,6 +10,7 @@ router.get('/:userId', async (req, res, next) => {
   try {
     // let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
     let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
+    console.log(cart)
     let orderItems = await OrderItem.findAll({where: {orderId: cart.dataValues.id}, include: [Product]})
     res.json(orderItems)
   } catch (err) {
