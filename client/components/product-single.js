@@ -15,13 +15,13 @@ class ProductSingle extends React.Component {
 
   async handleClick(evt) {
     evt.preventDefault()
-    await this.props.addAProduct(this.props.user.id, this.props.product[0].id, 1)
+    await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
     await this.props.getFromCart(this.props.user.id)
 
   }
 
   render() {
-    if (!this.props.product.length) {
+    if (!this.props.product) {
       return <h1>Loading</h1>
     } else {
       const {
@@ -31,7 +31,7 @@ class ProductSingle extends React.Component {
         imageUrl,
         stock,
         id
-      } = this.props.product[0]
+      } = this.props.product
       return (
         <div>
           <div id="productSingle">

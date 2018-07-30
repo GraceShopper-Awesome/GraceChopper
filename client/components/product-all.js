@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {products, searchProducts} from '../store/products'
-import {fetchAvailableProducts} from '../store/products'
+import {fetchAvailableProducts, searchProducts} from '../store/products'
 import {Link} from 'react-router-dom'
 import Sidebar from './sidebar'
 
