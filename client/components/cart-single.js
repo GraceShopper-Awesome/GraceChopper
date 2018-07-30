@@ -7,6 +7,7 @@ import { products, getCart, removeCartItem } from '../store'
 export default class CartSingle extends React.Component {
     constructor(props){
         super(props)
+ 
 
     }
 

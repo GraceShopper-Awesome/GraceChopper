@@ -36,7 +36,7 @@ class Cart extends React.Component {
     handleChange(evt){
         console.log(evt.target.value)
     }
-
+ 
     render(){
 
         const {user, cart} = this.props
