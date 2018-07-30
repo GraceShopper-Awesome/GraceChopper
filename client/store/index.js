@@ -29,4 +29,6 @@ export * from './products'
 export * from './categories'
 export * from './cart'
 export * from './user-management'
+export * from './review'
 export * from './orders'
+

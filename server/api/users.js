@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const Sequelize = require('sequelize')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -8,6 +9,11 @@ router.get('/', async (req, res, next) => {
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
+      where: {
+        id: {
+          [Sequelize.Op.ne]: req.session.passport.user
+        }
+      },
       attributes: ['id', 'userType', 'email']
     })
     res.json(users)
@@ -18,7 +24,6 @@ router.get('/', async (req, res, next) => {
 
 router.delete('/:userId', async (req, res, next) => {
   try {
-    console.log('entered delete user')
     const user = await User.destroy({
       where: {
         id: req.params.userId
@@ -32,7 +37,6 @@ router.delete('/:userId', async (req, res, next) => {
 
 router.put('/:userId', async (req, res, next) => {
   try {
-    console.log('req.params.userId', req.params.userId)
     const [numberOfAffectedRows, updatedUser] = await User.update(
       {
         userType: 'admin'
