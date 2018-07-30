@@ -7,6 +7,7 @@ import axios from 'axios'
  const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
  const GET_ALL_ORDER_ITEMS = 'GET_ALL_ORDER_ITEMS'
  const GET_SINGLE_ORDER_ITEMS = 'GET_SINGLE_ORDER_ITEMS'
+ const EDIT_ORDER_STATUS = 'EDIT_ORDER_STATUS'
 
 /**
 * ACTION CREATORS
@@ -27,6 +28,12 @@ const getSingleOrderItems = items => {
 	return {
 		type: GET_SINGLE_ORDER_ITEMS,
 		items
+	}
+}
+const editOrderStatus = status => {
+	return {
+		type: EDIT_ORDER_STATUS,
+		status
 	}
 }
 /**
@@ -53,6 +60,15 @@ export const fetchSingleOrderItems = id => async dispatch => {
 	try {
 		const res = await axios.get(`/api/orders/${id}`)
 		dispatch(getSingleOrderItems(res.data))
+		dispatch(editOrderStatus(res.data[0].order.status))
+	} catch(err) {
+		console.error(err)
+	}
+}
+export const changeOrderStatus = (status, orderId) => async dispatch => {
+	try {
+		const res = await axios.put(`/api/orders/${orderId}`, {status: status})
+		dispatch(editOrderStatus(status))
 	} catch(err) {
 		console.error(err)
 	}
@@ -65,7 +81,8 @@ export const fetchSingleOrderItems = id => async dispatch => {
 const defaultOrders = {
 	all: [],
 	allItems: [],
-	singleOrderItems: []
+	singleOrderItems: [],
+	status: 'completed'
 }
 
 /**
@@ -81,12 +98,17 @@ export default function(state = defaultOrders, action) {
 		case GET_ALL_ORDER_ITEMS:
 			return {
 				...state,
-				allItems: action.orderItems
+				allItems: action.orderItems,
 			}
 		case GET_SINGLE_ORDER_ITEMS:
 			return {
 				...state,
 				items: action.items
+			}
+		case EDIT_ORDER_STATUS:
+			return {
+				...state,
+				status: action.status
 			}
 		default:
 			return state

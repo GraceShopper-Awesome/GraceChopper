@@ -52,7 +52,7 @@ const mapDispatch = dispatch => {
   return {
     fetchOrders: () => {
       dispatch(fetchAllOrders())
-    }
+    },
   }
 }
 

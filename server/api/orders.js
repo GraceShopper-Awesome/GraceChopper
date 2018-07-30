@@ -73,3 +73,19 @@ router.get('/:orderId', async (req, res, next) => {
     next(err)
   }
 })
+
+//change status of an order
+router.put('/:orderId', async (req, res, next) => {
+
+  try {
+    const order = await Order.findOne({where: {id: req.params.orderId}})
+    console.log("STUFF:", req.body.status)
+    await    order.update({status: req.body.status})
+
+
+    res.sendStatus(200)
+  } catch (err) {
+    next(err)
+  }
+
+})
