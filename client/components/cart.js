@@ -1,57 +1,76 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { products, getCart } from '../store'
+import { products, getCart, removeItem } from '../store'
 
 
 class Cart extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.handleRemove= this.handleRemove.bind(this)
+        this.handleButton= this.handleButton.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
     async componentDidMount() {
         await this.props.getProduct()
         await this.props.getFromCart(this.props.match.params.id)
-        this.handleChange= this.handleChange.bind(this)
-        this.handleRemove= this.handleRemove.bind(this)
     }
 
-    handleChange(){
 
+
+    handleButton(evt){
+        evt.preventDefault()
+        
+        console.log(this.state.quantity)
     }
-
-    handleRemove(){
-
+    
+    async handleRemove(evt){
+        evt.preventDefault()
+        await this.props.removeFromCart(evt.target.value)
+        await this.props.getFromCart(this.props.match.params.id)
+    }
+    
+    handleChange(evt){
+        console.log(evt.target.value)
     }
 
     render(){
 
         const {user, cart} = this.props
         const {email} = user
-        console.log(cart)
         let username;
+        console.log(cart)
         if(email){
             username = email.slice(0,email.indexOf("@"))
         } else username = "guest"
         if(username){
         return(
         <div>
-            {/* {this.props.cart.map(element => (
-                <h1 key={element.id}>{element.id}</h1>
-            ))} */}
-            <h1>{username}'s Cart</h1>
-            <div id="itemList">
-            <div id="singleItem">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/LAPD_Bell_206_Jetranger.jpg"/>
+            <div>
+                <h1>{username}'s Cart</h1>
+                {cart.map(element => (
+                    <div id="itemList">
+                        <div id="singleItem">
+                            <img src={element.product.imageUrl}/>
+                        </div>
+                        <div id="itemText">
+                            <h2>{element.product.title}</h2>
+                            <h2>${element.product.price}</h2>
+                            <form onSubmit={this.handleButton}>
+                            {/* max is quantity, default value is 1 or previous quantity*/}
+                                <label htmlFor="quantity">Quantity: {element.quantity}</label>
+                                <input type="number" name="quantity"  defaultValue={element.quantity} min="1" max={element.product.stock} onChange={this.handleChange}/>
+                                <button type="submit" >Change</button>
+                            </form>
+                        </div>
+                            <p>{element.product.description}</p>
+                            <button onClick={this.handleRemove} value={element.id}>Remove From Cart</button>
+                    </div>
+                ))}
             </div>
-            <div id="itemText">
-                <h2>Product Name</h2>
-                <h2>$Price.00</h2>
-                <form>
-                {/* max is quantity, default value is 1 or previous quantity*/}
-                <label htmlFor="quantity">Quantity</label>
-                    <input type="number" name="quantity" min="1"  onChange={(evt) => handleChange(evt)}/>
-                </form>
-            </div>
-            <p>Lorem Ipsum dirty language.</p>
-        </div>
-            <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
+                <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
         </div>
         )}
         else return <h1>Loading</h1>
@@ -70,7 +89,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
     return  {
         getProduct : () => dispatch(products()),
-        getFromCart : (id) => dispatch(getCart(id))
+        getFromCart : (id) => dispatch(getCart(id)),
+        removeFromCart : (id) => dispatch(removeItem(id))
     }
 }
 
