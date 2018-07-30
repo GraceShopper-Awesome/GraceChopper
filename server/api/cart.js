@@ -11,7 +11,6 @@ router.get('/:userId', async (req, res, next) => {
     // let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
     let order = await Order.findOne({where: {userId: req.params.userId, status: "cart"}})
     let orderItems = await OrderItem.findAll({where: {orderId : order.id}, include: [Product]})
-    console.log(orderItems)
     res.json(orderItems)
   } catch (err) {
     next(err)
@@ -23,11 +22,12 @@ router.get('/:userId', async (req, res, next) => {
 router.delete('/:orderId', async (req, res, next) => {
 
   try {
+    console.log("req.params.orderId", req.params.orderId)
     let orderItem = await OrderItem.findOne({
-      where: {orderId: req.params.orderId, productId: req.body.productId},
-      include: [Order, Product]
-    })
-    orderItem.order.customAddProduct(orderItem.product, 0)
+      where: {id: req.params.orderId}})
+      
+      console.log("HIIIIIIII", orderItem)
+    orderItem.destroy()
 
     res.send(200)
   } catch (err) {
