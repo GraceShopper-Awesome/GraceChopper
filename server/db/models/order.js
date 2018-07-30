@@ -43,8 +43,6 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
   })
 
 
-
-
   // }
 
 }
