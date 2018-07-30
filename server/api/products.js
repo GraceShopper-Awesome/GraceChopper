@@ -15,6 +15,9 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
+router.get('/search', async (req, res, next) => {
+  //search in the bar as /search?term='searchKey'
+  //separate spaces using '%'
 router.get('/availableproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
@@ -23,6 +26,19 @@ router.get('/availableproducts', async (req, res, next) => {
       },
       include: [Category]
     })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:productId', async (req, res, next) => {
+  try {
+    console.log('in search')
+    const products = await Product.findAll({
+      where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
+    })
+    console.log('search products', products)
     res.json(products)
   } catch (err) {
     next(err)
@@ -43,30 +59,20 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/search', async (req, res, next) => {
-  //search in the bar as /search?term='searchKey'
-  //separate spaces using '%'
-  try {
-    const products = await Product.findAll({
-      where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
-    })
-
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
-
 // ADMIN ACCOUNT ONLY
 router.post('/admin/add', async (req, res, next) => {
   try {
-    // console.log('req.body.imageUrl', req.body.imageUrl)
-    console.log(req.body)
     const {title, description, price, stock, imageUrl, categories} = req.body
-    const newProduct = await Product.create({ title, description, price, stock, imageUrl})
+    const newProduct = await Product.create({
+      title,
+      description,
+      price,
+      stock,
+      imageUrl
+    })
 
     let categoriesArr = []
-    for(let i = 0; i < categories.length; i++) {
+    for (let i = 0; i < categories.length; i++) {
       const resCat = await Category.findById(categories[i])
       categoriesArr.push(resCat)
     }
@@ -94,7 +100,6 @@ router.put('/admin/available/:productId', async (req, res, next) => {
 })
 
 router.put('/admin/:productId', async (req, res, next) => {
-  console.log('req.body', req.body)
   try {
     const [numberOfAffectedRow, affectedRows] = await Product.update(
       {
@@ -117,20 +122,22 @@ router.put('/admin/:productId', async (req, res, next) => {
       include: [Category]
     })
 
-    const removeCat = productCategories[0].dataValues.categories.map(x => x.dataValues).map(a => a.id)
+    const removeCat = productCategories[0].dataValues.categories
+      .map(x => x.dataValues)
+      .map(a => a.id)
 
     let categoriesArrToRemove = []
-    for(let i = 0; i < removeCat.length; i++) {
+    for (let i = 0; i < removeCat.length; i++) {
       const resCat = await Category.findById(removeCat[i])
       categoriesArrToRemove.push(resCat)
     }
-    affectedRows.removeCategories(categoriesArrToRemove);
+    affectedRows.removeCategories(categoriesArrToRemove)
 
-    const {categories} = req.body;
-    console.log("IDS", categories)
+    const {categories} = req.body
+    console.log('IDS', categories)
 
     let categoriesArr = []
-    for(let i = 0; i < categories.length; i++) {
+    for (let i = 0; i < categories.length; i++) {
       const resCat = await Category.findById(categories[i])
       categoriesArr.push(resCat)
     }

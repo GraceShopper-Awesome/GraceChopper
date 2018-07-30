@@ -28,6 +28,8 @@ const submitCartAsOrder = () => ({type: SUBMIT_CART})
  * THUNK CREATORS
  */
 
+
+
 export const getCart = (id) => async dispatch => {
   try {
     const res = await axios.get(`/api/cart/${id}`)
@@ -36,6 +38,7 @@ export const getCart = (id) => async dispatch => {
     console.log(error)
   }
 }
+
 
 export const submitCart = (id) => async dispatch => {
   try {
@@ -57,6 +60,23 @@ export const submitCart = (id) => async dispatch => {
 //     console.error(err)
 //   }
 // }
+
+export const addCartItem = (orderId, userId, quantity) => async dispatch => {
+  try{
+    const res = await axios.put(`/api/cart/${id}`, {})
+  } catch(error){
+    console.log(error)
+  }
+}
+
+export const removeCartItem = (id) => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/cart/${id}`)
+    dispatch(removeFromCart(res.data))
+  } catch (error){
+    console.log(error)
+  }
+}
 
 /**
  * REDUCER

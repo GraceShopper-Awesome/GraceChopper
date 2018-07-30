@@ -7,6 +7,7 @@ class ProductSingle extends React.Component {
     super(props)
 
     this.handleClick = this.handleClick.bind(this)
+    // this.handleReview = this.handleReview.bind(this)
   }
 
   componentDidMount() {
@@ -20,7 +21,18 @@ class ProductSingle extends React.Component {
   }
 
   render() {
-    const {title, description, price, imageUrl, stock, id} = this.props.product
+    if (!this.props.product.length) {
+      return <h1>Loading</h1>
+    }
+    else {
+    const {
+      title,
+      description,
+      price,
+      imageUrl,
+      stock,
+      id
+    } = this.props.product[0]
     return (
       <div>
         <div id="productSingle">
@@ -30,9 +42,9 @@ class ProductSingle extends React.Component {
           <h3>Stock: {stock}</h3>
           {imageUrl && imageUrl.length && imageUrl.map(el => <img key={id} src={el} />)}
         </div>
-        <button type="button" onClick={evt => this.handleClick(evt)}>ADD TO CART!</button>
-      </div>
-    )
+      )
+    }
+  }
   }
 }
 

@@ -18,30 +18,48 @@ class AdminUsers extends React.Component {
   }
 
   handleAdmin(event) {
-    console.log('handleAdmin event.target.value', event.target.value)
     this.props.makeAdmin(event.target.value)
   }
 
   render() {
-    return (
-      <div>
-        <h1>User Management</h1>
-        <div className="userContainer">
-          {this.props.users.map(user => (
-            <div className="singleUserMgmt" key={user.id}>
-              <h3>{user.email}</h3>
-              <button type="button" value={user.id} onClick={this.handleAdmin}>
-                Make Admin
-              </button>
-              <button type="button">Reset Password</button>
-              <button type="button" value={user.id} onClick={this.handleDelete}>
-                Delete User
-              </button>
-            </div>
-          ))}
+    if (!this.props.users.length) {
+      return <h1>Loading</h1>
+    } else {
+      console.log('this.props.user', this.props.user)
+      // const filteredForCurrent = this.props.users.filter(function(elem) {
+      //   if (elem.id !== this.props.user.id) {
+      //     return elem
+      //   }
+      // })
+      // console.log('fitleredForCurrent', filteredForCurrent)
+      return (
+        <div>
+          <h1>User Management</h1>
+          <div className="userContainer">
+            {this.props.users.map(user => (
+              <div className="singleUserMgmt" key={user.id}>
+                <h3>{user.email}</h3>
+                <button
+                  type="button"
+                  value={user.id}
+                  onClick={this.handleAdmin}
+                >
+                  Make Admin
+                </button>
+                <button type="button">Reset Password</button>
+                <button
+                  type="button"
+                  value={user.id}
+                  onClick={this.handleDelete}
+                >
+                  Delete User
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 

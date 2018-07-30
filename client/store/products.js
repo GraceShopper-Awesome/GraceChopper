@@ -8,6 +8,7 @@ const GET_AVAILABLE_PRODUCTS = 'GET_AVAILABLE_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
+const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
 const SET_PRODUCT_AVAILABILITY = 'TOGGLE_PRODUCT_AVAILABILITY'
 
 /**
@@ -16,6 +17,10 @@ const SET_PRODUCT_AVAILABILITY = 'TOGGLE_PRODUCT_AVAILABILITY'
 const defaultProducts = {
   products: [],
   product: {},
+  searchResults: {
+    searchTerm: '',
+    results: []
+  },
   availableProducts: []
 }
 
@@ -30,6 +35,10 @@ const getAvailableProducts = products => ({
 const getSingleProduct = product => ({type: GET_SINGLE_PRODUCT, product})
 const addProduct = product => ({type: ADD_PRODUCT, product})
 const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
+const getSearchResults = searchResults => ({
+  type: GET_SEARCH_RESULTS,
+  searchResults
+})
 const setProductAvailability = (id, avail) => ({
   type: SET_PRODUCT_AVAILABILITY,
   id,
@@ -88,6 +97,16 @@ export const editProduct = (
   }
 }
 
+export const searchProducts = (text, history) => async dispatch => {
+  try {
+    console.log('text', text)
+    const res = await axios.get(`/api/products/search?term=${text}`)
+    const action = {
+      searchTerm: text,
+      results: res.data
+    }
+    dispatch(getSearchResults(action))
+    history.push('/allproducts/results')
 export const fetchAvailableProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/availableproducts')
@@ -146,6 +165,10 @@ export default function(state = defaultProducts, action) {
         ...state,
         products: updatedProducts
       }
+    case GET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: action.searchResults
     }
     case SET_PRODUCT_AVAILABILITY:
       return {

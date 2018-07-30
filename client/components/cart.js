@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { products, getCart, removeItem } from '../store'
+import { products, getCart, removeCartItem } from '../store'
 
 
 class Cart extends React.Component {
@@ -76,8 +76,7 @@ class Cart extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    console.log("ownProps", ownProps)
+const mapStateToProps = (state) => {
     return {
       cart: state.cart,
       product: state.products.products,
@@ -89,7 +88,7 @@ const mapDispatchToProps = dispatch => {
     return  {
         getProduct : () => dispatch(products()),
         getFromCart : (id) => dispatch(getCart(id)),
-        removeFromCart : (id) => dispatch(removeItem(id)),
+        removeFromCart : (id) => dispatch(removeCartItem(id))
     }
 }
 

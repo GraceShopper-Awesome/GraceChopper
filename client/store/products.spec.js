@@ -27,7 +27,7 @@ describe('thunk creators', () => {
     store.clearActions()
 	})
 
-	describe('getting all products', () => {
+	xdescribe('getting all products', () => {
     it('eventually dispatches the GET_ALL_PRODUCTS action', async () => {
       const fakeProduct = {title: 'nice helicopter', price: 1, stock: 22, description: 'a nice helicopter', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR265PzaKrETWVuu-RUS5K7Xb-xyYLcn2YWIHTUne8_sEjZd63x'}
       mockAxios.onGet('/api/products').replyOnce(200, fakeProduct)

@@ -5,7 +5,7 @@ const db = require('../index')
 const User = db.model('user')
 const Sequelize = require("sequelize")
 
-describe('User model', () => {
+xdescribe('User model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -72,7 +72,7 @@ describe('User model', () => {
   })
 
 
-  
+
 
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
