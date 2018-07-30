@@ -15,7 +15,6 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
-router.get('/search', async (req, res, next) => {
   //search in the bar as /search?term='searchKey'
   //separate spaces using '%'
 router.get('/availableproducts', async (req, res, next) => {
@@ -134,8 +133,6 @@ router.put('/admin/:productId', async (req, res, next) => {
     affectedRows.removeCategories(categoriesArrToRemove)
 
     const {categories} = req.body
-    console.log('IDS', categories)
-
     let categoriesArr = []
     for (let i = 0; i < categories.length; i++) {
       const resCat = await Category.findById(categories[i])
