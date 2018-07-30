@@ -6,8 +6,9 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 /**
  * COMPONENT
  */
-export const UserOrders = props => {
-  console.log('fuck')
+export const UserOrders = async (props )=> {
+
+  console.log(props)
   return (
     <div>
       <h3>Welcome, BITCHHHHH </h3>
