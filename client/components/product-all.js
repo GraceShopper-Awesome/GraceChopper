@@ -11,7 +11,6 @@ class ProductAll extends React.Component {
 
   render() {
     if (!this.props.products.length) {
-      console.log(this.props)
       return <h1>Loading</h1>
     } else {
       const {activeCategories} = this.props

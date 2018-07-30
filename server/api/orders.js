@@ -53,3 +53,23 @@ router.get('/all', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/:orderId', async (req, res, next) => {
+  try {
+    const allOrderItems = await OrderItem.findAll({
+      include: [{
+				model: Order,
+				where: {
+          status: { [Op.ne]: 'cart'},
+          id: req.params.orderId
+				}
+			},
+			{
+				model: Product
+			}]
+    })
+    res.json(allOrderItems)
+  } catch(err) {
+    next(err)
+  }
+})
