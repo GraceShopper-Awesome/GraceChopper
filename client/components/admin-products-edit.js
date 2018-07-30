@@ -1,5 +1,5 @@
 import React from 'react'
-import {products, editProduct, singleProduct} from '../store/products'
+import {products, editProduct, singleProduct, setProductAvailabilityOnServer} from '../store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchAllCategories} from '../store'
@@ -19,20 +19,6 @@ class AdminEditProduct extends React.Component {
     await this.props.fetchAllCategories()
     this.setState({checked: this.props.product[0].categories.map(cat => cat.id)})
   }
-
-  // handleSubmit(event) {
-  //   event.preventDefault()
-  //   const updatedObj = {
-  //     id: Number(this.props.match.params.id),
-  //     title: event.target.title.value,
-  //     description: event.target.description.value,
-  //     price: event.target.price.value,
-  //     stock: event.target.stock.value,
-  //     imageUrl: event.target.imageUrl.value.split(' ')
-  //   }
-  //   this.props.edit(updatedObj)
-  //   this.props.history.push('/admin/products')
-  // }
   handleChangeCategory = event => {
     const {target} = event
     if (target.checked === true) {
@@ -46,6 +32,12 @@ class AdminEditProduct extends React.Component {
         checked: newArr
       })
     }
+  }
+
+  handleAvailabilityChange = event => {
+    const {target} = event
+    this.props.availability(+target.value, target.checked)
+    //do i need to update the component to reflect the store?
   }
 
   render() {
@@ -67,7 +59,7 @@ class AdminEditProduct extends React.Component {
         }
       })
 
-    const {title, description, price, imageUrl, stock} = this.props.product[0]
+    const {id, title, description, price, imageUrl, stock, available} = this.props.product[0]
     const {handleSubmit} = this.props
     return (
       <div>
@@ -115,6 +107,12 @@ class AdminEditProduct extends React.Component {
             </div>
             <button type="submit">Update Product</button>
           </form>
+
+          <div>
+                    <label>isAvailable?</label>
+                    <input type="checkbox" value={id} defaultChecked={available} onChange={event => this.handleAvailabilityChange(event)}/>
+                  </div>
+
         </div>
         {/* {imageUrl && imageUrl.length && imageUrl.map(el => <img src={el} />)} */}
       </div>
@@ -150,7 +148,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
       dispatch(editProduct(updatedObj, ownProps.history))
     },
-    getProduct: id => dispatch(singleProduct(id))
+    getProduct: id => dispatch(singleProduct(id)),
+    availability: (id, flag) => {
+      dispatch(setProductAvailabilityOnServer(id, flag))
+    }
     // edit: product => dispatch(editProduct(product))
   }
 }
