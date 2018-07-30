@@ -7,7 +7,7 @@ class ProductSingle extends React.Component {
     super(props)
 
     this.handleClick = this.handleClick.bind(this)
-    // this.handleReview = this.handleReview.bind(this)
+    this.handleReview = this.handleReview.bind(this)
   }
 
   componentDidMount() {
@@ -20,8 +20,13 @@ class ProductSingle extends React.Component {
     this.props.addAProduct(this.props.product)
   }
 
+  handleReview() {
+    const {id} = this.props.match.params
+    this.props.history.push(`/products/${id}/review`)
+  }
+
   render() {
-    console.log('this.props.product', this.props.product[0])
+    console.log('this.props.product', this.props)
     if (!this.props.product.length) {
       return <h1>Loading</h1>
     } else {
@@ -33,6 +38,9 @@ class ProductSingle extends React.Component {
         stock,
         id
       } = this.props.product[0]
+
+      const reviewsArr = this.props.product[0].reviews
+      const rating = productRating(reviewsArr)
 
       return (
         <div>
@@ -50,13 +58,49 @@ class ProductSingle extends React.Component {
               ADD TO CART!
             </button>
           </div>
-          {/* <button type="button" onClick={this.handleReview}>
-          Leave A Review
-        </button> */}
+          <div>
+            <h1>Customer Reviews</h1>
+            <h2>
+              {rating
+                ? `Rating: ${rating} Stars`
+                : 'Be the first to leave a review'}
+            </h2>
+            <button type="button" onClick={this.handleReview}>
+              Leave A Review
+            </button>
+            <div className="reviewList">
+              <table>
+                <tr>
+                  <th>Rating</th>
+                  <th>Review</th>
+                </tr>
+                {reviewsArr.map(el => (
+                  <tr className="singleReview" key={el.id}>
+                    <td>{el.rating}</td>
+                    <td>{el.content}</td>
+                  </tr>
+                ))}
+              </table>
+            </div>
+          </div>
         </div>
       )
     }
   }
+}
+
+function productRating(arr) {
+  let rating = 0
+  let sum = 0
+  if (arr.length === 0) {
+    rating = 0
+  } else {
+    for (let i = 0; i < arr.length; i++) {
+      sum += arr[i].rating
+    }
+    rating = Math.ceil(sum / arr.length)
+  }
+  return rating
 }
 
 /**

@@ -8,9 +8,15 @@ const CATEGORY_AMT = 7
 const PRODUCT_AMT = 150
 const ORDER_AMT = 22
 
-
 const db = require('../server/db')
-const {User, Category, Product, Order, Review, OrderItem} = require('../server/db/models')
+const {
+  User,
+  Category,
+  Product,
+  Order,
+  Review,
+  OrderItem
+} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -30,7 +36,6 @@ async function seed() {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
 
-
   //users
   let userArr = []
   let userTypes = ['admin', 'normal', 'guest']
@@ -38,11 +43,23 @@ async function seed() {
     let userT = userTypes[Math.floor(Math.random() * 3)]
     let email = faker.internet.email()
     email = email.replace('_', '')
-    userArr.push({email: email, password: faker.internet.password(), userType: userT})
+    userArr.push({
+      email: email,
+      password: faker.internet.password(),
+      userType: userT
+    })
   }
 
-  userArr.push({email: 'admin@user.com', password: 'password', userType: 'admin'})
-  userArr.push({email: 'normalUser@user.com', password: 'password', userType: 'normal'})
+  userArr.push({
+    email: 'admin@user.com',
+    password: 'password',
+    userType: 'admin'
+  })
+  userArr.push({
+    email: 'normalUser@user.com',
+    password: 'password',
+    userType: 'normal'
+  })
 
   //categories
   let catArr = []
@@ -50,34 +67,36 @@ async function seed() {
     catArr.push({name: faker.commerce.department()})
   }
 
-
   //products
   let prodArr = []
   //title, price, stock, descriptio, image
   for (let i = 0; i < PRODUCT_AMT; i++) {
     prodArr.push({
-      title: faker.commerce.productName(), price: faker.commerce.price(),
-      stock: Math.ceil(Math.random() * 20), description: faker.lorem.paragraph()
+      title: faker.commerce.productName(),
+      price: faker.commerce.price(),
+      stock: Math.ceil(Math.random() * 20),
+      description: faker.lorem.paragraph()
     })
-
   }
-
 
   //order
   let orderArr = []
-  let orderStatuses = ['completed', 'cancelled', 'created', 'processing', 'cart']
+  let orderStatuses = [
+    'completed',
+    'cancelled',
+    'created',
+    'processing',
+    'cart'
+  ]
   for (let i = 0; i < ORDER_AMT; i++) {
     orderArr.push({status: orderStatuses[Math.floor(Math.random() * 5)]})
-
   }
-
 
   //review
   let reviewArr = []
 
   for (let i = 0; i < REVIEW_AMT; i++) {
-    reviewArr.push({content: faker.lorem.paragraph()})
-
+    reviewArr.push({content: faker.lorem.paragraph(), rating: 4})
   }
 
   const catData = await Category.bulkCreate(catArr)
@@ -86,10 +105,9 @@ async function seed() {
   // const userData = await User.bulkCreate(userArr)
   // const prodData = await Product.bulkCreate(prodArr)
 
-
   //User assocs
-  await Promise.all(userArr.map(async (user) => {
-
+  await Promise.all(
+    userArr.map(async user => {
       let createdUser = await User.create(user)
       let orderArr = []
       let indArr = []
@@ -103,13 +121,9 @@ async function seed() {
         }
 
         indArr.push(rand)
-
       }
 
-
-      createdUser.setOrders(orderArr).then((res) => {
-      })
-
+      createdUser.setOrders(orderArr).then(res => {})
 
       let reviewArr = []
       indArr = []
@@ -123,96 +137,86 @@ async function seed() {
         }
       }
 
-      createdUser.setReviews(reviewArr).then(() => {
-      })
+      createdUser.setReviews(reviewArr).then(() => {})
 
       return createdUser
-
-
-    }
-  ))
-
+    })
+  )
 
   //Create fully linked cart/ orders with User, product and orderItem associations for testing
-  const cartUser = await User.create({email: 'cartUser@gmail.com', password: 'pass', userType: 'normal'})
+  const cartUser = await User.create({
+    email: 'cartUser@gmail.com',
+    password: 'pass',
+    userType: 'normal'
+  })
   const cart = await Order.create({status: 'cart'})
 
-  cartUser.setOrders(cart).then(() => {
-  })
+  cartUser.setOrders(cart).then(() => {})
 
   let product = await Product.create({
-    title: 'product1', price: 69,
-    stock: 12, description: faker.lorem.paragraph()
+    title: 'product1',
+    price: 69,
+    stock: 12,
+    description: faker.lorem.paragraph()
   })
 
-  const completedOrderUser = await User.create({email: 'CompOrderUser@gmail.com', password: 'pass', userType: 'normal'})
+  const completedOrderUser = await User.create({
+    email: 'CompOrderUser@gmail.com',
+    password: 'pass',
+    userType: 'normal'
+  })
   const order1 = await Order.create({status: 'created'})
   const order2 = await Order.create({status: 'completed'})
 
-
-  completedOrderUser.setOrders([order1, order2]).then(() => {
-  })
+  completedOrderUser.setOrders([order1, order2]).then(() => {})
 
   await createdOrderSeeder(order1)
- await  createdOrderSeeder(order2)
-
-
-
-
-
+  await createdOrderSeeder(order2)
 
   //create product assoc
-  await Promise.all(prodArr.map(async (prod) => {
+  await Promise.all(
+    prodArr.map(async prod => {
+      //many to many category
+      let createdProd = await Product.create(prod)
+      let catArr = []
+      let indArr = []
 
-    //many to many category
-    let createdProd = await Product.create(prod)
-    let catArr = []
-    let indArr = []
+      for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
+        let rand = Math.ceil(Math.random() * 7)
 
-    for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
-      let rand = Math.ceil(Math.random() * 7)
+        if (!indArr.includes(rand)) {
+          let cat = await Category.findById(rand)
+          catArr.push(cat)
+        }
 
-      if (!indArr.includes(rand)) {
-        let cat = await Category.findById(rand)
-        catArr.push(cat)
+        indArr.push(rand)
       }
 
-      indArr.push(rand)
+      indArr = []
+      let revArr = []
 
-    }
+      for (let i = 0; i < Math.ceil(Math.random() * 10000); i++) {
+        let rand = Math.ceil(Math.random() * REVIEW_AMT)
 
+        if (!indArr.includes(rand)) {
+          let rev = await Review.findById(rand)
+          revArr.push(rev)
+        }
 
-    indArr = []
-    let revArr = []
-
-    for (let i = 0; i < Math.ceil(Math.random() * 10000); i++) {
-      let rand = Math.ceil(Math.random() * REVIEW_AMT)
-
-      if (!indArr.includes(rand)) {
-        let rev = await Review.findById(rand)
-        revArr.push(rev)
+        indArr.push(rand)
       }
 
-      indArr.push(rand)
+      createdProd.setCategories(catArr).then(res => {})
 
-    }
-
-
-    createdProd.setCategories(catArr).then((res) => {
+      return createdProd.setReviews(revArr).then(res => {
+        Review.destroy({where: {userId: null}})
+        Review.destroy({where: {productId: null}})
+      })
     })
+  )
 
-    return createdProd.setReviews(revArr).then((res) => {
-      Review.destroy({where: {userId: null}})
-      Review.destroy({where: {productId: null}})
-    })
-
-
-  }))
-
-
-//association random creation
-//
-
+  //association random creation
+  //
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
@@ -233,28 +237,24 @@ async function runSeed() {
   } finally {
     console.log('closing db connection')
 
-
     await db.close()
 
     console.log('db connection closed')
-
-
   }
 }
 
 async function createdOrderSeeder(order) {
   for (let i = 0; i < 20; i++) {
     let product = await Product.create({
-      title: faker.commerce.productName(), price: faker.commerce.price(),
-      stock: 20, description: faker.lorem.paragraph()
+      title: faker.commerce.productName(),
+      price: faker.commerce.price(),
+      stock: 20,
+      description: faker.lorem.paragraph()
     })
 
-    order.customAddProduct(product, Math.ceil(Math.random() *7))
-
-
+    order.customAddProduct(product, Math.ceil(Math.random() * 7))
   }
 }
-
 
 // async function postSeed() {
 //

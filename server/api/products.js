@@ -1,13 +1,13 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
-const {Category} = require('../db/models')
+const {Product, Category, Review} = require('../db/models')
+// const {Category} = require('../db/models')
 module.exports = router
 const Sequelize = require('sequelize')
 
 router.get('/allproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Category]
+      include: [Category, Review]
     })
     res.json(products)
   } catch (err) {
@@ -19,7 +19,6 @@ router.get('/search', async (req, res, next) => {
   //search in the bar as /search?term='searchKey'
   //separate spaces using '%'
   try {
-    console.log('in search')
     const products = await Product.findAll({
       where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
     })
@@ -32,11 +31,11 @@ router.get('/search', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findAll({
+    const product = await Product.findOne({
       where: {
         id: req.params.productId
       },
-      include: [Category]
+      include: [Category, Review]
     })
     res.json(product)
   } catch (err) {

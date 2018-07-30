@@ -8,13 +8,17 @@ const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const GET_EDITED_PRODUCT = 'GET_EDITED_PRODUCT'
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS'
+const GET_NEW_REVIEW = 'GET_NEW_REVIEW'
 
 /**
  * INITIAL STATE
  */
 const defaultProducts = {
   products: [],
-  product: {},
+  product: {
+    reviews: []
+  },
+  // productReviews: [],
   searchResults: {
     searchTerm: '',
     results: []
@@ -31,6 +35,10 @@ const getEditedProduct = product => ({type: GET_EDITED_PRODUCT, product})
 const getSearchResults = searchResults => ({
   type: GET_SEARCH_RESULTS,
   searchResults
+})
+const getNewReview = review => ({
+  type: GET_NEW_REVIEW,
+  review
 })
 
 /**
@@ -101,6 +109,16 @@ export const searchProducts = (text, history) => async dispatch => {
   }
 }
 
+export const addReview = review => async dispatch => {
+  try {
+    const res = await axios.post(`/api/reviews/add`, review)
+    console.log('res.data', res.data)
+    dispatch(getNewReview(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -136,6 +154,15 @@ export default function(state = defaultProducts, action) {
       return {
         ...state,
         searchResults: action.searchResults
+      }
+    case GET_NEW_REVIEW:
+      console.log('state.product', state.product)
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          reviews: [...state.product.reviews, action.review]
+        }
       }
     default:
       return state
