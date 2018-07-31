@@ -39,7 +39,6 @@ xdescribe('User model', () => {
           throw new Error("Validations should fail without an email")
         },
         result => {
-          console.log(result)
           expect(result).to.be.an.instanceOf(Sequelize.ValidationError);
         }
       )

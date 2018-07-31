@@ -1,38 +1,30 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {products, fetchUserOrders, removeCartItem, addCartItem} from '../store'
+import {fetchUserOrders} from '../store'
 
 
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      orders: []
+    }
 
-    this.handleRemove = this.handleRemove.bind(this)
     this.handleButton = this.handleButton.bind(this)
   }
 
   async componentDidMount() {
     await this.props.getOrders(this.props.match.params.id)
+    this.setState({orders: []})
 
   }
 
   handleButton(evt) {
     evt.preventDefault()
-
-    console.log(this.state.quantity)
   }
-
-
-  async handleRemove(evt) {
-    evt.preventDefault()
-
-  }
-
 
   render() {
-
-
     const {user, orders} = this.props
     const {email} = user
     let username
@@ -46,21 +38,21 @@ class UserOrders extends React.Component {
             <h1>{username}'s Orders</h1>
             {orders.all.map(order => {
               return (
-                <div>
+                <div key={order.id}>
                  <p>Total Cost: {order.totalCost}</p>
                   <p>Created: {order.createdAt}</p>
-
+                  <Link to={{
+                    pathname:`/order/${order.id}`,
+                    state: {
+                      createdAt:order.createdAt,
+                      totalCost:order.totalCost
+                    }
+                  }}
+                  >Link</Link>
                 </div>
-
-
               )
-
             })}
-
           </div>
-          <Link to="/checkout">
-            <button id="checkoutButton">Proceed to Checkout</button>
-          </Link>
         </div>
       )
     }
