@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 
 export default class AdminHome extends React.Component {
   constructor() {
@@ -25,7 +23,8 @@ export default class AdminHome extends React.Component {
   render() {
     return (
       <div>
-        <h1>Admin Home Page</h1>
+      <h1>Admin Home Page</h1>
+      <div className="home">
         <button type="submit" onClick={this.handleProduct}>
           Product Management
         </button>
@@ -35,38 +34,8 @@ export default class AdminHome extends React.Component {
         <button type="submit" onClick={this.handleUser}>
           User Management
         </button>
+        </div>
       </div>
     )
   }
 }
-
-// /**
-//  * COMPONENT
-//  */
-// export const UserHome = props => {
-//   const {email} = props
-
-//   return (
-//     <div>
-//       <h3>Welcome, {email}</h3>
-//     </div>
-//   )
-// }
-
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     email: state.user.email
-//   }
-// }
-
-// export default connect(mapState)(UserHome)
-
-// /**
-//  * PROP TYPES
-//  */
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }

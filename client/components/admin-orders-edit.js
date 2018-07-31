@@ -22,7 +22,6 @@ class AdminEditOrder extends React.Component {
 		else {
 			return (
 				<div>
-					{/* <h1>Status: {this.props.orderItems[0].order.status}</h1> */}
 					<label>Status:</label>
 					<select value={this.props.currentStatus} onChange={event => this.handleChange(event)}>
 						<option value="created">Created</option>

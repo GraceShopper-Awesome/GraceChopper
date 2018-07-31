@@ -38,20 +38,20 @@ class CartSingle extends React.Component {
         const element = this.props.item
         return(
             <div id="itemList" key={element.id}>
-                <div id="singleItem">
-                    <img src={element.product.imageUrl}/>
-                </div>
+                    <img src={element.product.imageUrl} className="thumbnail"/>
                 <div id="itemText">
                     <h2>{element.product.title}</h2>
                     <h2>${element.product.price}</h2>
-                    <div id="quantity">
-                        <h4>Quantity: {element.quantity}</h4>
-                        <button onClick={this.handleDecrement}><h3>-</h3></button>
-                        <button onClick={this.handleIncrement}><h3>+</h3></button>
+                    <div>
+                        <h4 id="quantity">Quantity: {element.quantity}</h4>
+                        <button onClick={this.handleDecrement} className="quantityButton"><h3>-</h3></button>
+                        <button onClick={this.handleIncrement} className="quantityButton"><h3>+</h3></button>
                     </div>
                 </div>
-                <p>{element.product.description}</p>
-                <button onClick={this.handleRemove} value={element.id}>Remove From Cart</button>
+                <div id="description">
+                    <h2>{element.product.description}</h2>
+                    <button onClick={this.handleRemove} value={element.id}>Remove From Cart</button>
+                </div>
             </div>
         )
     }

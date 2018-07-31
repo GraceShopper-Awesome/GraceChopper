@@ -172,6 +172,24 @@ const productsArr = [
     imageUrl: [
       'https://i.pinimg.com/originals/1b/9e/69/1b9e696f5c9627409338b5a0a41cd158.jpg'
     ]
+  },
+  {
+    title: 'The Rouge One',
+    stock: 25,
+    price: 22000,
+    description: 'Feeling like going on a solo mission? See the stars in this beautiful red chopper',
+    imageUrl: [
+      'https://pdgfilmservices.com/wp-content/uploads/2017/07/Helicopter-rigged-with-GSS-C516-camera-system.jpg'
+    ]
+  },
+  {
+    title: 'Stinger 50-50',
+    stock: 10,
+    price: 18000,
+    description: "Elegant, sleek, deceptive, enduring. The Stinger 50-50 is much more that so-so",
+    imageUrl: [
+      "https://nebula.wsimg.com/fe5f63e3a2accf4ca629430c6dc4bafd?AccessKeyId=70A8789C0A1AE299B517&disposition=0&alloworigin=1"
+    ]
   }
 ]
 
@@ -457,6 +475,18 @@ const productCategoryArr = [
   {
     categoryId: 3,
     productId: 17
+  },
+  {
+    categoryId: 1,
+    productId: 18
+  },
+  {
+    categoryId: 3,
+    productId: 18
+  },
+  {
+    categoryId: 1,
+    productId: 19
   }
 ]
 
