@@ -6,6 +6,7 @@ class ProductSingle extends React.Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.handleReview = this.handleReview.bind(this)
   }
 
   componentDidMount() {
@@ -17,6 +18,11 @@ class ProductSingle extends React.Component {
     evt.preventDefault()
     await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
     await this.props.getFromCart(this.props.user.id)
+  }
+
+  handleReview() {
+    const {id} = this.props.match.params
+    this.props.history.push(`/products/${id}/review`)
   }
 
   render() {
@@ -31,6 +37,9 @@ class ProductSingle extends React.Component {
         stock,
         id
       } = this.props.product
+
+      const reviewsArr = this.props.product.reviews
+      const rating = productRating(reviewsArr)
       return (
         <div>
           <div id="productSingle">
@@ -43,10 +52,51 @@ class ProductSingle extends React.Component {
               imageUrl.map(el => <img key={id} src={el} />)}
             <button onClick={this.handleClick}>Add To Cart</button>
           </div>
+          <div>
+            <h1>Customer Reviews</h1>
+            <h2>
+              {rating
+                ? `Rating: ${rating} Stars`
+                : 'Be the first to leave a review'}
+            </h2>
+            <button type="button" onClick={this.handleReview}>
+              Leave A Review
+            </button>
+            <div className="reviewList">
+              <table>
+                <tbody>
+                <tr>
+                  <th>Rating</th>
+                  <th>Review</th>
+                </tr>
+                {reviewsArr.map(el => (
+                  <tr className="singleReview" key={el.id}>
+                    <td>{el.rating}</td>
+                    <td>{el.content}</td>
+                  </tr>
+                ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       )
     }
   }
+}
+
+function productRating(arr) {
+  let rating = 0
+  let sum = 0
+  if (arr.length === 0) {
+    rating = 0
+  } else {
+    for (let i = 0; i < arr.length; i++) {
+      sum += arr[i].rating
+    }
+    rating = Math.ceil(sum / arr.length)
+  }
+  return rating
 }
 
 /**

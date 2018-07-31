@@ -55,7 +55,6 @@ router.put('/increment/', async (req, res, next) => {
 
 //changing quantity of a product in a given order or adding a product to an order
 router.put('/decrement/', async (req, res, next) => {
-
   try {
     let orderitem  = await OrderItem.findById(req.body.orderitemId)
     await orderitem.decrementQuantity()

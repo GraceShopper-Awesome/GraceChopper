@@ -8,6 +8,10 @@ const Order = db.define('order', {
   status: {
     // type: Sequelize.ENUM('completed', 'processing')
     type: Sequelize.ENUM('completed', 'processing', 'cancelled', 'created', 'cart')
+  },
+  totalCost: {
+    type: Sequelize.DECIMAL,
+    defaultValue: 0
   }
 })
 
@@ -39,6 +43,7 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
     const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
     await curProduct.update({stock: curProduct.stock - orderItem.quantity})
     await orderItem.update({fixedPrice: curProduct.price})
+    await this.update({totalCost: this.totalCost + curProduct.price * orderItem.quantity})
 
 
   })
@@ -48,17 +53,18 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
 
 }
 
-Order.prototype.incrementQuantity = async function(product) {
-  let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
-  await orderItem.incrementQuantity()
+// Order.prototype.incrementQuantity = async function(product) {
+//   let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
+//   await orderItem.incrementQuantity()
+//
+// }
+//
+// Order.prototype.decrementQuantity = async function(product) {
+//   let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
+//   await orderItem.decrementQuantity()
+//
+// }
 
-}
-
-Order.prototype.decrementQuantity = async function(product) {
-  let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})
-  await orderItem.decrementQuantity()
-
-}
 
 
 Order.prototype.customAddProduct = async function(product, amt) {

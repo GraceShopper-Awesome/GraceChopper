@@ -62,7 +62,7 @@ class Checkout extends React.Component {
           ))}
 
           <p>Order Total: {orderTotal}</p>
-          <Link onClick={this.submitOrder} to="/orders">
+          <Link onClick={this.submitOrder} to={`/orders/${props.user.id}`}>
             <button id="checkoutButton">Proceed to Checkout</button>
           </Link>
 
