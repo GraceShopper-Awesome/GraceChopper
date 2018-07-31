@@ -1,4 +1,5 @@
 body {
+  height: 100vh;
   background: url(/assets/1280px-Flag_of_the_United_States.svg.png) repeat 0 0;
 }
 
@@ -689,8 +690,9 @@ hr.soften {
   align-self: center;
   justify-content: space-evenly;
   font-style: oblique;
-  font-family: 'impact';
-  background-image: repeating-linear-gradient(red, white, blue);
+  font-family: "impact";
+  background: white;
+
 }
 
 #navbarLinks {
@@ -708,9 +710,11 @@ hr.soften {
 
 #itemList {
   display: flex;
+  border-radius: 10px;
+  border-width: 1px;
   border-style: solid;
-  border-width: 5px;
-  border-color: grey;
+  background-color: white;
+  opacity: 0.85;
 }
 
 #itemText {
@@ -719,6 +723,7 @@ hr.soften {
   flex-grow: 2;
   margin-left: 20px;
   margin-right: 20px;
+  max-width: 500px;
 }
 
 #itemList p {
@@ -745,6 +750,49 @@ hr.soften {
   margin-left: 40%;
 }
 
+#navbarLogo {
+  width: 600px;
+  height: 50%;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  border-bottom-style: groove;
+}
+
+.home {
+  display: flex;
+  justify-content: center;
+
+}
+
+.thumbnail {
+  align-self: center;
+  max-width: 440px;
+  max-height: 400px;
+  margin-left: 10px;
+}
+
+.quantityButton {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#description {
+  flex-grow: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 50vw;
+}
+
+.prodList {
+  display:flex;
+  justify-content: center;
+}
+=======
 .reviews {
   display: flex;
   flex-direction: column;

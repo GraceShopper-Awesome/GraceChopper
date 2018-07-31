@@ -37,7 +37,6 @@ class AdminEditProduct extends React.Component {
   handleAvailabilityChange = event => {
     const {target} = event
     this.props.availability(+target.value, target.checked)
-    //do i need to update the component to reflect the store?
   }
 
   render() {
@@ -78,13 +77,6 @@ class AdminEditProduct extends React.Component {
             <input type="number" id="stock" name="stock" min="0" defaultValue={stock} />
             <label htmlFor="imageUrl">Image URLs</label>
             <input type="text" id="imageUrl" name="imageUrl" defaultValue={imageUrl}/>
-            {/* <input
-              type="textarea"
-              rows="100"
-              cols="400"
-              id="imageUrl"
-              name="imageUrl"
-            /> */}
             <br />
             <label>Categories</label>
             <div>
@@ -112,7 +104,6 @@ class AdminEditProduct extends React.Component {
                   </div>
 
         </div>
-        {/* {imageUrl && imageUrl.length && imageUrl.map(el => <img src={el} />)} */}
       </div>
     )}
     else {
@@ -150,7 +141,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     availability: (id, flag) => {
       dispatch(setProductAvailabilityOnServer(id, flag))
     }
-    // edit: product => dispatch(editProduct(product))
   }
 }
 

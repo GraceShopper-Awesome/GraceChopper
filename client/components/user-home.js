@@ -9,8 +9,8 @@ export const UserHome = props => {
   const {email} = props
   if(props.isAdmin) props.history.push('/admin')
   return (
-    <div>
-      <h3>Welcome, {email.slice(0,email.indexOf("@"))}</h3>
+    <div className="home">
+      <h1>Welcome, {email.slice(0,email.indexOf("@"))}</h1>
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import React from 'react'
-import {products, addNewProduct} from '../store/products'
+import {addNewProduct} from '../store/products'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {fetchAllCategories} from '../store'
 
 class AdminAddProduct extends React.Component {

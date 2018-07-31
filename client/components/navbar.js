@@ -4,57 +4,43 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn, userType, userId}) => {
+const Navbar = ({handleClick, userType, userId}) => {
   switch(userType) {
     case "normal": {return(
       <div id="navbar">
-      <Link to="/home"><h1>GRACE'S CHOPPERS</h1></Link>
-      <nav>
-          <div>
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-            <Link to="/allproducts">All Products</Link>
-            <Link to={`/cart/${userId}`}>Shopping Cart</Link>
-            <Link to={`/orders/${userId}`}>Order History</Link>
-
-          </div>
-      </nav>
-      <hr />
+        <div id="navbarLogo">
+          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+        </div>
+        <a href="#" onClick={handleClick}>
+        <h1>Logout</h1>
+        </a>
+        <Link to="/allproducts"><h1>All Products</h1></Link>
+        <Link to={`/cart/${userId}` }><h1>Shopping Cart</h1></Link>
+        <Link to={`/orders/${userId}`}><h1>Order History</h1></Link>
     </div>
     )}
     case "admin" : {return(
       <div id="navbar">
-      <Link to="/admin"><h1>GRACE'S CHOPPERS</h1></Link>
-      <nav>
-          <div>
-          <Link to="/admin/products">Products</Link>
-          <Link to="/admin/orders">Orders</Link>
-          <Link to="/admin/users">Users</Link>
-          <Link to="/admin/categories">Categories</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-      </nav>
-      <hr />
-    </div>
+        <div id="navbarLogo">
+          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+        </div>
+          <a href="#" onClick={handleClick}>
+           <h1>Logout</h1>
+          </a>
+          <Link to="/admin/products"><h1>Products</h1></Link>
+          <Link to="/admin/orders"><h1>Orders</h1></Link>
+          <Link to="/admin/users"><h1>Users</h1></Link>
+          <Link to="/admin/categories"><h1>Categories</h1></Link>
+        </div>
     )}
     default: {return(
       <div id="navbar">
-      <Link to="/home"><h1>GRACE'S CHOPPERS</h1></Link>
-      <nav>
-          <div id="navbarLinks">
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/allproducts">All Products</Link>
-            <Link to="/cart">Shopping Cart</Link>
-            <Link to={`/orders/${userId}`}>Order History</Link>
-          </div>
-      </nav>
-      <hr />
+        <div id="navbarLogo">
+          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+        </div>
+        <Link to="/login"><h1>Login</h1></Link>
+        <Link to="/signup"><h1>Sign Up</h1></Link>
+        <Link to="/allproducts"><h1>All Products</h1></Link>
     </div>
     )}
   }

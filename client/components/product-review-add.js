@@ -1,13 +1,12 @@
 import React from 'react'
-import {products, addNewProduct, addReview} from '../store/products'
+import { addReview } from '../store/products'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-// import {addReview} from '../store'
+
 
 class ProductAddReview extends React.Component {
   constructor() {
     super()
-    // this.handleSubmit = this.handleSubmit.bind(this)
+    
   }
 
   handleSubmit = event => {
@@ -19,6 +18,7 @@ class ProductAddReview extends React.Component {
       userId: this.props.user.id
     }
     this.props.add(reviewData)
+    this.props.history.push(`/products/${this.props.product.id}`)
   }
 
   render() {
@@ -31,7 +31,6 @@ class ProductAddReview extends React.Component {
           <img src={this.props.product.imageUrl[0]} />
           <div>
             <form onSubmit={this.handleSubmit}>
-              {/* <label htmlFor="title"></label> */}
               <select name="dropdown" id="reviewDropdown">
                 <option value="5">5 (Best)</option>
                 <option value="4">4</option>
