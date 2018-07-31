@@ -6,9 +6,9 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ALL_CART_PRODUCTS = 'GET_ALL_CART_PRODUCTS'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
-const EDIT_CART = 'EDIT_CART'
 const SUBMIT_CART = 'SUBMIT_CART'
-
+const INC_CART = 'INC_CART'
+const DEC_CART = 'DEC_CART'
 
 /**
  * INITIAL STATE
@@ -20,7 +20,8 @@ const defaultCart = []
  */
 const addToCart = product => ({type: ADD_TO_CART, product})
 const removeFromCart = product => ({type: REMOVE_FROM_CART, product})
-const editCart = product => ({type: EDIT_CART, product})
+const incrementCart = product => ({type: INC_CART, product})
+const decrementCart = product => ({type: DEC_CART, product})
 const getAllFromCart = products => ({type: GET_ALL_CART_PRODUCTS, products})
 const submitCartAsOrder = () => ({type: SUBMIT_CART})
 
@@ -39,6 +40,23 @@ export const getCart = (id) => async dispatch => {
   }
 }
 
+export const plusCart = (orderitemId) => async dispatch => {
+  try{
+    const res = await axios.put(`/api/cart/increment/`, {orderitemId})
+    dispatch(incrementCart(res.data))
+  } catch(error){
+    console.log(error)
+  }
+}
+
+export const minusCart = (orderitemId) => async dispatch => {
+  try{
+    const res = await axios.put(`/api/cart/decrement/`, {orderitemId})
+    dispatch(decrementCart(res.data))
+  } catch(error){
+    console.log(error)
+  }
+}
 
 export const submitCart = (id) => async dispatch => {
   try {
@@ -52,12 +70,11 @@ export const submitCart = (id) => async dispatch => {
   }
 }
 
-export const addCartItem = (orderId, userId, quantity) => async dispatch => {
+export const addCartItem = (userId, productId, quantity) => async dispatch => {
 
   try{
      console.log(userId, productId, quantity)
     const res = await axios.put(`/api/cart/`, {userId, productId, quantity})
-    
     dispatch(addToCart(res.data[0]))
   } catch(error){
     console.log(error)
@@ -85,6 +102,11 @@ export default function(state = defaultCart, action) {
     case SUBMIT_CART:
       state = defaultCart
       return state
+    case INC_CART:
+      return [...state]
+    case DEC_CART:
+      console.log("action.product", action.product)
+      return [...state]
     default:
       return state
   }

@@ -17,18 +17,18 @@ const OrderItem = db.define('orderItem', {
   }
 })
 
-OrderItem.prototype.incrementQuantity = function() {
-  this.update({quantity: this.quantity + 1})
-
+OrderItem.prototype.incrementQuantity = async function() {
+  await this.update({quantity: this.quantity + 1})
 }
 
-OrderItem.prototype.decrementQuantity = function() {
-  this.update({quantity: this.quantity - 1})
+OrderItem.prototype.decrementQuantity = async function() {
+  if(this.quantity > 1){
+  await this.update({quantity: this.quantity - 1})
+  }
 }
 
 
 OrderItem.prototype.changeQuantity = function(amt) {
-  console.log('change quant ran')
   this.quantity = amt
 
 }
