@@ -107,7 +107,6 @@ export const editProduct = (
 
 export const searchProducts = (text, history) => async dispatch => {
   try {
-    console.log('text', text)
     const res = await axios.get(`/api/products/search?term=${text}`)
     const action = {
       searchTerm: text,
@@ -123,7 +122,6 @@ export const searchProducts = (text, history) => async dispatch => {
 export const addReview = review => async dispatch => {
   try {
     const res = await axios.post(`/api/reviews/add`, review)
-    console.log('res.data', res.data)
     dispatch(getNewReview(res.data))
   }catch (err) {
     console.error(err)
@@ -195,7 +193,6 @@ export default function(state = defaultProducts, action) {
         searchResults: action.searchResults
       }
     case GET_NEW_REVIEW:
-      console.log('state.product', state.product)
       return {
         ...state,
         product: {

@@ -45,15 +45,11 @@ const editOrderStatus = status => {
     type: EDIT_ORDER_STATUS,
     status
   }
-
 }
-
-
 
 /**
  * THUNK CREATORS
  */
-
 export const fetchUserOrders = (userId) => async dispatch =>{
 
   const route = '/api/order/' + userId
@@ -67,9 +63,6 @@ export const fetchUserOrders = (userId) => async dispatch =>{
     console.log(err)
   }
 }
-
-
-
 
 export const fetchAllOrders = () => async dispatch => {
   try {

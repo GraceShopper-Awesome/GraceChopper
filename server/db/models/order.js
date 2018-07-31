@@ -26,31 +26,23 @@ const Order = db.define('order', {
 
 //this method is invoked when a cart is purchased and turned into an order
 //it updates the carts status to
-Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
+Order.prototype.changeCartToOrder = async function() {
   //sanity check that this method only runs on carts
 
-  // if (cartWithOrderItems.status ==='cart'){
+  // if (this.status ==='cart'){
 
 
-  cartWithOrderItems.update({status: 'created'})
-  const user = await User.findOne({where: {id: cartWithOrderItems.userId}})
-  console.log('orderId', cartWithOrderItems.dataValues.id)
+  this.update({status: 'created'})
+  const user = await User.findOne({where: {id: this.userId}})
+  //user references user that has that order
+  await user.addOrder(await Order.create({status: 'cart'}))
 
-  cartWithOrderItems.orderItems.map(async (orderItem) => {
-    console.log('orderItemId', orderItem.dataValues.id)
-    console.log('productId', orderItem.dataValues.productId)
-
+  this.orderItems.map(async (orderItem) => {
     const curProduct = await Product.findOne({where: {id: orderItem.dataValues.productId}})
     await curProduct.update({stock: curProduct.stock - orderItem.quantity})
     await orderItem.update({fixedPrice: curProduct.price})
     await this.update({totalCost: this.totalCost + curProduct.price * orderItem.quantity})
-
-
   })
-
-
-  // }
-
 }
 
 // Order.prototype.incrementQuantity = async function(product) {

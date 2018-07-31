@@ -17,7 +17,6 @@ class ProductAddReview extends React.Component {
       productId: Number(this.props.match.params.id),
       userId: this.props.user.id
     }
-    console.log('reviewData', reviewData)
     this.props.add(reviewData)
     this.props.history.push(`/products/${this.props.product.id}`)
   }

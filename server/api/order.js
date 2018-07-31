@@ -12,8 +12,6 @@ router.get('/:userId', async (req, res, next) => {
       where: {userId: req.params.userId, status: {[Sequelize.Op.ne]: 'cart'}},
       include: [OrderItem]
     })
-    console.log(orders)
-
     res.json(orders)
   } catch (err) {
     next(err)
