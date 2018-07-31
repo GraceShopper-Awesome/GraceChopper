@@ -8,9 +8,8 @@ const Op = Sequelize.Op
 //send all products in a given order to client
 router.get('/:userId', async (req, res, next) => {
   try {
-    // let orderItems = await OrderItem.findAll({where: {orderId: req.params.orderId}, include: [{model: Product}]})
     let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
-    let orderItems = await OrderItem.findAll({where: {orderId: cart.dataValues.id}, include: [Product]})
+    let orderItems = await OrderItem.findAll({where: {orderId: cart.dataValues.id}, order: [['createdAt', 'DESC']], include: [Product]})
     res.json(orderItems)
   } catch (err) {
     next(err)
@@ -22,17 +21,16 @@ router.get('/:userId', async (req, res, next) => {
 router.delete('/:orderId', async (req, res, next) => {
 
   try {
-    console.log('req.params.orderId', req.params.orderId)
-    let orderItem = await OrderItem.findOne({
 
+    let orderItem = await OrderItem.findOne({
       where: {id: req.params.orderId}
     })
 
     orderItem.destroy()
-
-
     res.send(200)
+
   } catch (err) {
+
     next(err)
   }
 
@@ -42,15 +40,12 @@ router.delete('/:orderId', async (req, res, next) => {
 //changing quantity of a product in a given order or adding a product to an order
 
 
-router.put('/increment/:userId', async (req, res, next) => {
+router.put('/increment/', async (req, res, next) => {
 
   try {
-    let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
-    let product = await Product.findOne({where: {id: req.body.productId}})
-    await cart.incrementQuantity(product)
-
-    res.send(200)
-
+    let orderitem  = await OrderItem.findById(req.body.orderitemId)
+    await orderitem.incrementQuantity()
+    res.send(orderitem)
   } catch (err) {
     next(err)
   }
@@ -59,14 +54,11 @@ router.put('/increment/:userId', async (req, res, next) => {
 
 
 //changing quantity of a product in a given order or adding a product to an order
-router.put('/decrement/:userId', async (req, res, next) => {
-
+router.put('/decrement/', async (req, res, next) => {
   try {
-    let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
-    let product = await Product.findOne({where: {id: req.body.productId}})
-    await cart.decrementQuantity(product)
-
-    res.send(200)
+    let orderitem  = await OrderItem.findById(req.body.orderitemId)
+    await orderitem.decrementQuantity()
+    res.send(orderitem)
   } catch (err) {
     next(err)
   }

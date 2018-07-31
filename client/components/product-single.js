@@ -50,6 +50,7 @@ class ProductSingle extends React.Component {
             {imageUrl &&
               imageUrl.length &&
               imageUrl.map(el => <img key={id} src={el} />)}
+            <button onClick={this.handleClick}>Add To Cart</button>
           </div>
           <div>
             <button type="button" onClick={evt => this.handleClick(evt)}>

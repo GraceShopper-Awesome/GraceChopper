@@ -36,13 +36,13 @@ class Cart extends React.Component {
     handleChange(evt){
         console.log(evt.target.value)
     }
- 
-    render(){
 
-        const {user, cart} = this.props
+    render(){
+    
+        let {user, cart} = this.props
         const {email} = user
         let username;
-        console.log(cart)
+        console.log("cart is ", cart)
         if(email){
             username = email.slice(0,email.indexOf("@"))
         } else username = "guest"
@@ -51,7 +51,7 @@ class Cart extends React.Component {
         <div>
             <div>
                 <h1>{username}'s Cart</h1>
-                {cart.map(element => <CartSingle props={element}/>)}
+                {cart.map(element => <CartSingle item={element} user={this.props.match.params.id}/>)}
             </div>
                 <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
         </div>
