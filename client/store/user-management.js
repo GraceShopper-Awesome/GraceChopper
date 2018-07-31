@@ -36,7 +36,6 @@ const getUpdatedAdminUser = user => ({
 export const getAllUsers = () => async dispatch => {
   try {
     const res = await axios.get('/api/users')
-    console.log('user res.data', res.data)
     dispatch(getAllUsersFromServer(res.data))
   } catch (err) {
     console.error(err)

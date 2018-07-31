@@ -11,7 +11,6 @@ class Cart extends React.Component {
 
         this.handleRemove= this.handleRemove.bind(this)
         this.handleButton= this.handleButton.bind(this)
-        this.handleChange = this.handleChange.bind(this)
     }
 
     async componentDidMount() {
@@ -23,26 +22,19 @@ class Cart extends React.Component {
 
     handleButton(evt){
         evt.preventDefault()
-        
-        console.log(this.state.quantity)
     }
-    
+
     async handleRemove(evt){
         evt.preventDefault()
         await this.props.removeFromCart(evt.target.value)
         await this.props.getFromCart(this.props.match.params.id)
     }
-    
-    handleChange(evt){
-        console.log(evt.target.value)
-    }
 
     render(){
-    
+
         let {user, cart} = this.props
         const {email} = user
         let username;
-        console.log("cart is ", cart)
         if(email){
             username = email.slice(0,email.indexOf("@"))
         } else username = "guest"
@@ -53,7 +45,7 @@ class Cart extends React.Component {
                 <h1>{username}'s Cart</h1>
                 {cart.map(element => <CartSingle item={element} user={this.props.match.params.id}/>)}
             </div>
-                <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
+                <Link to="/checkout">Proceed to Checkout</Link>
         </div>
         )}
         else return <h1>Loading</h1>

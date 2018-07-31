@@ -20,7 +20,8 @@ import {
   AdminAddCategory,
   Cart,
   UserOrders,
-  Checkout
+  Checkout,
+  SingleOrder
 } from './components'
 import {me} from './store'
 
@@ -55,6 +56,7 @@ class Routes extends Component {
         <Route path="/cart/:id" component={Cart} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/orders/:id" component={UserOrders} />
+        <Route path="/order/:orderId" component={SingleOrder} />
 
 
         {isLoggedIn && (

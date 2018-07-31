@@ -15,7 +15,6 @@ describe('<ProductAll /> component', () => {
   })
 
   it('has access to all products on its props', () => {
-    console.log(productAll.props())
     expect(productAll.props())
   })
 })

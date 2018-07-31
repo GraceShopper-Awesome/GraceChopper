@@ -18,16 +18,13 @@ class ProductAddReview extends React.Component {
       productId: Number(this.props.match.params.id),
       userId: this.props.user.id
     }
-    console.log('reviewData', reviewData)
     this.props.add(reviewData)
   }
 
   render() {
-    console.log("props", this.props.product.imageUrl)
     if (!this.props.user.id) {
       return <h1>Please sign in or sign up to leave a product review</h1>
     } else {
-      console.log('this.props.user.id', this.props.user.id)
       return (
         <div>
           <h2>Leave a review for: {this.props.product.title}</h2>
