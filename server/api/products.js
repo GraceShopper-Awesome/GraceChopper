@@ -1,13 +1,15 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
-const {Category} = require('../db/models')
+const {Product, Category, Review} = require('../db/models')
 module.exports = router
-const Sequelize = require('sequelize')
 
+const Sequelize = require('sequelize')
+module.exports = router
+
+//api/products/
 router.get('/allproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Category]
+      include: [Category, Review]
     })
     res.json(products)
   } catch (err) {
@@ -15,8 +17,6 @@ router.get('/allproducts', async (req, res, next) => {
   }
 })
 
-  //search in the bar as /search?term='searchKey'
-  //separate spaces using '%'
 router.get('/availableproducts', async (req, res, next) => {
   try {
     const products = await Product.findAll({
@@ -31,13 +31,11 @@ router.get('/availableproducts', async (req, res, next) => {
   }
 })
 
-router.get('/:productId', async (req, res, next) => {
+router.get('/search', async (req, res, next) => {
   try {
-    console.log('in search')
     const products = await Product.findAll({
       where: {title: {[Sequelize.Op.iLike]: '%' + req.query.term + '%'}}
     })
-    console.log('search products', products)
     res.json(products)
   } catch (err) {
     next(err)
@@ -46,11 +44,11 @@ router.get('/:productId', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findAll({
+    const product = await Product.findOne({
       where: {
         id: req.params.productId
       },
-      include: [Category]
+      include: [Category, Review]
     })
     res.json(product)
   } catch (err) {
@@ -83,17 +81,19 @@ router.post('/admin/add', async (req, res, next) => {
 })
 
 router.put('/admin/available/:productId', async (req, res, next) => {
-  try{
-    const [numberOfAffectedRow, affectedRows] = await Product.update({
-      available: req.body.available
-    },
-    {
-      where: {id: req.params.productId},
-      returning: true,
-      plain: true
-    })
+  try {
+    const [numberOfAffectedRow, affectedRows] = await Product.update(
+      {
+        available: req.body.available
+      },
+      {
+        where: {id: req.params.productId},
+        returning: true,
+        plain: true
+      }
+    )
     res.json(affectedRows)
-  } catch(err) {
+  } catch (err) {
     next(err)
   }
 })

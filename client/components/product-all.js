@@ -1,9 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {products, searchProducts} from '../store/products'
-import {fetchAvailableProducts} from '../store/products'
+import {fetchAvailableProducts, searchProducts} from '../store/products'
 import {Link} from 'react-router-dom'
 import Sidebar from './sidebar'
+import ProductCard from './product-card'
 
 class ProductAll extends React.Component {
   componentDidMount() {
@@ -12,7 +12,7 @@ class ProductAll extends React.Component {
 
   render() {
     const {handleSearch} = this.props
-    if (!this.props.products.length) {
+    if (!this.props.products) {
       return <h1>Loading</h1>
     } else {
       const {activeCategories} = this.props
@@ -28,7 +28,6 @@ class ProductAll extends React.Component {
           })
         })
       }
-
       return (
         <div id="container">
           <Sidebar />
@@ -43,21 +42,34 @@ class ProductAll extends React.Component {
               Search
             </button>
           </form>
-          {visibleProducts.map(elements => (
-            <div key={elements.id} id="singleProd">
-              <div id="maininfo">
-                <Link to={`/products/${elements.id}`}>
-                  <h1>{elements.title}</h1>
-                </Link>
-                <h3>${elements.price}</h3>
-                <h3>{elements.stock} in stock</h3>
-                {elements.imageUrl &&
-                  elements.imageUrl.length && (
-                    <img src={elements.imageUrl[0]} />
-                  )}
+          <div className="section">
+            <div className="box">
+              <div className="row columns is-multiline">
+                <div className ="column is-one-third">
+                  <div className="card-large">
+                  {visibleProducts.map(elements => (
+                    // <div key={elements.id} id="singleProd">
+                    //   <div id="maininfo">
+                    //     <Link to={`/products/${elements.id}`}>
+                    //       <h1>{elements.title}</h1>
+                    //     </Link>
+                    //     <h3>${elements.price}</h3>
+                    //     <h3>{elements.stock} in stock</h3>
+                    //     <div>
+                    //     {elements.imageUrl &&
+                    //       elements.imageUrl.length && (
+                    //         <img src={elements.imageUrl[0]} />
+                    //       )}
+                    //     </div>
+                    //   </div>
+                    // </div>
+                    <ProductCard key={elements.id} {...elements} />
+                  ))}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
       )
     }

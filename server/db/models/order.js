@@ -66,6 +66,7 @@ Order.prototype.changeCartToOrder = async function(cartWithOrderItems) {
 // }
 
 
+
 Order.prototype.customAddProduct = async function(product, amt) {
   //search for an orderItem that is in this order that has the productId of the given product
   let orderItem = await OrderItem.findOrCreate({where: {orderId: this.id, productId: product.id}})

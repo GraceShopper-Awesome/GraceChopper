@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { products, getCart, removeCartItem, addCartItem } from '../store'
+import { products, getCart, removeCartItem } from '../store'
+import CartSingle from './cart-single'
 
 
 class Cart extends React.Component {
@@ -10,6 +11,7 @@ class Cart extends React.Component {
 
         this.handleRemove= this.handleRemove.bind(this)
         this.handleButton= this.handleButton.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     async componentDidMount() {
@@ -17,22 +19,24 @@ class Cart extends React.Component {
         await this.props.getFromCart(this.props.match.params.id)
     }
 
+
+
     handleButton(evt){
         evt.preventDefault()
-
+        
         console.log(this.state.quantity)
     }
-
-
-
+    
     async handleRemove(evt){
         evt.preventDefault()
         await this.props.removeFromCart(evt.target.value)
         await this.props.getFromCart(this.props.match.params.id)
     }
-
-
-
+    
+    handleChange(evt){
+        console.log(evt.target.value)
+    }
+ 
     render(){
 
         const {user, cart} = this.props
@@ -47,29 +51,7 @@ class Cart extends React.Component {
         <div>
             <div>
                 <h1>{username}'s Cart</h1>
-                {cart.map(element => (
-                    <div id="itemList" key={element.id}>
-                        <div id="singleItem">
-                            <img src={element.product.imageUrl}/>
-                        </div>
-                        <div id="itemText">
-                            <h2>{element.product.title}</h2>
-                            <h2>${element.product.price}</h2>
-                            <div id="quantity">
-                            <h4>Quantity: {element.quantity}</h4>
-                            <button><h3>-</h3></button>
-                            <button><h3>+</h3></button>
-                            </div>
-                            {/* <form onSubmit={this.handleButton}>
-                                <label htmlFor="quantity">Quantity: {element.quantity}</label>
-                                <input type="number" name="quantity"  defaultValue={element.quantity} min="1" max={element.product.stock} onChange={this.handleChange}/>
-                                <button type="submit" >Change</button>
-                            </form> */}
-                        </div>
-                            <p>{element.product.description}</p>
-                            <button onClick={this.handleRemove} value={element.id}>Remove From Cart</button>
-                    </div>
-                ))}
+                {cart.map(element => <CartSingle props={element}/>)}
             </div>
                 <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
         </div>
@@ -90,9 +72,7 @@ const mapDispatchToProps = dispatch => {
     return  {
         getProduct : () => dispatch(products()),
         getFromCart : (id) => dispatch(getCart(id)),
-        removeFromCart : (id) => dispatch(removeCartItem(id)),
-        addAProduct: (userId ,productId, quantity) => dispatch(addCartItem(userId, productId, quantity))
-        
+        removeFromCart : (id) => dispatch(removeCartItem(id))
     }
 }
 

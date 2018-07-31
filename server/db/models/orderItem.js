@@ -24,11 +24,9 @@ OrderItem.prototype.incrementQuantity =  function() {
 
 OrderItem.prototype.decrementQuantity =  function() {
 this.update({quantity: this.quantity-1})
-  if (!this.quantity) {
-    this.destroy()
-  }
 
-}
+
+
 
 
 OrderItem.prototype.changeQuantity = function(amt) {
