@@ -41,23 +41,24 @@ class ProductSingle extends React.Component {
       const reviewsArr = this.props.product.reviews
       const rating = productRating(reviewsArr)
       return (
-        <div>
-          <div id="productSingle">
-            <h1>Product Name: {title}</h1>
-            <p>Description: {description}</p>
-            <h2>Price: {price}</h2>
-            <h3>Stock: {stock}</h3>
-            {imageUrl &&
-              imageUrl.length &&
-              imageUrl.map(el => <img key={id} src={el} />)}
-            <button onClick={this.handleClick}>Add To Cart</button>
+        <div className="productSingleContainer">
+          <div className="productSingleView">
+            <h1>{title}</h1>
+            <h4>{description}</h4>
+            <h2>${price}</h2>
+            {/* <h3>Remaining: {stock}</h3> */}
+            <div className="addToCartandImage">
+              {imageUrl &&
+                imageUrl.length &&
+                imageUrl.map(el => (
+                  <img id="singleProductImage" key={id} src={el} />
+                ))}
+              <button id="addToCart" onClick={this.handleClick}>
+                Add To Cart
+              </button>
+            </div>
           </div>
-          <div>
-            <button type="button" onClick={evt => this.handleClick(evt)}>
-              ADD TO CART!
-            </button>
-          </div>
-          <div>
+          <div className="reviews">
             <h1>Customer Reviews</h1>
             <h2>
               {rating
@@ -68,15 +69,17 @@ class ProductSingle extends React.Component {
               Leave A Review
             </button>
             <div className="reviewList">
-              <table>
-                <tbody>
+              <table id="reviewTable" align="center">
+                <thead>
                   <tr>
                     <th>Rating</th>
                     <th>Review</th>
                   </tr>
+                </thead>
+                <tbody>
                   {reviewsArr.map(el => (
                     <tr className="singleReview" key={el.id}>
-                      <td>{el.rating}</td>
+                      <td id="reviewRating">{el.rating}</td>
                       <td>{el.content}</td>
                     </tr>
                   ))}
