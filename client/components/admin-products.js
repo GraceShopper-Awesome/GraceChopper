@@ -25,7 +25,6 @@ class AdminProducts extends React.Component {
   handleAvailabilityChange = event => {
     const {target} = event
     this.props.availability(+target.value, target.checked)
-    console.log("something changed?", target.value, target.checked)
     //do i need to update the component to reflect the store?
   }
 

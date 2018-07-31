@@ -5,7 +5,7 @@ const Sequelize = require('sequelize')
 
 const Op = Sequelize.Op
 
-//send all products in a given order to client
+//send all products in a given cart to client
 router.get('/:userId', async (req, res, next) => {
   try {
     let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
@@ -72,17 +72,16 @@ router.put('/', async (req, res, next) => {
     await orderitem[0].update({quantity: req.body.quantity})
     res.send(orderitem)
     } catch(error){
-        console.log(error)
+        console.error(error)
     }
 
 })
 //checkout a cart which sets fixed price on its OrderItems, changes its status to an order and creates a new db cart instance for the given user
 router.post('/:orderId', async (req, res, next) => {
-
   try {
     let cart = await Order.findOne({where: {id: req.params.orderId}, include: [OrderItem]})
 
-    cart.changeCartToOrder(cart)
+    cart.changeCartToOrder()
 
 
     res.send(200)

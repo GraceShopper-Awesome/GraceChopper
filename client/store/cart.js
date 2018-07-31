@@ -28,15 +28,12 @@ const submitCartAsOrder = () => ({type: SUBMIT_CART})
 /**
  * THUNK CREATORS
  */
-
-
-
 export const getCart = (id) => async dispatch => {
   try {
     const res = await axios.get(`/api/cart/${id}`)
     dispatch(getAllFromCart(res.data))
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -45,7 +42,7 @@ export const plusCart = (orderitemId) => async dispatch => {
     const res = await axios.put(`/api/cart/increment/`, {orderitemId})
     dispatch(incrementCart(res.data))
   } catch(error){
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -54,30 +51,28 @@ export const minusCart = (orderitemId) => async dispatch => {
     const res = await axios.put(`/api/cart/decrement/`, {orderitemId})
     dispatch(decrementCart(res.data))
   } catch(error){
-    console.log(error)
+    console.error(error)
   }
 }
 
 export const submitCart = (id) => async dispatch => {
   try {
-    await axios.post('/api/cart/' + id)
+    await axios.post(`/api/cart/${id}`)
     dispatch(submitCartAsOrder())
 
   }
   catch (err) {
-    console.log(err)
+    console.error(err)
 
   }
 }
 
 export const addCartItem = (userId, productId, quantity) => async dispatch => {
-
   try{
-     console.log(userId, productId, quantity)
     const res = await axios.put(`/api/cart/`, {userId, productId, quantity})
     dispatch(addToCart(res.data[0]))
   } catch(error){
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -86,7 +81,7 @@ export const removeCartItem = (id) => async dispatch => {
     const res = await axios.delete(`/api/cart/${id}`)
     dispatch(removeFromCart(res.data))
   } catch (error){
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -105,7 +100,6 @@ export default function(state = defaultCart, action) {
     case INC_CART:
       return [...state]
     case DEC_CART:
-      console.log("action.product", action.product)
       return [...state]
     default:
       return state

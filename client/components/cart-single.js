@@ -6,17 +6,16 @@ import { connect } from 'react-redux';
 class CartSingle extends React.Component {
     constructor(props){
         super(props)
- 
+
         this.handleIncrement=this.handleIncrement.bind(this)
         this.handleDecrement=this.handleDecrement.bind(this)
         this.handleRemove= this.handleRemove.bind(this)
     }
 
     async handleIncrement(){
-        console.log(this.props.item.product.stock)
         if(this.props.item.product.stock > this.props.item.quantity){
             await this.props.incCart(this.props.item.id)
-            await this.props.getAllCart(+this.props.user)   
+            await this.props.getAllCart(+this.props.user)
         } else {
             alert("This is all we have in stock!")
         }
