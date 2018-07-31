@@ -42,11 +42,11 @@ class ProductAll extends React.Component {
               Search
             </button>
           </form>
-          <div className="section">
-            <div className="box">
+          <div className="section" id="productList">
+            <div className="box" id="allProductsBox">
               <div className="row columns is-multiline">
                 <div className ="column is-one-third">
-                  <div className="card-large">
+                  <div className="card-large" id="cards">
                   {visibleProducts.map(elements => (
                     // <div key={elements.id} id="singleProd">
                     //   <div id="maininfo">
