@@ -17,7 +17,7 @@ const Navbar = ({handleClick, isLoggedIn, userType, userId}) => {
             </a>
             <Link to="/allproducts">All Products</Link>
             <Link to={`/cart/${userId}`}>Shopping Cart</Link>
-            <Link to="/orders">Order History</Link>
+            <Link to={`/orders/${userId}`}>Order History</Link>
 
           </div>
       </nav>
@@ -51,7 +51,7 @@ const Navbar = ({handleClick, isLoggedIn, userType, userId}) => {
             <Link to="/signup">Sign Up</Link>
             <Link to="/allproducts">All Products</Link>
             <Link to="/cart">Shopping Cart</Link>
-            <Link to="/orders">Order History</Link>
+            <Link to={`/orders/${userId}`}>Order History</Link>
           </div>
       </nav>
       <hr />
