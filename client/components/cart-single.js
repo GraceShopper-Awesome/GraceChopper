@@ -1,18 +1,41 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import { products, getCart, removeCartItem } from '../store'
+import { plusCart, minusCart, getCart, removeCartItem } from '../store'
+import { connect } from 'react-redux';
 
 
-export default class CartSingle extends React.Component {
+class CartSingle extends React.Component {
     constructor(props){
         super(props)
  
-
+        this.handleIncrement=this.handleIncrement.bind(this)
+        this.handleDecrement=this.handleDecrement.bind(this)
+        this.handleRemove= this.handleRemove.bind(this)
     }
 
+    async handleIncrement(){
+        console.log(this.props.item.product.stock)
+        if(this.props.item.product.stock > this.props.item.quantity){
+            await this.props.incCart(this.props.item.id)
+            await this.props.getAllCart(+this.props.user)   
+        } else {
+            alert("This is all we have in stock!")
+        }
+    }
+
+    async handleDecrement(){
+        await this.props.decCart(this.props.item.id)
+        await this.props.getAllCart(+this.props.user)
+    }
+
+    async handleRemove(evt){
+        evt.preventDefault()
+        await this.props.removeFromCart(evt.target.value)
+        await this.props.getAllCart(+this.props.user)
+    }
+
+
     render(){
-        const element = this.props.props
+        const element = this.props.item
         return(
             <div id="itemList" key={element.id}>
                 <div id="singleItem">
@@ -23,8 +46,8 @@ export default class CartSingle extends React.Component {
                     <h2>${element.product.price}</h2>
                     <div id="quantity">
                         <h4>Quantity: {element.quantity}</h4>
-                        <button><h3>-</h3></button>
-                        <button><h3>+</h3></button>
+                        <button onClick={this.handleDecrement}><h3>-</h3></button>
+                        <button onClick={this.handleIncrement}><h3>+</h3></button>
                     </div>
                 </div>
                 <p>{element.product.description}</p>
@@ -33,3 +56,15 @@ export default class CartSingle extends React.Component {
         )
     }
 }
+
+const mapDispatch = dispatch => {
+    return {
+        incCart : (userId, productId) => dispatch(plusCart(userId, productId)),
+        decCart : (userId, productId) => dispatch(minusCart(userId, productId)),
+        getAllCart: (userId) => dispatch(getCart(userId)),
+        removeFromCart : (id) => dispatch(removeCartItem(id))
+    }
+
+}
+
+export default connect(null, mapDispatch)(CartSingle)

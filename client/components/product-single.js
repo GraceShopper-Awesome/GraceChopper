@@ -17,7 +17,6 @@ class ProductSingle extends React.Component {
     evt.preventDefault()
     await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
     await this.props.getFromCart(this.props.user.id)
-
   }
 
   render() {
@@ -42,6 +41,7 @@ class ProductSingle extends React.Component {
             {imageUrl &&
               imageUrl.length &&
               imageUrl.map(el => <img key={id} src={el} />)}
+            <button onClick={this.handleClick}>Add To Cart</button>
           </div>
         </div>
       )
