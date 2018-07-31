@@ -9,7 +9,7 @@ const Navbar = ({handleClick, userType, userId}) => {
     case "normal": {return(
       <div id="navbar">
         <div id="navbarLogo">
-          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+          <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
         <a href="#" onClick={handleClick}>
         <h1>Logout</h1>
@@ -22,7 +22,7 @@ const Navbar = ({handleClick, userType, userId}) => {
     case "admin" : {return(
       <div id="navbar">
         <div id="navbarLogo">
-          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+          <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
           <a href="#" onClick={handleClick}>
            <h1>Logout</h1>
@@ -36,7 +36,7 @@ const Navbar = ({handleClick, userType, userId}) => {
     default: {return(
       <div id="navbar">
         <div id="navbarLogo">
-          <Link to="/home"><img src="https://files.slack.com/files-pri/T024FPYBQ-FC1HQ96K0/grace_chopper.png" id="navbarLogo"/></Link>
+          <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
         <Link to="/login"><h1>Login</h1></Link>
         <Link to="/signup"><h1>Sign Up</h1></Link>
