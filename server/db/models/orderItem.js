@@ -17,16 +17,14 @@ const OrderItem = db.define('orderItem', {
   }
 })
 
-OrderItem.prototype.incrementQuantity =  function() {
-  this.update({quantity: this.quantity+1})
+OrderItem.prototype.incrementQuantity = function() {
+  this.update({quantity: this.quantity + 1})
 
 }
 
-OrderItem.prototype.decrementQuantity =  function() {
-this.update({quantity: this.quantity-1})
-
-
-
+OrderItem.prototype.decrementQuantity = function() {
+  this.update({quantity: this.quantity - 1})
+}
 
 
 OrderItem.prototype.changeQuantity = function(amt) {
