@@ -8,19 +8,19 @@ body {
 }
 
 #header a {
-  text-decoration: none
+  text-decoration: none;
 }
 
 #header p {
   padding: 0;
   margin: 0;
   line-height: 1em;
-  font-size: 100%
+  font-size: 100%;
 }
 
 #header h1 {
   margin: 0;
-  line-height: 1em
+  line-height: 1em;
 }
 
 #header h1.dotmark {
@@ -37,7 +37,7 @@ body {
 }
 
 .logo span {
-  display: none
+  display: none;
 }
 
 .dotmark {
@@ -80,10 +80,11 @@ h3 {
 
 hr.soften {
   margin: 8px 0;
-  background: #DDD;
+  background: #ddd;
 }
 
-.moreOptopm.carousel .carousel-control, .moreOptopm.carousel .carousel-control:hover {
+.moreOptopm.carousel .carousel-control,
+.moreOptopm.carousel .carousel-control:hover {
   background: transparent;
 }
 
@@ -93,15 +94,18 @@ hr.soften {
   bottom: 0;
 }
 
-.moreOptopm.carousel .carousel-control.right, .moreOptopm.carousel .carousel-control.right:hover {
+.moreOptopm.carousel .carousel-control.right,
+.moreOptopm.carousel .carousel-control.right:hover {
   right: 0;
 }
 
-.moreOptopm.carousel .carousel-control.left, .moreOptopm.carousel .carousel-control.left:hover {
+.moreOptopm.carousel .carousel-control.left,
+.moreOptopm.carousel .carousel-control.left:hover {
   left: 0;
 }
 
-.moreOptopm.carousel .carousel-control, .moreOptopm.carousel .carousel-control:hover {
+.moreOptopm.carousel .carousel-control,
+.moreOptopm.carousel .carousel-control:hover {
   color: #000;
 }
 
@@ -116,12 +120,12 @@ hr.soften {
 }
 
 .spaceBtm {
-  padding-bottom: 8px
+  padding-bottom: 8px;
 }
 
 #myCarousel.homCar .item img {
   width: 100%;
-  max-height: 400px
+  max-height: 400px;
 }
 
 #myCarousel .btn {
@@ -151,15 +155,15 @@ hr.soften {
 }
 
 .thumbnail h4 {
-  line-height: 42px
+  line-height: 42px;
 }
 
 .thumbnail img {
-  max-width: 100%
+  max-width: 100%;
 }
 
 .thumbnail:hover {
-  border: 1px solid #CACACA;
+  border: 1px solid #cacaca;
 }
 
 .form-horizontal.qtyFrm .control-label {
@@ -167,7 +171,7 @@ hr.soften {
 }
 
 .form-horizontal.qtyFrm .control-label span {
-  font-size: 18px
+  font-size: 18px;
 }
 
 .clr {
@@ -176,11 +180,11 @@ hr.soften {
 
 .moreOptopm.carousel .item img {
   padding: 2px;
-  border: 1px solid #ddd
+  border: 1px solid #ddd;
 }
 
 .moreOptopm.carousel .item img:hover {
-  border: 1px solid pink
+  border: 1px solid pink;
 }
 
 .carousel .item > img {
@@ -188,18 +192,18 @@ hr.soften {
 }
 
 .moreOptopm {
-  min-height: 116px
+  min-height: 116px;
 }
 
 #productDetail {
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
 .tabWrapper {
   background: #fff;
   padding: 14px;
   border: 1px solid #ddd;
-  border-top: 0
+  border-top: 0;
 }
 
 #productView .btn-toolbar {
@@ -208,10 +212,11 @@ hr.soften {
 
 .carousel-control {
   border: 0px;
-  border-radius: 2px
+  border-radius: 2px;
 }
 
-.carousel-control, .carousel-control:hover {
+.carousel-control,
+.carousel-control:hover {
   background: rgba(248, 118, 16, 1);
   height: 43px;
   line-height: 34px;
@@ -267,7 +272,8 @@ hr.soften {
   text-align: right;
 }
 
-.control-label.alignL, .alignL {
+.control-label.alignL,
+.alignL {
   text-align: left;
 }
 
@@ -277,20 +283,20 @@ hr.soften {
 
 .loginFrm .control-group {
   padding: 8px 14px 0;
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
-
-
-.navbar .pull-right > li > .dropdown-menu, .navbar .nav > li > .dropdown-menu.pull-right {
+.navbar .pull-right > li > .dropdown-menu,
+.navbar .nav > li > .dropdown-menu.pull-right {
   right: 0;
   left: auto;
   border-radius: 0;
   border-color: #ccc;
 }
 
-.navbar .nav, .marginLess {
-  margin: 0
+.navbar .nav,
+.marginLess {
+  margin: 0;
 }
 
 .navbar-search .search-query {
@@ -309,21 +315,21 @@ hr.soften {
 .actionList a {
   width: 50%;
   font-size: 11px;
-  color: #444
+  color: #444;
 }
 
 .caption p {
-  margin: 0
+  margin: 0;
 }
 
 .caption h4 {
-  margin: 0
+  margin: 0;
 }
 
 .thumbnail .caption {
   padding: 9px;
   color: #555555;
-  background: #F3F2F2;
+  background: #f3f2f2;
 }
 
 .footer {
@@ -341,17 +347,17 @@ hr.soften {
 .copyright {
   clear: both;
   padding: 8px;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
   font-size: 13px;
   background: #f2f2f2;
-  box-shadow: 0 0 3px #B1AFAF;
+  box-shadow: 0 0 3px #b1afaf;
 }
 
 .topNav {
   padding: 0;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
   background: #f2f2f2;
-  box-shadow: 0 0 3px #B1AFAF;
+  box-shadow: 0 0 3px #b1afaf;
 }
 
 .topNav a {
@@ -362,10 +368,11 @@ hr.soften {
   padding: 8px 4px;
 }
 
-.topNav a:hover, .topNav a.active {
+.topNav a:hover,
+.topNav a.active {
   color: #fff;
   background: #f89406;
-  text-decoration: none
+  text-decoration: none;
 }
 
 .socialNw a {
@@ -383,7 +390,7 @@ hr.soften {
 }
 
 .cntr {
-  text-align: center
+  text-align: center;
 }
 
 .cart {
@@ -400,15 +407,15 @@ hr.soften {
 }
 
 #sidebar .nav a {
-  color: #000
+  color: #000;
 }
 
 #sidebar .nav a:hover {
-  color: #f89406
+  color: #f89406;
 }
 
 #sidebar .cart {
-  border: 1px solid #B94A48;
+  border: 1px solid #b94a48;
 }
 
 #sidebar h4 {
@@ -422,19 +429,20 @@ hr.soften {
   line-height: 21px;
 }
 
-#sidebar a.defaultBtn:hover, .defaultBtn:hover {
+#sidebar a.defaultBtn:hover,
+.defaultBtn:hover {
   color: #fff;
   text-decoration: none;
-  background: #333
+  background: #333;
 }
 
 #sidebar .nav a.zoomTool {
-  color: #fff
+  color: #fff;
 }
 
 .thumbnail > a {
   display: block;
-  text-align: center
+  text-align: center;
 }
 
 .carousel-caption {
@@ -450,12 +458,13 @@ hr.soften {
   text-align: justify;
 }
 
-.table td[align=right] {
+.table td[align='right'] {
   text-align: right;
 }
 
-.thumbnail h5, .thumbnail p {
-  text-align: center
+.thumbnail h5,
+.thumbnail p {
+  text-align: center;
 }
 
 .bs-docs-sidenav > li > a {
@@ -478,7 +487,7 @@ hr.soften {
 }
 
 .np {
-  padding: 0
+  padding: 0;
 }
 
 .totalInCart {
@@ -493,15 +502,17 @@ hr.soften {
 }
 
 .relative {
-  position: relative
+  position: relative;
 }
 
-.socialMedia .on, .socialMedia:hover .off {
-  display: block
+.socialMedia .on,
+.socialMedia:hover .off {
+  display: block;
 }
 
-.socialMedia .off, .socialMedia:hover .on {
-  display: none
+.socialMedia .off,
+.socialMedia:hover .on {
+  display: none;
 }
 
 #newProductCar .carousel-control {
@@ -515,7 +526,7 @@ hr.soften {
   line-height: 1.5em;
   color: #ffffff;
   text-align: center;
-  background: #FFA300;
+  background: #ffa300;
   border: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -533,7 +544,7 @@ hr.soften {
 }
 
 #newProductCar {
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
 .zoomTool {
@@ -551,11 +562,11 @@ hr.soften {
   top: 44%;
   margin-left: -60px;
   z-index: 999;
-  display: none
+  display: none;
 }
 
 .thumbnail {
-  background: #fff
+  background: #fff;
 }
 
 .zoomTool:hover {
@@ -563,7 +574,8 @@ hr.soften {
   text-decoration: none;
 }
 
-.thumbnail > a.overlay, .thumbnail > a.zoomTool {
+.thumbnail > a.overlay,
+.thumbnail > a.zoomTool {
   display: none;
 }
 
@@ -599,7 +611,7 @@ hr.soften {
 .shopBtn:hover {
   color: #fff;
   text-decoration: none;
-  background: #F86706
+  background: #f86706;
 }
 
 .gotop {
@@ -629,29 +641,28 @@ hr.soften {
 
 #footerMenu a {
   font-size: 12px;
-  text-transform: lowercase
+  text-transform: lowercase;
 }
 
 /* all products css */
 
 #singleProd {
-  font-family: "impact";
+  font-family: 'impact';
   justify-content: space-evenly;
   border-style: groove;
   border-width: 8px;
   display: flex;
   margin-left: 15%;
-
 }
 
 #mainInfo {
-  flex-grow: 2
+  flex-grow: 2;
 }
 
 /* sidebar */
 
 #sidebar {
-  font-family: "impact";
+  font-family: 'impact';
   overflow: hidden;
   position: fixed;
   margin-left: 2%;
@@ -681,6 +692,7 @@ hr.soften {
   font-style: oblique;
   font-family: "impact";
   background: white;
+
 }
 
 #navbarLinks {
@@ -691,7 +703,7 @@ hr.soften {
 /* Single Product View */
 
 #productSingle {
-  font-family: "impact";
+  font-family: 'impact';
 }
 
 /* Cart View */
@@ -719,8 +731,7 @@ hr.soften {
   flex-grow: 2;
 }
 
-
-#singleItem{
+#singleItem {
   flex-grow: 1;
   height: 250px;
   width: 250px;
@@ -730,11 +741,11 @@ hr.soften {
   height: 250px;
 }
 
-#itemText input{
+#itemText input {
   width: 100px;
 }
 
-#checkoutButton{
+#checkoutButton {
   margin-top: 10%;
   margin-left: 40%;
 }
@@ -780,4 +791,64 @@ hr.soften {
 .prodList {
   display:flex;
   justify-content: center;
+}
+=======
+.reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  opacity: 0.85;
+  margin-top: 20px;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-bottom: 80px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+}
+
+.productSingleView {
+  background: white;
+  opacity: 0.85;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-bottom: 80px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+}
+
+#singleProductImage {
+  max-width: 700px;
+  border-radius: 10px;
+  opacity: 1;
+  /* border-style: solid;
+  border-color: black; */
+}
+
+#addToCart {
+  max-width: 400px;
+  margin: 20px;
+}
+
+.addToCartandImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviewList {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#reviewRating {
+  text-align: center;
 }

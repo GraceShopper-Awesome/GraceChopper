@@ -290,7 +290,7 @@ const orderArr = [
     userId: 3
   },
   {
-    status: 'cart',
+    status: 'created',
     userId: 1
   },
   {
@@ -302,7 +302,7 @@ const orderArr = [
     userId: 5
   },
   {
-    status: 'cart',
+    status: 'created',
     userId: 9
   },
   {
@@ -310,7 +310,7 @@ const orderArr = [
     userId: 3
   },
   {
-    status: 'cart',
+    status: 'created',
     userId: 4
   },
   {
