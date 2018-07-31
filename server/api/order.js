@@ -8,6 +8,7 @@ const Sequelize = require('sequelize')
 //get all past orders for a user
 router.get('/:userId', async (req, res, next) => {
   try {
+    console.log('HITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT' + req.params.userId)
     let orders = await Order.findAll({
       where: {userId: req.params.userId, status: {[Sequelize.Op.ne]: 'cart'}},
       include: [OrderItem]

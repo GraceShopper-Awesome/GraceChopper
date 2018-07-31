@@ -47,10 +47,26 @@ router.put('/increment/:userId', async (req, res, next) => {
   try {
     let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
     let product = await Product.findOne({where: {id: req.body.productId}})
-    await cart.incrementQuantity(product)
-
+    let orderItem = await OrderItem.findOrCreate({where: {orderId: cart.id, productId: product.id}})
+    await orderItem.incrementQuantity()
     res.send(200)
+  } catch (err) {
+    next(err)
+  }
 
+})
+
+
+//changing quantity of a product in a given order or adding a product to an order
+router.put('/decrement/:userId', async (req, res, next) => {
+
+  try {
+    let cart = await Order.findOne({where: {userId: req.params.userId, status: 'cart'}})
+    let product = await Product.findOne({where: {id: req.body.productId}})
+    let orderItem = await OrderItem.findOrCreate({where: {orderId: cart.id, productId: product.id}})
+    await orderItem.decrementQuantity()
+    res.send(200)
+  
   } catch (err) {
     next(err)
   }
