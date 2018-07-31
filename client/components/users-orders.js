@@ -1,15 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import { products, fetchUserOrders, removeCartItem, addCartItem } from '../store'
+import {Link, withRouter} from 'react-router-dom'
+import {products, fetchUserOrders, removeCartItem, addCartItem} from '../store'
 
 
 class UserOrders extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
 
-    this.handleRemove= this.handleRemove.bind(this)
-    this.handleButton= this.handleButton.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
+    this.handleButton = this.handleButton.bind(this)
   }
 
   async componentDidMount() {
@@ -17,41 +17,53 @@ class UserOrders extends React.Component {
 
   }
 
-  handleButton(evt){
+  handleButton(evt) {
     evt.preventDefault()
 
     console.log(this.state.quantity)
   }
 
 
-
-  async handleRemove(evt){
+  async handleRemove(evt) {
     evt.preventDefault()
 
   }
 
 
+  render() {
 
-  render(){
 
-
-    const {user, cart} = this.props
-    console.log(user)
+    const {user, orders} = this.props
     const {email} = user
-    let username;
-    if(email){
-      username = email.slice(0,email.indexOf("@"))
-    } else username = "guest"
-    if(username){
-      return(
+    let username
+    if (email) {
+      username = email.slice(0, email.indexOf('@'))
+    } else username = 'guest'
+    if (username) {
+      return (
         <div>
           <div>
-            <h1>{username}'s Cart</h1>
+            <h1>{username}'s Orders</h1>
+            {orders.all.map(order => {
+              return (
+                <div>
+                 <p>Total Cost: {order.totalCost}</p>
+                  <p>Created: {order.createdAt}</p>
+
+                </div>
+
+
+              )
+
+            })}
 
           </div>
-          <Link to="/checkout"><button id="checkoutButton">Proceed to Checkout</button></Link>
+          <Link to="/checkout">
+            <button id="checkoutButton">Proceed to Checkout</button>
+          </Link>
         </div>
-      )}
+      )
+    }
     else return <h1>Loading</h1>
   }
 }
@@ -60,13 +72,13 @@ const mapStateToProps = (state) => {
   return {
     product: state.products.products,
     user: state.user,
-    orders : state.orders
+    orders: state.orders
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return  {
-    getOrders : (id) => dispatch(fetchUserOrders(id))
+  return {
+    getOrders: (id) => dispatch(fetchUserOrders(id))
 
   }
 }
