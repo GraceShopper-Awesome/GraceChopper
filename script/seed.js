@@ -1,277 +1,652 @@
-'use strict'
-var faker = require('faker')
-const Sequelize = require('sequelize')
-
-const REVIEW_AMT = 1200
-const USER_AMT = 25
-const CATEGORY_AMT = 7
-const PRODUCT_AMT = 150
-const ORDER_AMT = 22
-
 const db = require('../server/db')
 const {
   User,
   Category,
   Product,
   Order,
+  ProductCategory,
   Review,
   OrderItem
 } = require('../server/db/models')
 
-/**
- * Welcome to the seed file! This seed file uses a newer language feature called...
- *
- *                  -=-= ASYNC...AWAIT -=-=
- *
- * Async-await is a joy to use! Read more about it in the MDN docs:
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
- *
- * Now that you've got the main idea, check it out in practice below!
- */
-
-async function seed() {
-  await db.sync({force: true})
-  console.log('db synced!')
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
-  // executed until that promise resolves!
-
-  //users
-  let userArr = []
-  let userTypes = ['admin', 'normal', 'guest']
-  for (let i = 0; i < USER_AMT; i++) {
-    let userT = userTypes[Math.floor(Math.random() * 3)]
-    let email = faker.internet.email()
-    email = email.replace('_', '')
-    userArr.push({
-      email: email,
-      password: faker.internet.password(),
-      userType: userT
-    })
+const productsArr = [
+  {
+    title: 'CH-47 Chinook',
+    stock: 10,
+    price: 35000000,
+    description:
+      'Twin-engine, tandem rotor, heavy-lift chopper for all of your troop transportation needs',
+    imageUrl: [
+      'https://amp.businessinsider.com/images/5aa18f0fe86053d64a8b4610-750-375.jpg'
+    ]
+  },
+  {
+    title: 'AVX Hypersonic',
+    stock: 5,
+    price: 10000000,
+    description:
+      'The future is now! Pre-order the revolutionary AVX Hypersonic helicopter and travel in style!',
+    imageUrl: [
+      'https://cnet3.cbsistatic.com/img/mZfxb97U76UxqDp8LrJDZEbWlPw=/970x0/2013/09/13/ee9083e4-5739-11e3-89ab-14feb5ca9861/AVX_Aircraft_JMR.jpg'
+    ]
+  },
+  {
+    title: 'Bumblebee Airbus',
+    stock: 15,
+    price: 500000,
+    description: `"Float like a butterfly, sting like a bumblebee!" - Mohammed Ali`,
+    imageUrl: [
+      'https://www.airbushelicopters.ca/wp-content/uploads/babcock-fleet.jpg'
+    ]
+  },
+  {
+    title: 'Dragonfly',
+    stock: 30,
+    price: 10000,
+    description:
+      'The perfect personal helicopter for work commutes or budding helicopter hobbyists',
+    imageUrl: [
+      'https://ae01.alicdn.com/kf/HTB11xymj6ihSKJjy0Feq6zJtpXaD/SCHWEIZER-300C-Hughes-9CH-RC-Helicopter-Brushless-RTF-All-Metal-high-Simulation-Remote-Control-Helicopter-Static.jpg_640x640.jpg'
+    ]
+  },
+  {
+    title: 'Cropduster 5000',
+    stock: 20,
+    price: 50000,
+    description:
+      'Voted by JD Power and Associates as the best helicopter for spraying chemicals on your crops',
+    imageUrl: [
+      'https://www.popsci.com/sites/popsci.com/files/styles/1000_1x_/public/images/2017/09/z-10_helo_expo.jpg?itok=zrE_GgB6&fc=50,50'
+    ]
+  },
+  {
+    title: 'StrikeForce',
+    stock: 35,
+    price: 1000000,
+    description:
+      'Render your enemies helpless with the military grade StrikeForce helicopter model. Missiles sold separately!',
+    imageUrl: [
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Apache_Helicopter_Firing_Rockets_MOD_45154922.jpg/1200px-Apache_Helicopter_Firing_Rockets_MOD_45154922.jpg'
+    ]
+  },
+  {
+    title: 'Mall Helicopter',
+    stock: 50,
+    price: 200,
+    description: 'Perfect holiday gift for the future pilot',
+    imageUrl: [
+      'http://slotstock.co.uk/slotStock/main/skyhawk-childrens-ride.png'
+    ]
+  },
+  {
+    title: 'Chopper Jr',
+    stock: 100,
+    price: 500,
+    description: 'The first trike for your little tyke!',
+    imageUrl: [
+      'https://st.hzcdn.com/simgs/c441740a05b9856e_4-4337/home-design.jpg'
+    ]
+  },
+  {
+    title: 'Road Rager XL',
+    stock: 30,
+    price: 1000,
+    description:
+      'Tear up the highway and with the Road Rager XL. Female not included.',
+    imageUrl: ['https://i.ytimg.com/vi/ZectQMIQzNs/hqdefault.jpg']
+  },
+  {
+    title: 'Red Hawk',
+    stock: 15,
+    price: 1200,
+    description:
+      'Guarenteed to get you at least one date while riding, or your money back!',
+    imageUrl: [
+      'https://qph.fs.quoracdn.net/main-qimg-7c3632e07599da47d73434f7db322e20-c'
+    ]
+  },
+  {
+    title: 'Gotham',
+    stock: 22,
+    price: 1400,
+    description:
+      'Feel like batman (Christian Bale... not Ben Affleck) with the limited edition Gotham chopper',
+    imageUrl: [
+      'http://www.custom-motorcycle-parts.com/wp-content/uploads/2010/05/gothic-custom-chopper_1.jpg'
+    ]
+  },
+  {
+    title: 'Ghost Rider 2.0',
+    stock: 18,
+    price: 2000,
+    description: 'For Nicolas Cage enthusiasts',
+    imageUrl: [
+      'https://i.pinimg.com/originals/bc/e3/e7/bce3e7ff39ffd932e811e3eb7eba3d76.jpg'
+    ]
+  },
+  {
+    title: 'Helicycle',
+    stock: 33,
+    price: 1000,
+    description:
+      'Having trouble deciding between a motorcycle and helicopter? Then get yourself a vehicle that can do both - the Helicycle',
+    imageUrl: [
+      'https://www.visordown.com/sites/default/files/article-images/4/46860.jpg'
+    ]
+  },
+  {
+    title: 'Uncle Sam Special',
+    stock: 50,
+    price: 2500,
+    description:
+      'Show off your undying love for your country with the Uncle Sam Special',
+    imageUrl: [
+      'http://3.bp.blogspot.com/-RdnTPx-MdlU/TjoSS8Tnb3I/AAAAAAAAGVw/zPAls0YpTas/s1600/jb61.jpg'
+    ]
+  },
+  {
+    title: 'My First Harley',
+    stock: 57,
+    price: 199,
+    description:
+      'Show your kids you really love them with the "My First Harley"',
+    imageUrl: [
+      'http://blog.motorcycle.com.vsassets.com/wp-content/uploads/2008/12/0002708420873_500x500.jpg'
+    ]
+  },
+  {
+    title: 'Copper Chopper',
+    stock: 30,
+    price: 3000,
+    description:
+      'The refurbished Copper Chopper is perfect for riding to local donut shops',
+    imageUrl: [
+      'http://www.normandyparkblog.com/wp-content/images/NPPoliceMotorcycle.jpg'
+    ]
+  },
+  {
+    title: 'Recumbent Military Chopper',
+    stock: 20,
+    price: 10000,
+    description: 'The best army in the world deserves a motorcycle',
+    imageUrl: [
+      'https://i.pinimg.com/originals/1b/9e/69/1b9e696f5c9627409338b5a0a41cd158.jpg'
+    ]
   }
+]
 
-  userArr.push({
+const categoryArr = [
+  {name: 'Helicopters'},
+  {name: 'Motorcycles'},
+  {name: 'Military Grade'},
+  {name: 'Recreational Use'},
+  {name: 'For Kids'}
+]
+
+const usersArr = [
+  {
+    userType: 'normal',
+    email: 'HeathBeahan@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Olga74@hotmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Josiane13@gmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'ShanieBoehm32@hotmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Lilyan.Powlowski93@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'OrvalFritsch@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Orlo.Beatty64@hotmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Philip74@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Evalyn.Johnston26@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Penelope.Little76@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Seamus.Greenfelder@yahoo.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'ScarlettMosciski@hotmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'normal',
+    email: 'Deven.Gulgowski@gmail.com',
+    password: 'password'
+  },
+  {
+    userType: 'admin',
     email: 'admin@user.com',
-    password: 'password',
-    userType: 'admin'
-  })
-  userArr.push({
+    password: 'password'
+  },
+  {
+    userType: 'normal',
     email: 'normalUser@user.com',
-    password: 'password',
-    userType: 'normal'
-  })
-
-  //categories
-  let catArr = []
-  for (let i = 0; i < CATEGORY_AMT; i++) {
-    catArr.push({name: faker.commerce.department()})
-  }
-
-  //products
-  let prodArr = []
-  //title, price, stock, descriptio, image
-  for (let i = 0; i < PRODUCT_AMT; i++) {
-    prodArr.push({
-      title: faker.commerce.productName(),
-      price: faker.commerce.price(),
-      stock: Math.ceil(Math.random() * 20),
-      description: faker.lorem.paragraph()
-    })
-  }
-
-  //order
-  let orderArr = []
-  let orderStatuses = [
-    'completed',
-    'cancelled',
-    'created',
-    'processing',
-    'cart'
-  ]
-  for (let i = 0; i < ORDER_AMT; i++) {
-    orderArr.push({status: orderStatuses[Math.floor(Math.random() * 5)]})
-  }
-
-  //review
-  let reviewArr = []
-
-  for (let i = 0; i < REVIEW_AMT; i++) {
-    reviewArr.push({content: faker.lorem.paragraph(), rating: 4})
-  }
-
-  const catData = await Category.bulkCreate(catArr)
-  const orderData = await Order.bulkCreate(orderArr)
-  const reviewData = await Review.bulkCreate(reviewArr)
-  // const userData = await User.bulkCreate(userArr)
-  // const prodData = await Product.bulkCreate(prodArr)
-
-  //User assocs
-  await Promise.all(
-    userArr.map(async user => {
-      let createdUser = await User.create(user)
-      let orderArr = []
-      let indArr = []
-
-      for (let i = 0; i < Math.ceil(Math.random() * 5); i++) {
-        let rand = Math.ceil(Math.random() * ORDER_AMT)
-
-        if (!indArr.includes(rand)) {
-          let order = await Order.findById(rand)
-          orderArr.push(order)
-        }
-
-        indArr.push(rand)
-      }
-
-      createdUser.setOrders(orderArr).then(res => {})
-
-      let reviewArr = []
-      indArr = []
-
-      for (let i = 0; i < Math.ceil(Math.random() * 800); i++) {
-        let rand = Math.ceil(Math.random() * REVIEW_AMT)
-
-        if (!indArr.includes(rand)) {
-          let review = await Review.findById(rand)
-          reviewArr.push(review)
-        }
-      }
-
-      createdUser.setReviews(reviewArr).then(() => {})
-
-      return createdUser
-    })
-  )
-
-  //Create fully linked cart/ orders with User, product and orderItem associations for testing
-  const cartUser = await User.create({
+    password: 'password'
+  },
+  {
+    userType: 'normal',
     email: 'cartUser@gmail.com',
-    password: 'pass',
-    userType: 'normal'
-  })
+    password: 'password'
+  }
+]
 
-  const cart = await Order.create({status: 'cart'})
-  await orderSeeder(cart)
+const orderArr = [
+  {
+    status: 'cancelled',
+    userId: 3
+  },
+  {
+    status: 'cart',
+    userId: 1
+  },
+  {
+    status: 'processing',
+    userId: 10
+  },
+  {
+    status: 'completed',
+    userId: 5
+  },
+  {
+    status: 'cart',
+    userId: 9
+  },
+  {
+    status: 'processing',
+    userId: 3
+  },
+  {
+    status: 'cart',
+    userId: 4
+  },
+  {
+    status: 'processing',
+    userId: 11
+  },
+  {
+    status: 'completed',
+    userId: 8
+  },
+  {
+    status: 'cancelled',
+    userId: 2
+  }
+]
 
-  await cartUser.setOrders(cart).then(() => {})
+const productCategoryArr = [
+  {
+    categoryId: 1,
+    productId: 1
+  },
+  {
+    categoryId: 3,
+    productId: 1
+  },
+  {
+    categoryId: 1,
+    productId: 2
+  },
+  {
+    categoryId: 3,
+    productId: 2
+  },
+  {
+    categoryId: 1,
+    productId: 3
+  },
+  {
+    categoryId: 3,
+    productId: 3
+  },
+  {
+    categoryId: 4,
+    productId: 3
+  },
+  {
+    categoryId: 1,
+    productId: 4
+  },
+  {
+    categoryId: 4,
+    productId: 4
+  },
+  {
+    categoryId: 1,
+    productId: 5
+  },
+  {
+    categoryId: 3,
+    productId: 5
+  },
+  {
+    categoryId: 4,
+    productId: 5
+  },
+  {
+    categoryId: 1,
+    productId: 6
+  },
+  {
+    categoryId: 3,
+    productId: 6
+  },
+  {
+    categoryId: 1,
+    productId: 7
+  },
+  {
+    categoryId: 5,
+    productId: 7
+  },
+  {
+    categoryId: 2,
+    productId: 8
+  },
+  {
+    categoryId: 5,
+    productId: 8
+  },
+  {
+    categoryId: 2,
+    productId: 9
+  },
+  {
+    categoryId: 4,
+    productId: 9
+  },
+  {
+    categoryId: 2,
+    productId: 10
+  },
+  {
+    categoryId: 4,
+    productId: 10
+  },
+  {
+    categoryId: 2,
+    productId: 11
+  },
+  {
+    categoryId: 4,
+    productId: 11
+  },
+  {
+    categoryId: 2,
+    productId: 12
+  },
+  {
+    categoryId: 4,
+    productId: 12
+  },
+  {
+    categoryId: 1,
+    productId: 13
+  },
+  {
+    categoryId: 2,
+    productId: 13
+  },
+  {
+    categoryId: 4,
+    productId: 13
+  },
+  {
+    categoryId: 2,
+    productId: 14
+  },
+  {
+    categoryId: 4,
+    productId: 14
+  },
+  {
+    categoryId: 2,
+    productId: 15
+  },
+  {
+    categoryId: 5,
+    productId: 15
+  },
+  {
+    categoryId: 2,
+    productId: 16
+  },
+  {
+    categoryId: 4,
+    productId: 16
+  },
+  {
+    categoryId: 2,
+    productId: 17
+  },
+  {
+    categoryId: 3,
+    productId: 17
+  }
+]
 
-  let product = await Product.create({
-    title: 'product1',
-    price: 69,
-    stock: 12,
-    description: faker.lorem.paragraph()
-  })
-
-  const completedOrderUser = await User.create({
-    email: 'CompOrderUser@gmail.com',
-    password: 'pass',
-    userType: 'normal'
-  })
-
-  const order1 = await Order.create({status: 'created'})
-  const order2 = await Order.create({status: 'completed'})
-
-  await completedOrderUser.setOrders([order1, order2]).then(() => {})
-
-  await orderSeeder(order1)
-  await orderSeeder(order2)
-
-
-  //create product assoc
-  await Promise.all(
-    prodArr.map(async prod => {
-      //many to many category
-      let createdProd = await Product.create(prod)
-      let catArr = []
-      let indArr = []
-
-      for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
-        let rand = Math.ceil(Math.random() * 7)
-
-        if (!indArr.includes(rand)) {
-          let cat = await Category.findById(rand)
-          catArr.push(cat)
-        }
-
-        indArr.push(rand)
-      }
-
-      indArr = []
-      let revArr = []
-
-      for (let i = 0; i < Math.ceil(Math.random() * 10000); i++) {
-        let rand = Math.ceil(Math.random() * REVIEW_AMT)
-
-        if (!indArr.includes(rand)) {
-          let rev = await Review.findById(rand)
-          revArr.push(rev)
-        }
-
-        indArr.push(rand)
-      }
-
-      createdProd.setCategories(catArr).then(res => {})
-
-      return createdProd.setReviews(revArr).then(res => {
-        Review.destroy({where: {userId: null}})
-        Review.destroy({where: {productId: null}})
-      })
-    })
-  )
-
-  //association random creation
-  //
-
-  // Wowzers! We can even `await` on the right-hand side of the assignment operator
-  // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded  users`)
-  console.log(`seeded successfully`)
-}
-
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
-async function runSeed() {
-  console.log('seeding...')
-  try {
-    await seed()
-  } catch (err) {
-    console.error(err)
-    process.exitCode = 1
-  } finally {
-    console.log('closing db connection')
-
-    await db.close()
-
-    console.log('db connection closed')
+const seedProducts = async () => {
+  for (let product of productsArr) {
+    await Product.create(product)
   }
 }
 
-async function orderSeeder(order) {
-  for (let i = 0; i < 20; i++) {
-    let product = await Product.create({
-      title: faker.commerce.productName(),
-      price: faker.commerce.price(),
-      stock: 20,
-      description: faker.lorem.paragraph()
-    })
-
-    order.customAddProduct(product, Math.ceil(Math.random() * 7))
+const seedCategories = async () => {
+  for (let category of categoryArr) {
+    await Category.create(category)
   }
 }
 
-// async function postSeed() {
-//
-//   let deletions = await Order.destroy({where: {userId: null}})
-//   console.log('deleted stranded orders: ', deletions)
-// }
-
-// Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
-if (module === require.main) {
-  runSeed()
+const seedUsers = async () => {
+  for (let user of usersArr) {
+    await User.create(user)
+  }
 }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
+const seedOrders = async () => {
+  for (let order of orderArr) {
+    await Order.create(order)
+  }
+}
+
+const seedCategoryAssociations = async () => {
+  for (let catAssoc of productCategoryArr) {
+    await ProductCategory.create(catAssoc)
+  }
+}
+
+const seed = async () => {
+  await db.sync({force: true})
+  await seedProducts()
+  await seedCategories()
+  await seedUsers()
+  await seedOrders()
+  await seedCategoryAssociations()
+  console.log('Seed successful')
+  db.close()
+}
+seed()
+
 module.exports = seed
+
+// ORDERS
+// status: cancelled
+// userId: 3
+// status: cart
+// userId: 10
+// status: processing
+// userId: 8
+// status: created
+// userId: 1
+// status: cart
+// userId: 5
+// status: cancelled
+// userId: 8
+// status: completed
+// userId: 3
+// status: cart
+// userId: 1
+// status: created
+// userId: 6
+// status: completed
+// userId: 10
+// status: processing
+// userId: 2
+
+// CATEGORIES //
+// Helicopters
+// Motorcycles
+// Military Grade
+// Recreational Use
+// For Kids
+
+// USERS
+// HeathBeahan@yahoo.com
+// Olga74@hotmail.com
+// Josiane13@gmail.com
+// ShanieBoehm32@hotmail.com
+// Lilyan.Powlowski93@yahoo.com
+// OrvalFritsch@yahoo.com
+// Orlo.Beatty64@hotmail.com
+// Evalyn.Johnston26@yahoo.com
+// Philip74@yahoo.com
+// Penelope.Little76@yahoo.com
+// Seamus.Greenfelder@yahoo.com
+// ScarlettMosciski@hotmail.com
+// Deven.Gulgowski@gmail.com
+// admin@user.com
+// normalUser@user.com
+// cartUser@gmail.com
+
+// // Helicopters
+// title: 'CH-47 Chinook',
+// stock: 10,
+// price: 35000000,
+// description: 'Twin-engine, tandem rotor, heavy-lift chopper for all of your troop transportation needs',
+// imageUrl: ['https://amp.businessinsider.com/images/5aa18f0fe86053d64a8b4610-750-375.jpg']
+
+// title: 'AVX Hypersonic',
+// stock: 5,
+// price: 10000000,
+// description: 'The future is now! Pre-order the revolutionary AVX Hypersonic helicopter and travel in style!',
+// imageUrl: ['https://cnet3.cbsistatic.com/img/mZfxb97U76UxqDp8LrJDZEbWlPw=/970x0/2013/09/13/ee9083e4-5739-11e3-89ab-14feb5ca9861/AVX_Aircraft_JMR.jpg']
+
+// title: 'Bumblebee Airbus',
+// stock: 15,
+// price: 500000,
+// description: `"Float like a butterfly, sting like a bumblebee!" - Mohammed Ali`
+// imageUrl: ['https://www.airbushelicopters.ca/wp-content/uploads/babcock-fleet.jpg']
+
+// title: 'Dragonfly',
+// stock: 30,
+// price: 10000,
+// description: 'The perfect personal helicopter for work commutes or budding helicopter hobbyists'
+// imageUrl: ['https://ae01.alicdn.com/kf/HTB11xymj6ihSKJjy0Feq6zJtpXaD/SCHWEIZER-300C-Hughes-9CH-RC-Helicopter-Brushless-RTF-All-Metal-high-Simulation-Remote-Control-Helicopter-Static.jpg_640x640.jpg']
+
+// title: 'Cropduster 5000',
+// stock: 20,
+// price: 50000,
+// description: 'Voted by JD Power and Associates as the best helicopter for spraying chemicals on your crops',
+// imageUrl: ['https://www.popsci.com/sites/popsci.com/files/styles/1000_1x_/public/images/2017/09/z-10_helo_expo.jpg?itok=zrE_GgB6&fc=50,50']
+
+// title: 'StrikeForce',
+// stock: 35,
+// price: 1000000,
+// description: 'Render your enemies helpless with the military grade StrikeForce helicopter model. Missiles sold separately!'
+// imageUrl: ['https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Apache_Helicopter_Firing_Rockets_MOD_45154922.jpg/1200px-Apache_Helicopter_Firing_Rockets_MOD_45154922.jpg']
+
+// title: 'Mall Helicopter',
+// stock: 50,
+// price: 200,
+// description: 'Perfect holiday gift for the future pilot'
+// imageUrl: ['http://slotstock.co.uk/slotStock/main/skyhawk-childrens-ride.png']
+
+// // // Motorcycles
+// title: 'Chopper Jr',
+// stock: 100,
+// price: 500,
+// description: 'The first trike for your little tyke!',
+// imageUrl: ['https://st.hzcdn.com/simgs/c441740a05b9856e_4-4337/home-design.jpg']
+
+// title: 'Road Rager XL',
+// stock: 30,
+// price: 1000,
+// description: 'Tear up the highway and with the Road Rager XL. Female not included.'
+// imageUrl: ['https://i.ytimg.com/vi/ZectQMIQzNs/hqdefault.jpg']
+
+// title: 'Red Hawk',
+// stock: 15,
+// price: 1200,
+// description: 'Guarenteed to get you at least one date while riding, or your money back!'
+// imageUrl: ['https://qph.fs.quoracdn.net/main-qimg-7c3632e07599da47d73434f7db322e20-c']
+
+// title: 'Gotham',
+// stock: 22,
+// price: 1400,
+// description: 'Feel like batman (Christian Bale... not Ben Affleck) with the limited edition Gotham chopper',
+// imageUrl: ['http://www.custom-motorcycle-parts.com/wp-content/uploads/2010/05/gothic-custom-chopper_1.jpg']
+
+// title: 'Ghost Rider 2.0',
+// stock: 18,
+// price: 2000,
+// description: 'For Nicolas Cage enthusiasts'
+// imageUrl: ['https://i.pinimg.com/originals/bc/e3/e7/bce3e7ff39ffd932e811e3eb7eba3d76.jpg']
+
+// title: 'Helicycle',
+// stock: 33,
+// price: 1000,
+// description: 'Having trouble deciding between a motorcycle and helicopter? Then get yourself a vehicle that can do both - the Helicycle'
+// imageUrl: ['https://www.visordown.com/sites/default/files/article-images/4/46860.jpg']
+
+// title: 'Uncle Same Special',
+// stock: 50,
+// price: 2500,
+// description: 'Show off your undying love for your country with the Uncle Sam Special',
+// imageUrl: ['http://3.bp.blogspot.com/-RdnTPx-MdlU/TjoSS8Tnb3I/AAAAAAAAGVw/zPAls0YpTas/s1600/jb61.jpg']
+
+// title: 'My First Harley',
+// stock: 57,
+// price: 199,
+// description: 'Show your kids you really love them with the "My First Harley"'
+// imageUrl: ['http://blog.motorcycle.com.vsassets.com/wp-content/uploads/2008/12/0002708420873_500x500.jpg']
+
+// title: 'Copper Chopper',
+// stock: 30,
+// price: 3000,
+// description: 'The refurbished Copper Chopper is perfect for riding to local donut shops'
+// imageUrl: ['http://www.normandyparkblog.com/wp-content/images/NPPoliceMotorcycle.jpg']

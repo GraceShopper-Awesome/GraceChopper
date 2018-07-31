@@ -18,7 +18,6 @@ class ProductSingle extends React.Component {
     evt.preventDefault()
     await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
     await this.props.getFromCart(this.props.user.id)
-
   }
 
   handleReview() {
@@ -53,6 +52,11 @@ class ProductSingle extends React.Component {
               imageUrl.map(el => <img key={id} src={el} />)}
           </div>
           <div>
+            <button type="button" onClick={evt => this.handleClick(evt)}>
+              ADD TO CART!
+            </button>
+          </div>
+          <div>
             <h1>Customer Reviews</h1>
             <h2>
               {rating
@@ -65,16 +69,16 @@ class ProductSingle extends React.Component {
             <div className="reviewList">
               <table>
                 <tbody>
-                <tr>
-                  <th>Rating</th>
-                  <th>Review</th>
-                </tr>
-                {reviewsArr.map(el => (
-                  <tr className="singleReview" key={el.id}>
-                    <td>{el.rating}</td>
-                    <td>{el.content}</td>
+                  <tr>
+                    <th>Rating</th>
+                    <th>Review</th>
                   </tr>
-                ))}
+                  {reviewsArr.map(el => (
+                    <tr className="singleReview" key={el.id}>
+                      <td>{el.rating}</td>
+                      <td>{el.content}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -112,8 +116,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getProduct: id => dispatch(singleProduct(id)),
-    addAProduct: (userId ,productId, quantity) => dispatch(addCartItem(userId, productId, quantity)),
-    getFromCart: (id) => dispatch(getCart(id))
+    addAProduct: (userId, productId, quantity) =>
+      dispatch(addCartItem(userId, productId, quantity)),
+    getFromCart: id => dispatch(getCart(id))
   }
 }
 
