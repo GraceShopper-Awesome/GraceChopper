@@ -18,14 +18,6 @@ if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
@@ -96,14 +88,8 @@ const createApp = () => {
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () => {
-      console.log(`Mixing it up on port ${PORT}`)
-      console.log('\nknown users : \n admin@user.com, password')
-      console.log('normalUser@user.com, password \n\n')
-    console.log('cartUser@user.com, pass \n\n')
-    console.log('CompOrderUser@user.com, pass \n\n')
-
-    }
-  )
+    console.log(`Mixing it up on port ${PORT}`)
+  })
 
   // set up our socket control center
   const io = socketio(server)
@@ -113,10 +99,14 @@ const startListening = () => {
 const syncDb = () => db.sync()
 
 async function bootApp() {
-  await sessionStore.sync()
-  await syncDb()
-  await createApp()
-  await startListening()
+  try {
+    await sessionStore.sync()
+    await syncDb()
+    await createApp()
+    await startListening()
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 // This evaluates as true when this file is run directly from the command line,

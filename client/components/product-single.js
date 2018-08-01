@@ -15,9 +15,13 @@ class ProductSingle extends React.Component {
   }
 
   async handleClick(evt) {
-    evt.preventDefault()
-    await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
-    await this.props.getFromCart(this.props.user.id)
+    try {
+      evt.preventDefault()
+      await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
+      await this.props.getFromCart(this.props.user.id)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   handleReview() {

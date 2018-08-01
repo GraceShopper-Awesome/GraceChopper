@@ -5,7 +5,11 @@ import {Link} from 'react-router-dom'
 
 class AdminEditOrder extends React.Component {
 	async componentDidMount() {
-		await this.props.getOrderProducts(this.props.match.params.id)
+		try{
+			await this.props.getOrderProducts(this.props.match.params.id)
+		} catch(err) {
+			console.error(err)
+		}
 	}
 
 	handleChange = (event) => {

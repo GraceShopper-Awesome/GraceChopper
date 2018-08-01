@@ -25,13 +25,11 @@ class AdminUsers extends React.Component {
     if (!this.props.users.length) {
       return <h1>Loading</h1>
     } else {
-      console.log('this.props.user', this.props.user)
       // const filteredForCurrent = this.props.users.filter(function(elem) {
       //   if (elem.id !== this.props.user.id) {
       //     return elem
       //   }
       // })
-      // console.log('fitleredForCurrent', filteredForCurrent)
       return (
         <div className="adminUserContainer">
           <div className="adminUserInner">

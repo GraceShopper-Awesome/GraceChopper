@@ -18,10 +18,14 @@ class AdminEditProduct extends React.Component {
   }
 
   async componentDidMount() {
-    const {id} = this.props.match.params
-    await this.props.getProduct(id)
-    await this.props.fetchAllCategories()
-    this.setState({checked: this.props.product.categories.map(cat => cat.id)})
+    try {
+      const {id} = this.props.match.params
+      await this.props.getProduct(id)
+      await this.props.fetchAllCategories()
+      this.setState({checked: this.props.product.categories.map(cat => cat.id)})
+    } catch (err) {
+      console.error(err)
+    }
   }
   handleChangeCategory = event => {
     const {target} = event

@@ -263,7 +263,6 @@ async function orderSeeder(order) {
 // async function postSeed() {
 //
 //   let deletions = await Order.destroy({where: {userId: null}})
-//   console.log('deleted stranded orders: ', deletions)
 // }
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).

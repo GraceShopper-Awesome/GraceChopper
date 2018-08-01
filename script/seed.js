@@ -493,44 +493,68 @@ const productCategoryArr = [
 ]
 
 const seedProducts = async () => {
-  for (let product of productsArr) {
-    await Product.create(product)
+  try {
+    for (let product of productsArr) {
+      await Product.create(product)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedCategories = async () => {
-  for (let category of categoryArr) {
-    await Category.create(category)
+  try {
+    for (let category of categoryArr) {
+      await Category.create(category)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedUsers = async () => {
-  for (let user of usersArr) {
-    await User.create(user)
+  try {
+    for (let user of usersArr) {
+      await User.create(user)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedOrders = async () => {
-  for (let order of orderArr) {
-    await Order.create(order)
+  try {
+    for (let order of orderArr) {
+      await Order.create(order)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedCategoryAssociations = async () => {
-  for (let catAssoc of productCategoryArr) {
-    await ProductCategory.create(catAssoc)
+  try {
+    for (let catAssoc of productCategoryArr) {
+      await ProductCategory.create(catAssoc)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seed = async () => {
-  await db.sync({force: true})
-  await seedProducts()
-  await seedCategories()
-  await seedUsers()
-  await seedOrders()
-  await seedCategoryAssociations()
-  console.log('Seed successful')
-  db.close()
+  try {
+    await db.sync({force: true})
+    await seedProducts()
+    await seedCategories()
+    await seedUsers()
+    await seedOrders()
+    await seedCategoryAssociations()
+    console.log('Seed successful')
+    db.close()
+  } catch (err) {
+    console.error(err)
+  }
 }
 seed()
 
