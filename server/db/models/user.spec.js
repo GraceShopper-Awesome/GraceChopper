@@ -6,6 +6,7 @@ const User = db.model('user')
 const Sequelize = require('sequelize')
 
 describe('User model', () => {
+
   beforeEach(() => {
     return db.sync({force: true})
   })
