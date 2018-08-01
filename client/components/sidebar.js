@@ -10,7 +10,7 @@ class Sidebar extends Component {
 		return (
 			<div id="sidebar">
 				<h1>SIDEBAR</h1>
-				<form>
+				<h3><form>
 				{
 					this.props.allCategories.map((category) => (
 					<div key={category.id}>
@@ -23,7 +23,7 @@ class Sidebar extends Component {
 					</div>
 					))
 				}
-				</form>
+				</form></h3>
 			</div>
 		)
 	}

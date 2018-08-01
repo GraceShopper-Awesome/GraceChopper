@@ -12,11 +12,11 @@ const Navbar = ({handleClick, userType, userId}) => {
           <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
         <a href="#" onClick={handleClick}>
-        <h1>Logout</h1>
+        <h2>Logout</h2>
         </a>
-        <Link to="/allproducts"><h1>All Products</h1></Link>
-        <Link to={`/cart/${userId}` }><h1>Shopping Cart</h1></Link>
-        <Link to={`/orders/${userId}`}><h1>Order History</h1></Link>
+        <Link to="/allproducts"><h2>All Products</h2></Link>
+        <Link to={`/cart/${userId}` }><h2>Shopping Cart</h2></Link>
+        <Link to={`/orders/${userId}`}><h2>Order History</h2></Link>
     </div>
     )}
     case "admin" : {return(
@@ -25,12 +25,12 @@ const Navbar = ({handleClick, userType, userId}) => {
           <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
           <a href="#" onClick={handleClick}>
-           <h1>Logout</h1>
+           <h2>Logout</h2>
           </a>
-          <Link to="/admin/products"><h1>Products</h1></Link>
-          <Link to="/admin/orders"><h1>Orders</h1></Link>
-          <Link to="/admin/users"><h1>Users</h1></Link>
-          <Link to="/admin/categories"><h1>Categories</h1></Link>
+          <Link to="/admin/products"><h2>Products</h2></Link>
+          <Link to="/admin/orders"><h2>Orders</h2></Link>
+          <Link to="/admin/users"><h2>Users</h2></Link>
+          <Link to="/admin/categories"><h2>Categories</h2></Link>
         </div>
     )}
     default: {return(
@@ -38,9 +38,9 @@ const Navbar = ({handleClick, userType, userId}) => {
         <div id="navbarLogo">
           <Link to="/home"><img src="https://s22.postimg.cc/fi4va4nz3/grace_chopper.png" id="navbarLogo"/></Link>
         </div>
-        <Link to="/login"><h1>Login</h1></Link>
-        <Link to="/signup"><h1>Sign Up</h1></Link>
-        <Link to="/allproducts"><h1>All Products</h1></Link>
+        <Link to="/login"><h2>Login</h2></Link>
+        <Link to="/signup"><h2>Sign Up</h2></Link>
+        <Link to="/allproducts"><h2>All Products</h2></Link>
     </div>
     )}
   }
