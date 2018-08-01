@@ -19,7 +19,7 @@ class Checkout extends React.Component {
 
   submitOrder = event => {
     event.preventDefault();
-    this.props.submit(this.props.cart[0].orderId)
+    this.props.submit(this.props.cart[0].orderId, this.state.address, this.state.email)
     this.props.history.push(`/allproducts`)
   }
 
@@ -69,7 +69,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getProduct: () => dispatch(products()),
-    submit: cartId => dispatch(submitCart(cartId)),
+    submit: (cartId, email, address) => dispatch(submitCart(cartId, email, address)),
     getCartItems: cartId => dispatch(getCart(cartId))
   }
 }

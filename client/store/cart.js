@@ -55,9 +55,10 @@ export const minusCart = (orderitemId) => async dispatch => {
   }
 }
 
-export const submitCart = (id) => async dispatch => {
+export const submitCart = (id, address, email) => async dispatch => {
   try {
     await axios.post(`/api/cart/${id}`)
+    await axios.post(`/api/email/${id}`, {address, email})
     dispatch(submitCartAsOrder())
 
   }
