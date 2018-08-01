@@ -14,6 +14,7 @@ class Checkout extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(this.props.user !== nextProps.user) {
       this.props.getCartItems(nextProps.user.id)
+      // this.setState({address: this.props.user.address, email: this.props.user.email})
     }
   }
 
@@ -49,9 +50,9 @@ class Checkout extends React.Component {
           </h2>
           <form onChange={event => this.handleChange(event)} onSubmit={event => this.submitOrder(event)}>
             <label>Address:</label>
-            <input name="address" required />
+            <input name="address" required defaultValue={this.props.user.address}/>
             <label>Email:</label>
-            <input name="email" required type="email"/>
+            <input name="email" required type="email" defaultValue={this.props.user.email}/>
             <button type="submit">Buy</button>
 			    </form>
         </div>
@@ -70,7 +71,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getProduct: () => dispatch(products()),
     submit: (cartId, email, address) => dispatch(submitCart(cartId, email, address)),
-    getCartItems: cartId => dispatch(getCart(cartId))
+    getCartItems: id => dispatch(getCart(id)),
   }
 }
 

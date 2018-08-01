@@ -21,12 +21,11 @@ const getAllOrders = orders => {
   }
 }
 
-const getUserOrders = orders =>{
+const getUserOrders = orders => {
   return {
     type: GET_USER_ORDERS,
     orders
   }
-
 }
 const getAllOrderItems = orderItems => {
   return {
@@ -50,17 +49,13 @@ const editOrderStatus = status => {
 /**
  * THUNK CREATORS
  */
-export const fetchUserOrders = (userId) => async dispatch =>{
-
+export const fetchUserOrders = userId => async dispatch => {
   const route = '/api/order/' + userId
-  console.log(route, 'route')
   try {
     const res = await axios.get(route)
-    console.log('data' ,res.data)
-    dispatch (getUserOrders(res.data))
-
-  }catch (err){
-    console.log(err)
+    dispatch(getUserOrders(res.data))
+  } catch (err) {
+    console.error(err)
   }
 }
 
@@ -135,7 +130,7 @@ export default function(state = defaultOrders, action) {
     case GET_USER_ORDERS:
       return {
         ...state,
-        all : action.orders
+        all: action.orders
       }
     case EDIT_ORDER_STATUS:
       return {

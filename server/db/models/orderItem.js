@@ -2,7 +2,6 @@
 //orderItems will belongTo a cart/ order and also belongTo a product. It will have fields fixedPrice and quantity
 //and auto generated fields of cartId and productId
 
-
 const Sequelize = require('sequelize')
 const db = require('../db')
 
@@ -13,29 +12,33 @@ const OrderItem = db.define('orderItem', {
   quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 1
-
   }
 })
 
 OrderItem.prototype.incrementQuantity = async function() {
-  await this.update({quantity: this.quantity + 1})
-}
-
-OrderItem.prototype.decrementQuantity = async function() {
-  if(this.quantity > 1){
-  await this.update({quantity: this.quantity - 1})
+  try {
+    await this.update({quantity: this.quantity + 1})
+  } catch (err) {
+    console.error(err)
   }
 }
 
+OrderItem.prototype.decrementQuantity = async function() {
+  try {
+    if (this.quantity > 1) {
+      await this.update({quantity: this.quantity - 1})
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 OrderItem.prototype.changeQuantity = function(amt) {
   this.quantity = amt
-
 }
 
 OrderItem.prototype.changeFixedPrice = function(amt) {
   this.fixedPrice = amt
-
 }
 
 module.exports = OrderItem

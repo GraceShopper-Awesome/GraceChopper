@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {fetchUserOrders} from '../store'
 
-
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
@@ -15,9 +14,12 @@ class UserOrders extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getOrders(this.props.match.params.id)
-    this.setState({orders: []})
-
+    try {
+      await this.props.getOrders(this.props.match.params.id)
+      this.setState({orders: []})
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   handleButton(evt) {
@@ -39,28 +41,30 @@ class UserOrders extends React.Component {
             {orders.all.map(order => {
               return (
                 <div key={order.id}>
-                 <p>Total Cost: {order.totalCost}</p>
+                  <p>Total Cost: {order.totalCost}</p>
                   <p>Created: {order.createdAt}</p>
-                  <Link to={{
-                    pathname:`/order/${order.id}`,
-                    state: {
-                      createdAt:order.createdAt,
-                      totalCost:order.totalCost
-                    }
-                  }}
-                  >Link</Link>
+                  <Link
+                    to={{
+                      pathname: `/order/${order.id}`,
+                      state: {
+                        createdAt: order.createdAt,
+                        totalCost: order.totalCost
+                      }
+                    }}
+                  >
+                    Link
+                  </Link>
                 </div>
               )
             })}
           </div>
         </div>
       )
-    }
-    else return <h1>Loading</h1>
+    } else return <h1>Loading</h1>
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.products.products,
     user: state.user,
@@ -70,9 +74,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrders: (id) => dispatch(fetchUserOrders(id))
-
+    getOrders: id => dispatch(fetchUserOrders(id))
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserOrders))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(UserOrders)
+)
