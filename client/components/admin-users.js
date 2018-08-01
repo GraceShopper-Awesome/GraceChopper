@@ -33,29 +33,34 @@ class AdminUsers extends React.Component {
       // })
       // console.log('fitleredForCurrent', filteredForCurrent)
       return (
-        <div>
-          <h1>User Management</h1>
-          <div className="userContainer">
-            {this.props.users.map(user => (
-              <div className="singleUserMgmt" key={user.id}>
-                <h3>{user.email}</h3>
-                <button
-                  type="button"
-                  value={user.id}
-                  onClick={this.handleAdmin}
-                >
-                  Make Admin
-                </button>
-                <button type="button">Reset Password</button>
-                <button
-                  type="button"
-                  value={user.id}
-                  onClick={this.handleDelete}
-                >
-                  Delete User
-                </button>
-              </div>
-            ))}
+        <div className="adminUserContainer">
+          <div className="adminUserInner">
+            <h1 id="adminUserHeader">User Management</h1>
+            <div className="userContainer">
+              {this.props.users.map(user => (
+                <div className="singleUserMgmt" key={user.id}>
+                  <h3 id="adminUserHeader">{user.email}</h3>
+                  <div className="adminUserButtons">
+                    <button
+                      type="button"
+                      value={user.id}
+                      onClick={this.handleAdmin}
+                      id="makeAdmin"
+                    >
+                      Make Admin
+                    </button>
+                    <button
+                      type="button"
+                      value={user.id}
+                      onClick={this.handleDelete}
+                      id="adminDelete"
+                    >
+                      Delete User
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )

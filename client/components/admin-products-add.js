@@ -46,23 +46,23 @@ class AdminAddProduct extends React.Component {
       return <h1>Loading</h1>
     }
     return (
-      <div>
+      <div className="adminProductEditContainer">
         <h1>Add New Product</h1>
-        <div>
+        <div id="productEdit">
           <form onSubmit={event => handleSubmit(event, this.state.checked)}>
             <label htmlFor="title">Product Title</label>
             <input type="text" id="title" name="title" />
             <label htmlFor="description">Product Description</label>
             <input type="text" id="description" name="description" />
-            <label htmlFor="price">Price $</label>
+            <label htmlFor="price">Price ($)</label>
             <input type="number" id="price" name="price" min="0" step="0.01" />
-            <label htmlFor="stock">Stock</label>
+            <label htmlFor="stock">Stock (Qty)</label>
             <input type="number" id="stock" name="stock" min="0" />
             <label htmlFor="imageUrl">Image URLs</label>
             <input
-              type="textarea"
-              rows="100"
-              cols="400"
+              type="text"
+              // rows="100"
+              // cols="400"
               id="imageUrl"
               name="imageUrl"
             />

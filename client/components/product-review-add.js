@@ -1,12 +1,10 @@
 import React from 'react'
-import { addReview } from '../store/products'
+import {addReview} from '../store/products'
 import {connect} from 'react-redux'
-
 
 class ProductAddReview extends React.Component {
   constructor() {
     super()
-    
   }
 
   handleSubmit = event => {
@@ -26,10 +24,12 @@ class ProductAddReview extends React.Component {
       return <h1>Please sign in or sign up to leave a product review</h1>
     } else {
       return (
-        <div>
-          <h2>Leave a review for: {this.props.product.title}</h2>
+        <div className="addReviewPage">
+          <h2 id="headerMargin">
+            Leave a review for: "{this.props.product.title}"
+          </h2>
           <img src={this.props.product.imageUrl[0]} />
-          <div>
+          <div className="addReview">
             <form onSubmit={this.handleSubmit}>
               <select name="dropdown" id="reviewDropdown">
                 <option value="5">5 (Best)</option>
@@ -40,6 +40,7 @@ class ProductAddReview extends React.Component {
               </select>
               <input
                 type="text"
+                rows="4"
                 className="reviewContent"
                 name="reviewContent"
                 placeholder="Leave a review..."
