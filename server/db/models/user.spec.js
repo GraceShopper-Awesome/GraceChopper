@@ -23,21 +23,6 @@ describe('User model', () => {
       })
       expect(user.userType).to.be.equal('admin')
     })
-    it('has a enum value of admin, guest, or normal', () => {
-      const user = User.build({
-        userType: 'google',
-        email: 'joe@shmo.com',
-        address: '12 E St.'
-      })
-      return user.validate().then(
-        () => {
-          throw new Error('Validations should fail without a valid type')
-        },
-        result => {
-          expect(result).to.be.an.instanceOf(Sequelize.ValidationError)
-        }
-      )
-    })
   })
 
   describe('User email', () => {
