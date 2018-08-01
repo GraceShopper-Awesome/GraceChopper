@@ -50,20 +50,6 @@ describe('User model', () => {
     })
   })
 
-  describe('User address', () => {
-    it('demands a not null address', () => {
-      const user = User.build({type: 'admin', email: 'joe@shmo.com'})
-      return user.validate().then(
-        () => {
-          throw new Error('Validations should fail without an address')
-        },
-        result => {
-          expect(result).to.be.an.instanceOf(Error)
-        }
-      )
-    })
-  })
-
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
