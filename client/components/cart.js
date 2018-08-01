@@ -45,6 +45,7 @@ class Cart extends React.Component {
     if (username) {
       return (
         <div>
+
           <div>
             <h1>{username}'s Cart</h1>
             {cart.map(element => (
@@ -55,7 +56,8 @@ class Cart extends React.Component {
               />
             ))}
           </div>
-          <Link to="/checkout">Proceed to Checkout</Link>
+                <Link to="/checkout"><button>Proceed to Checkout</button></Link>
+
         </div>
       )
     } else return <h1>Loading</h1>
