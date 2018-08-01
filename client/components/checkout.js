@@ -1,17 +1,31 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {submitCart, products, me} from '../store'
+import {submitCart, products, me, getCart} from '../store'
 
 class Checkout extends React.Component {
-  componentDidMount() {
-    this.props.getUser()
+  constructor() {
+    super()
+    this.state = {
+      address: '',
+      email: ''
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.user !== nextProps.user) {
+      this.props.getCartItems(nextProps.user.id)
+      // this.setState({address: this.props.user.address, email: this.props.user.email})
+    }
   }
 
   submitOrder = event => {
     event.preventDefault();
-    this.props.submit(this.props.cart[0].orderId)
+    this.props.submit(this.props.cart[0].orderId, this.state.address, this.state.email)
     this.props.history.push(`/allproducts`)
+  }
+
+  handleChange = event => {
+    this.setState({[event.target.name]:event.target.value})
   }
 
   render() {
@@ -34,8 +48,13 @@ class Checkout extends React.Component {
           <h2>
             Total Price: ${cart.totalCost}
           </h2>
-
-          <button type="button" onClick={event => this.submitOrder(event)}>Buy</button>
+          <form onChange={event => this.handleChange(event)} onSubmit={event => this.submitOrder(event)}>
+            <label>Address:</label>
+            <input name="address" required defaultValue={this.props.user.address}/>
+            <label>Email:</label>
+            <input name="email" required type="email" defaultValue={this.props.user.email}/>
+            <button type="submit">Buy</button>
+			    </form>
         </div>
       )
   }
@@ -51,8 +70,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getProduct: () => dispatch(products()),
-    getUser: () => dispatch(me()),
-    submit: cartId => dispatch(submitCart(cartId))
+    submit: (cartId, email, address) => dispatch(submitCart(cartId, email, address)),
+    getCartItems: id => dispatch(getCart(id)),
   }
 }
 

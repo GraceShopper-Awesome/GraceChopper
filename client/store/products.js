@@ -123,7 +123,7 @@ export const addReview = review => async dispatch => {
   try {
     const res = await axios.post(`/api/reviews/add`, review)
     dispatch(getNewReview(res.data))
-  }catch (err) {
+  } catch (err) {
     console.error(err)
   }
 }

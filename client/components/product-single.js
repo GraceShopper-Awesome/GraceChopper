@@ -15,9 +15,13 @@ class ProductSingle extends React.Component {
   }
 
   async handleClick(evt) {
-    evt.preventDefault()
-    await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
-    await this.props.getFromCart(this.props.user.id)
+    try {
+      evt.preventDefault()
+      await this.props.addAProduct(this.props.user.id, this.props.product.id, 1)
+      await this.props.getFromCart(this.props.user.id)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   handleReview() {
@@ -43,7 +47,7 @@ class ProductSingle extends React.Component {
       return (
         <div className="productSingleContainer">
           <div className="productSingleView">
-            <h1>{title}</h1>
+            <h1 id="headerMargin">{title}</h1>
             <h4>{description}</h4>
             <h2>${price}</h2>
             {/* <h3>Remaining: {stock}</h3> */}
@@ -59,7 +63,7 @@ class ProductSingle extends React.Component {
             </div>
           </div>
           <div className="reviews">
-            <h1>Customer Reviews</h1>
+            <h1 id="headerMargin">Customer Reviews</h1>
             <h2>
               {rating
                 ? `Rating: ${rating} Stars`

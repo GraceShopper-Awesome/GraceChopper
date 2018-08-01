@@ -165,7 +165,7 @@ const productsArr = [
     ]
   },
   {
-    title: 'Recumbent Military Chopper',
+    title: 'Warthog',
     stock: 20,
     price: 10000,
     description: 'The best army in the world deserves a motorcycle',
@@ -177,7 +177,8 @@ const productsArr = [
     title: 'The Rouge One',
     stock: 25,
     price: 22000,
-    description: 'Feeling like going on a solo mission? See the stars in this beautiful red chopper',
+    description:
+      'Feeling like going on a solo mission? See the stars in this beautiful red chopper',
     imageUrl: [
       'https://pdgfilmservices.com/wp-content/uploads/2017/07/Helicopter-rigged-with-GSS-C516-camera-system.jpg'
     ]
@@ -186,9 +187,10 @@ const productsArr = [
     title: 'Stinger 50-50',
     stock: 10,
     price: 18000,
-    description: "Elegant, sleek, deceptive, enduring. The Stinger 50-50 is much more that so-so",
+    description:
+      'Elegant, sleek, deceptive, enduring. The Stinger 50-50 is much more that so-so',
     imageUrl: [
-      "https://nebula.wsimg.com/fe5f63e3a2accf4ca629430c6dc4bafd?AccessKeyId=70A8789C0A1AE299B517&disposition=0&alloworigin=1"
+      'https://nebula.wsimg.com/fe5f63e3a2accf4ca629430c6dc4bafd?AccessKeyId=70A8789C0A1AE299B517&disposition=0&alloworigin=1'
     ]
   }
 ]
@@ -197,7 +199,7 @@ const categoryArr = [
   {name: 'Helicopters'},
   {name: 'Motorcycles'},
   {name: 'Military Grade'},
-  {name: 'Recreational Use'},
+  {name: 'Recreational'},
   {name: 'For Kids'}
 ]
 
@@ -491,44 +493,68 @@ const productCategoryArr = [
 ]
 
 const seedProducts = async () => {
-  for (let product of productsArr) {
-    await Product.create(product)
+  try {
+    for (let product of productsArr) {
+      await Product.create(product)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedCategories = async () => {
-  for (let category of categoryArr) {
-    await Category.create(category)
+  try {
+    for (let category of categoryArr) {
+      await Category.create(category)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedUsers = async () => {
-  for (let user of usersArr) {
-    await User.create(user)
+  try {
+    for (let user of usersArr) {
+      await User.create(user)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedOrders = async () => {
-  for (let order of orderArr) {
-    await Order.create(order)
+  try {
+    for (let order of orderArr) {
+      await Order.create(order)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seedCategoryAssociations = async () => {
-  for (let catAssoc of productCategoryArr) {
-    await ProductCategory.create(catAssoc)
+  try {
+    for (let catAssoc of productCategoryArr) {
+      await ProductCategory.create(catAssoc)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
 const seed = async () => {
-  await db.sync({force: true})
-  await seedProducts()
-  await seedCategories()
-  await seedUsers()
-  await seedOrders()
-  await seedCategoryAssociations()
-  console.log('Seed successful')
-  db.close()
+  try {
+    await db.sync({force: true})
+    await seedProducts()
+    await seedCategories()
+    await seedUsers()
+    await seedOrders()
+    await seedCategoryAssociations()
+    console.log('Seed successful')
+    db.close()
+  } catch (err) {
+    console.error(err)
+  }
 }
 seed()
 

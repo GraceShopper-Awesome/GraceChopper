@@ -11,7 +11,7 @@ export class AdminOrders extends React.Component {
     }
   }
   componentDidMount() {
-    this.props.fetchOrders();
+    this.props.fetchOrders()
   }
 
   handleChange = event => {
@@ -20,9 +20,9 @@ export class AdminOrders extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Order Management</h1>
-        <select onChange={this.handleChange}>
+      <div className="adminOrderContainer">
+        <h1 id="headerMargin">Order Management</h1>
+        <select onChange={this.handleChange} className="adminOrderDropdown">
           <option value="all">All</option>
           <option value="created">Created</option>
           <option value="processing">Processing</option>
@@ -30,11 +30,15 @@ export class AdminOrders extends React.Component {
           <option value="completed">Completed</option>
         </select>
         {this.props.orders.map(order => {
-          if(this.state.value === 'all' || this.state.value === order.status) {
+          if (this.state.value === 'all' || this.state.value === order.status) {
             return (
               <div key={order.id}>
-                <Link to={`/admin/orders/${order.id}`}>Order Id: {order.id}, User Id: {order.userId}, Status: {order.status}</Link>
-              </div>)
+                <Link to={`/admin/orders/${order.id}`}>
+                  Order Id: {order.id}, User Id: {order.userId}, Status:{' '}
+                  {order.status}
+                </Link>
+              </div>
+            )
           }
         })}
       </div>
@@ -52,8 +56,8 @@ const mapDispatch = dispatch => {
   return {
     fetchOrders: () => {
       dispatch(fetchAllOrders())
-    },
+    }
   }
 }
 
-export default connect(mapState,mapDispatch)(AdminOrders)
+export default connect(mapState, mapDispatch)(AdminOrders)

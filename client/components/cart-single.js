@@ -13,23 +13,35 @@ class CartSingle extends React.Component {
     }
 
     async handleIncrement(){
-        if(this.props.item.product.stock > this.props.item.quantity){
-            await this.props.incCart(this.props.item.id)
-            await this.props.getAllCart(+this.props.user)
-        } else {
-            alert("This is all we have in stock!")
+        try {
+            if(this.props.item.product.stock > this.props.item.quantity){
+                await this.props.incCart(this.props.item.id)
+                await this.props.getAllCart(+this.props.user)
+            } else {
+                alert("This is all we have in stock!")
+            }
+        } catch(err) {
+            console.error(err)
         }
     }
 
     async handleDecrement(){
-        await this.props.decCart(this.props.item.id)
-        await this.props.getAllCart(+this.props.user)
+        try {
+            await this.props.decCart(this.props.item.id)
+            await this.props.getAllCart(+this.props.user)
+        } catch(err) {
+            console.error(err)
+        }
     }
 
     async handleRemove(evt){
-        evt.preventDefault()
-        await this.props.removeFromCart(evt.target.value)
-        await this.props.getAllCart(+this.props.user)
+        try {
+            evt.preventDefault()
+            await this.props.removeFromCart(evt.target.value)
+            await this.props.getAllCart(+this.props.user)
+        } catch(err) {
+            console.error(err)
+        }
     }
 
 
