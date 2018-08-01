@@ -1,15 +1,19 @@
 import React from 'react'
-import {products, editProduct, singleProduct, setProductAvailabilityOnServer} from '../store/products'
+import {
+  products,
+  editProduct,
+  singleProduct,
+  setProductAvailabilityOnServer
+} from '../store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchAllCategories} from '../store'
-
 
 class AdminEditProduct extends React.Component {
   constructor() {
     super()
     this.state = {
-      checked: [],
+      checked: []
     }
   }
 
@@ -45,68 +49,98 @@ class AdminEditProduct extends React.Component {
       return <h1>Loading</h1>
     }
 
-    if(categoryArr.length > 0 && Object.keys(this.props.product).length > 0) {
+    if (categoryArr.length > 0 && Object.keys(this.props.product).length > 0) {
       const productCategories = this.props.product.categories
       const productCategoryIds = productCategories.map(cat => cat.id)
       categoryArr.forEach(function(category) {
-        for(let i = 0; i < productCategoryIds.length; i++) {
-          if(productCategoryIds[i] === category.id) {
-            category.checked = true;
+        for (let i = 0; i < productCategoryIds.length; i++) {
+          if (productCategoryIds[i] === category.id) {
+            category.checked = true
           }
         }
       })
 
-    const {id, title, description, price, imageUrl, stock, available} = this.props.product
-    const {handleSubmit} = this.props
-    return (
-      <div>
-        <div id="productEdit">
-          <form onSubmit={event => handleSubmit(event, this.state.checked)}>
-            <label htmlFor="title">Product Title</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              defaultValue={title}
-            />
-            <label htmlFor="description">Product Description</label>
-            <input type="text" id="description" name="description" defaultValue={description}/>
-            <label htmlFor="price">Price $</label>
-            <input type="number" id="price" name="price" min="0" step="0.01"  defaultValue={price}/>
-            <label htmlFor="stock">Stock</label>
-            <input type="number" id="stock" name="stock" min="0" defaultValue={stock} />
-            <label htmlFor="imageUrl">Image URLs</label>
-            <input type="text" id="imageUrl" name="imageUrl" defaultValue={imageUrl}/>
-            <br />
-            <label>Categories</label>
+      const {
+        id,
+        title,
+        description,
+        price,
+        imageUrl,
+        stock,
+        available
+      } = this.props.product
+      const {handleSubmit} = this.props
+      return (
+        <div className="adminProductEditContainer">
+          <div id="productEdit">
+            <form onSubmit={event => handleSubmit(event, this.state.checked)}>
+              <label htmlFor="title">Product Title</label>
+              <input type="text" id="title" name="title" defaultValue={title} />
+              <label htmlFor="description">Product Description</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                defaultValue={description}
+              />
+              <label htmlFor="price">Price ($)</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                min="0"
+                step="0.01"
+                defaultValue={price}
+              />
+              <label htmlFor="stock">Stock (Qty)</label>
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                min="0"
+                defaultValue={stock}
+              />
+              <label htmlFor="imageUrl">Image URLs</label>
+              <input
+                type="text"
+                id="imageUrl"
+                name="imageUrl"
+                defaultValue={imageUrl}
+              />
+              <br />
+              <label>Categories</label>
+              <div>
+                {categoryArr.map(category => {
+                  return (
+                    <div key={category.id}>
+                      <input
+                        type="checkbox"
+                        value={category.id}
+                        name={category.id}
+                        defaultChecked={category.checked}
+                        onChange={event => this.handleChangeCategory(event)}
+                      />
+                      {category.name}
+                    </div>
+                  )
+                })}
+              </div>
+              <button type="submit">Update Product</button>
+            </form>
+
             <div>
-              {categoryArr.map(category => {
-                return (
-                  <div key={category.id}>
-                    <input
-                      type="checkbox"
-                      value={category.id}
-                      name={category.id}
-                      defaultChecked={category.checked}
-                      onChange={event => this.handleChangeCategory(event)}
-                    />
-                    {category.name}
-                  </div>
-                )
-              })}
+              <label>isAvailable?</label>
+              <input
+                type="checkbox"
+                value={id}
+                defaultChecked={available}
+                onChange={event => this.handleAvailabilityChange(event)}
+              />
             </div>
-            <button type="submit">Update Product</button>
-          </form>
-
-          <div>
-                    <label>isAvailable?</label>
-                    <input type="checkbox" value={id} defaultChecked={available} onChange={event => this.handleAvailabilityChange(event)}/>
-                  </div>
-
+          </div>
         </div>
-      </div>
-    )}
-    else {
+      )
+    } else {
       return <h1>Loading</h1>
     }
   }

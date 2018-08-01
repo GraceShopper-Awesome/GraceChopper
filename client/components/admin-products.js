@@ -25,7 +25,6 @@ class AdminProducts extends React.Component {
   handleAvailabilityChange = event => {
     const {target} = event
     this.props.availability(+target.value, target.checked)
-
   }
 
   render() {
@@ -33,30 +32,47 @@ class AdminProducts extends React.Component {
       return <h1>Loading</h1>
     } else {
       return (
-        <div>
-          <h1>Product Management</h1>
-          <button type="submit" onClick={this.handleNewProduct}>
-            Add New Product
-          </button>
-          <button type="submit" onClick={this.handleNewCategory}>
-            Add New Product Category
-          </button>
-          <div>
-            {this.props.products.map(elements => (
-              <div id="mainInfo" key={elements.id}>
-                <Link to={`/admin/products/${elements.id}`}>
-                  <h1>{elements.title}</h1>
-                </Link>
-                <h3>${elements.price}</h3>
-                <h3>{elements.stock} in stock</h3>
-                {elements.imageUrl &&
-                  elements.imageUrl && <img src={elements.imageUrl[0]} />}
+        <div className="adminProductAllContainer">
+          <div className="adminProductInner">
+            <h1 id="adminProductHeader">Product Management</h1>
+            <div className="adminProductButtons">
+              <button
+                id="adminProductAdd"
+                type="submit"
+                onClick={this.handleNewProduct}
+              >
+                Add New Product
+              </button>
+              <button
+                id="adminProductCat"
+                type="submit"
+                onClick={this.handleNewCategory}
+              >
+                Add / Edit Product Category
+              </button>
+            </div>
+            <div>
+              {this.props.products.map(elements => (
+                <div id="mainInfo" key={elements.id}>
+                  <Link to={`/admin/products/${elements.id}`}>
+                    <h1>{elements.title}</h1>
+                  </Link>
+                  <h3>${elements.price}</h3>
+                  <h3>{elements.stock} in stock</h3>
+                  {elements.imageUrl &&
+                    elements.imageUrl && <img src={elements.imageUrl[0]} />}
                   <div>
                     <label>isAvailable?</label>
-                    <input type="checkbox" value={elements.id} defaultChecked={elements.available} onChange={event => this.handleAvailabilityChange(event)}/>
+                    <input
+                      type="checkbox"
+                      value={elements.id}
+                      defaultChecked={elements.available}
+                      onChange={event => this.handleAvailabilityChange(event)}
+                    />
                   </div>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )

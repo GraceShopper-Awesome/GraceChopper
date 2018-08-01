@@ -657,6 +657,9 @@ hr.soften {
 
 #mainInfo {
   flex-grow: 2;
+  border-top-style: solid;
+  border-top-color: black;
+  border-top-width: 1px;
 }
 
 /* sidebar */
@@ -691,9 +694,8 @@ hr.soften {
   align-self: center;
   justify-content: space-evenly;
   font-style: oblique;
-  font-family: "impact";
+  font-family: 'impact';
   background: white;
-
 }
 
 #navbarLinks {
@@ -765,7 +767,6 @@ hr.soften {
 .home {
   display: flex;
   justify-content: center;
-
 }
 
 .thumbnail {
@@ -790,7 +791,7 @@ hr.soften {
 }
 
 .prodList {
-  display:flex;
+  display: flex;
   justify-content: center;
 }
 
@@ -819,7 +820,7 @@ hr.soften {
   margin-top: 20px;
   margin-left: 120px;
   margin-right: 120px;
-  margin-bottom: 80px;
+  margin-bottom: 20px;
   border-radius: 10px;
   border-style: solid;
   border-width: 1px;
@@ -851,6 +852,257 @@ hr.soften {
 }
 
 #reviewRating {
+  text-align: center;
+}
+
+.addReview {
+  display: flex;
+  flex-direction: column;
+}
+
+#reviewDropdown {
+  max-width: 120px;
+  opacity: 0.95;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.addReviewPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  opacity: 0.9;
+  margin-top: 20px;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-bottom: 80px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+}
+
+#headerMargin {
+  margin-top: 10px;
+}
+
+.reviewContent {
+  height: 50px;
+}
+
+.authForm {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  /* max-width: 500px; */
+}
+
+.authOuterContainer {
+  margin-top: 20px;
+  margin-left: 300px;
+  margin-right: 300px;
+}
+.authInnerContainer {
+  border-style: solid;
+  opacity: 1;
+  /* margin-top: 20px;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-bottom: 80px; */
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  background-color: white;
+}
+
+.adminHomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  background-color: white;
+  margin-top: 20px;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-bottom: 20px;
+}
+
+#adminOrderButton {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.adminUserContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  background-color: white;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.singleUserMgmt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top-style: solid;
+  border-top-color: black;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#adminUserHeader {
+  padding-top: 20px;
+}
+
+#adminDelete {
+  margin-left: 15px;
+}
+
+.adminUserButtons {
+  display: flex;
+  flex-direction: row;
+}
+
+.adminUserInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+}
+
+#adminUserHeader {
+  text-align: center;
+}
+
+.adminOrderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: white;
+}
+
+.adminOrderDropdown {
+  max-width: 150px;
+}
+
+.adminCategoryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  background-color: white;
+  padding-top: 20px;
+}
+
+.adminCategoryItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.adminCatLI {
+  font-size: 25px;
+  margin-right: 15px;
+}
+
+.adminProductEditContainer {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: white;
+}
+
+.adminProductAllContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: navy;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: white;
+}
+
+.adminProductButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.adminProductAdd {
+  margin-right: 10px;
+}
+
+.adminProductCat {
+  margin-left: 10px;
+}
+
+#adminProductHeader {
   text-align: center;
 }
 
@@ -893,3 +1145,4 @@ hr.soften {
   margin-left: 8vw;
   margin-right: 8vw;
 }
+

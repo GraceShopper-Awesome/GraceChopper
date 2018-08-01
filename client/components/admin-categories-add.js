@@ -36,26 +36,28 @@ class AdminAddCategory extends Component {
 
   render() {
     return (
-      <div>
+      <div className="adminCategoryContainer">
         <h1>Add/Remove Category</h1>
-        <ul>
-          {this.props.allCategories.map(category => {
-            return (
-              <div key={category.id}>
-                <li>{category.name}</li>
-                <button
-                  type="button"
-                  onClick={event =>
-                    this.removeCategoryOnClick(event, category.id)
-                  }
-                >
-                  X
-                </button>
-              </div>
-            )
-          })}
-        </ul>
-
+        <div className="adminCategoryList">
+          <ul>
+            {this.props.allCategories.map(category => {
+              return (
+                <div className="adminCategoryItem" key={category.id}>
+                  <li className="adminCatLI">{category.name}</li>
+                  <button
+                    type="button"
+                    id="deleteCatButton"
+                    onClick={event =>
+                      this.removeCategoryOnClick(event, category.id)
+                    }
+                  >
+                    X
+                  </button>
+                </div>
+              )
+            })}
+          </ul>
+        </div>
         <form onSubmit={event => this.handleSubmit(event)}>
           <input
             type="text"

@@ -22,18 +22,22 @@ export default class AdminHome extends React.Component {
 
   render() {
     return (
-      <div>
-      <h1>Admin Home Page</h1>
-      <div className="home">
-        <button type="submit" onClick={this.handleProduct}>
-          Product Management
-        </button>
-        <button type="submit" onClick={this.handleOrder}>
-          Order Management
-        </button>
-        <button type="submit" onClick={this.handleUser}>
-          User Management
-        </button>
+      <div className="adminHomePage">
+        <h1 id="headerMargin">Admin Controls</h1>
+        <div className="adminHome">
+          <button type="submit" onClick={this.handleProduct}>
+            Product Management
+          </button>
+          <button
+            type="submit"
+            onClick={this.handleOrder}
+            id="adminOrderButton"
+          >
+            Order Management
+          </button>
+          <button type="submit" onClick={this.handleUser}>
+            User Management
+          </button>
         </div>
       </div>
     )
