@@ -75,7 +75,7 @@ class AdminEditProduct extends React.Component {
       } = this.props.product
       const {handleSubmit} = this.props
       return (
-        <div>
+        <div className="adminProductEditContainer">
           <div id="productEdit">
             <form onSubmit={event => handleSubmit(event, this.state.checked)}>
               <label htmlFor="title">Product Title</label>
@@ -87,7 +87,7 @@ class AdminEditProduct extends React.Component {
                 name="description"
                 defaultValue={description}
               />
-              <label htmlFor="price">Price $</label>
+              <label htmlFor="price">Price ($)</label>
               <input
                 type="number"
                 id="price"
@@ -96,7 +96,7 @@ class AdminEditProduct extends React.Component {
                 step="0.01"
                 defaultValue={price}
               />
-              <label htmlFor="stock">Stock</label>
+              <label htmlFor="stock">Stock (Qty)</label>
               <input
                 type="number"
                 id="stock"

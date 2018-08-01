@@ -47,7 +47,7 @@ class ProductSingle extends React.Component {
       return (
         <div className="productSingleContainer">
           <div className="productSingleView">
-            <h1>{title}</h1>
+            <h1 id="headerMargin">{title}</h1>
             <h4>{description}</h4>
             <h2>${price}</h2>
             {/* <h3>Remaining: {stock}</h3> */}
@@ -63,7 +63,7 @@ class ProductSingle extends React.Component {
             </div>
           </div>
           <div className="reviews">
-            <h1>Customer Reviews</h1>
+            <h1 id="headerMargin">Customer Reviews</h1>
             <h2>
               {rating
                 ? `Rating: ${rating} Stars`

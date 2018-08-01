@@ -165,7 +165,7 @@ const productsArr = [
     ]
   },
   {
-    title: 'Recumbent Military Chopper',
+    title: 'Warthog',
     stock: 20,
     price: 10000,
     description: 'The best army in the world deserves a motorcycle',
@@ -199,7 +199,7 @@ const categoryArr = [
   {name: 'Helicopters'},
   {name: 'Motorcycles'},
   {name: 'Military Grade'},
-  {name: 'Recreational Use'},
+  {name: 'Recreational'},
   {name: 'For Kids'}
 ]
 

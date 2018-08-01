@@ -45,26 +45,26 @@ class ProductAll extends React.Component {
           <div className="section" id="productList">
             <div className="box" id="allProductsBox">
               <div className="row columns is-multiline">
-                <div className ="column is-one-third">
+                <div className="column is-one-third">
                   <div className="card-large" id="cards">
-                  {visibleProducts.map(elements => (
-                    // <div key={elements.id} id="singleProd">
-                    //   <div id="maininfo">
-                    //     <Link to={`/products/${elements.id}`}>
-                    //       <h1>{elements.title}</h1>
-                    //     </Link>
-                    //     <h3>${elements.price}</h3>
-                    //     <h3>{elements.stock} in stock</h3>
-                    //     <div>
-                    //     {elements.imageUrl &&
-                    //       elements.imageUrl.length && (
-                    //         <img src={elements.imageUrl[0]} />
-                    //       )}
-                    //     </div>
-                    //   </div>
-                    // </div>
-                    <ProductCard key={elements.id} {...elements} />
-                  ))}
+                    {visibleProducts.map(elements => (
+                      // <div key={elements.id} id="singleProd">
+                      //   <div id="maininfo">
+                      //     <Link to={`/products/${elements.id}`}>
+                      //       <h1>{elements.title}</h1>
+                      //     </Link>
+                      //     <h3>${elements.price}</h3>
+                      //     <h3>{elements.stock} in stock</h3>
+                      //     <div>
+                      //     {elements.imageUrl &&
+                      //       elements.imageUrl.length && (
+                      //         <img src={elements.imageUrl[0]} />
+                      //       )}
+                      //     </div>
+                      //   </div>
+                      // </div>
+                      <ProductCard key={elements.id} {...elements} />
+                    ))}
                   </div>
                 </div>
               </div>
