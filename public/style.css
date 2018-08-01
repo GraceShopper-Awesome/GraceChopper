@@ -1125,13 +1125,28 @@ hr.soften {
 }
 
 .allProductsBox {
+  display: flex;
   flex-direction: row;
   margin-top: 0;
-  padding-top: 0;
+  padding-top: 10px;
   max-width: 300;
   border-style: solid;
   border-width: 1px;
-  justify-content: center;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+#allProductTitle {
+  text-align: center;
+}
+
+#allProductPrice {
+  text-align: center;
+  color: red;
+}
+
+#allProductStock {
+  text-align: center;
 }
 
 #productList {
@@ -1146,3 +1161,10 @@ hr.soften {
   margin-right: 8vw;
 }
 
+.searchBar {
+  background-color: white;
+  opacity: 1;
+  margin-top: 20px;
+  margin-left: 300px;
+  margin-right: 300px;
+}
