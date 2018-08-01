@@ -43,7 +43,7 @@ class Cart extends React.Component {
         <div>
             <div>
                 <h1>{username}'s Cart</h1>
-                {cart.map(element => <CartSingle item={element} user={this.props.match.params.id}/>)}
+                {cart.map(element => <CartSingle key={element.id} item={element} user={this.props.match.params.id}/>)}
             </div>
                 <Link to="/checkout">Proceed to Checkout</Link>
         </div>
